@@ -13,11 +13,7 @@ import {
   Button,
   Divider,
 } from '@nextui-org/react';
-import {
-  DataGridPremium,
-  GridApiPro,
-  useGridApiRef,
-} from '@mui/x-data-grid-premium';
+import { DataGridPremium, GridApiPro, useGridApiRef } from '@mui/x-data-grid-premium';
 import dayjs from 'dayjs';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -103,9 +99,7 @@ export function LessonsListName() {
             {rows.map((row, rowIndex) => (
               <TableRow key={rowIndex}>
                 {columnKey => (
-                  <TableCell
-                    className={columnKey == 'id' ? '' : 'min-w-[14ch]'}
-                  >
+                  <TableCell className={columnKey == 'id' ? '' : 'min-w-[14ch]'}>
                     {columnKey == 'id' ? (
                       rowIndex + 1
                     ) : (
@@ -134,16 +128,10 @@ export function LessonsListName() {
                               }
                             }
                           }
-                          new_rows = new_rows.filter(
-                            value => value != undefined
-                          );
+                          new_rows = new_rows.filter(value => value != undefined);
                           new_rows.push({});
                           // console.log(new_rows);
-                          window.ipc.send(
-                            'set-config',
-                            'lessonsList.name',
-                            new_rows
-                          );
+                          window.ipc.send('set-config', 'lessonsList.name', new_rows);
                           setRows(new_rows);
                         }}
                       />
@@ -181,11 +169,7 @@ export function LessonsListTime() {
           className='max-w-xs'
           value={weekStart}
           onChange={e => {
-            window.ipc.send(
-              'set-config',
-              'lessonsList.weekStart',
-              e.target.value
-            );
+            window.ipc.send('set-config', 'lessonsList.weekStart', e.target.value);
             setWeekStart(e.target.value);
           }}
         ></Input>
@@ -199,9 +183,7 @@ export function LessonsListTime() {
             {rows.map((row, rowIndex) => (
               <TableRow key={rowIndex}>
                 {columnKey => (
-                  <TableCell
-                    className={columnKey == 'id' ? '' : 'min-w-[20ch]'}
-                  >
+                  <TableCell className={columnKey == 'id' ? '' : 'min-w-[20ch]'}>
                     {columnKey == 'id' ? (
                       rowIndex + 1
                     ) : (
@@ -214,26 +196,13 @@ export function LessonsListTime() {
                           }}
                           ampm={false}
                           className='resize-none !outline-0 !border-0 w-full h-full rounded-sm'
-                          value={
-                            getKeyValue(row, columnKey)
-                              ? dayjs(
-                                  '1970-1-1 ' +
-                                    getKeyValue(row, columnKey).split('-')[0]
-                                )
-                              : null
-                          }
+                          value={getKeyValue(row, columnKey) ? dayjs('1970-1-1 ' + getKeyValue(row, columnKey).split('-')[0]) : null}
                           onChange={e => {
                             const time = e.format('HH:mm');
                             let new_rows = [...rows];
                             if (time && time !== 'Invalid Date') {
-                              if (
-                                new_rows[rowIndex][columnKey] &&
-                                new_rows[rowIndex][columnKey].split('-')[1]
-                              ) {
-                                new_rows[rowIndex][columnKey] =
-                                  time +
-                                  '-' +
-                                  new_rows[rowIndex][columnKey].split('-')[1];
+                              if (new_rows[rowIndex][columnKey] && new_rows[rowIndex][columnKey].split('-')[1]) {
+                                new_rows[rowIndex][columnKey] = time + '-' + new_rows[rowIndex][columnKey].split('-')[1];
                               } else {
                                 new_rows[rowIndex][columnKey] = time + '-';
                               }
@@ -251,16 +220,10 @@ export function LessonsListTime() {
                                 }
                               }
                             }
-                            new_rows = new_rows.filter(
-                              value => value != undefined
-                            );
+                            new_rows = new_rows.filter(value => value != undefined);
                             new_rows.push({});
                             // console.log(new_rows);
-                            window.ipc.send(
-                              'set-config',
-                              'lessonsList.time',
-                              new_rows
-                            );
+                            window.ipc.send('set-config', 'lessonsList.time', new_rows);
                             setRows(new_rows);
                           }}
                         />
@@ -272,26 +235,13 @@ export function LessonsListTime() {
                           }}
                           ampm={false}
                           className='resize-none !outline-0 !border-0 w-full h-full rounded-sm'
-                          value={
-                            getKeyValue(row, columnKey)
-                              ? dayjs(
-                                  '1970-1-1 ' +
-                                    getKeyValue(row, columnKey).split('-')[1]
-                                )
-                              : null
-                          }
+                          value={getKeyValue(row, columnKey) ? dayjs('1970-1-1 ' + getKeyValue(row, columnKey).split('-')[1]) : null}
                           onChange={e => {
                             const time = e.format('HH:mm');
                             let new_rows = [...rows];
                             if (time && time !== 'Invalid Date') {
-                              if (
-                                new_rows[rowIndex][columnKey] &&
-                                new_rows[rowIndex][columnKey].split('-')[0]
-                              ) {
-                                new_rows[rowIndex][columnKey] =
-                                  new_rows[rowIndex][columnKey].split('-')[0] +
-                                  '-' +
-                                  time;
+                              if (new_rows[rowIndex][columnKey] && new_rows[rowIndex][columnKey].split('-')[0]) {
+                                new_rows[rowIndex][columnKey] = new_rows[rowIndex][columnKey].split('-')[0] + '-' + time;
                               } else {
                                 new_rows[rowIndex][columnKey] = '-' + time;
                               }
@@ -309,16 +259,10 @@ export function LessonsListTime() {
                                 }
                               }
                             }
-                            new_rows = new_rows.filter(
-                              value => value != undefined
-                            );
+                            new_rows = new_rows.filter(value => value != undefined);
                             new_rows.push({});
                             // console.log(new_rows);
-                            window.ipc.send(
-                              'set-config',
-                              'lessonsList.time',
-                              new_rows
-                            );
+                            window.ipc.send('set-config', 'lessonsList.time', new_rows);
                             setRows(new_rows);
                           }}
                         />
@@ -345,16 +289,14 @@ export function CellSelectionGrid(props) {
   };
   return (
     <>
-      <Button onClick={() => apiRef.current.autosizeColumns(autosizeOptions)}>
-        AUTOWEIGHT
-      </Button>
+      <Button onClick={() => apiRef.current.autosizeColumns(autosizeOptions)}>AUTOWEIGHT</Button>
       <div style={{ width: '100%' }}>
         <div style={{ height: '90vh' }}>
           <DataGridPremium
             throttleRowsMs={2000}
             rowSelection={false}
             checkboxSelection={false}
-            unstable_cellSelection
+            cellSelection={true}
             disableColumnMenu={true}
             // sortingOrder={['asc']}
             rows={formattedRows(props.rows)}
