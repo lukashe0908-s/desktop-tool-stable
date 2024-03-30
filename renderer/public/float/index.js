@@ -1,0 +1,357 @@
+document
+  .querySelector('#changge-content-state')
+  .addEventListener('click', _ => {
+    if (
+      document
+        .querySelector('#changge-content-state')
+        .classList.contains('pack_up')
+    ) {
+      document
+        .querySelector('#changge-content-state')
+        .classList.remove('pack_up');
+      changeContentState(false);
+      document.querySelector('#app-main').style =
+        'animation: 0.2s ease 1 app-main-visible;';
+      document
+        .querySelector('#app-main')
+        .addEventListener('animationend', aniEnd);
+      function aniEnd(_) {
+        _.target.style = '';
+        _.target.classList.remove('visible');
+        document
+          .querySelector('#app-main')
+          .removeEventListener('animationend', aniEnd);
+        (_ => {
+          try {
+            const { ipcRenderer } = require('electron');
+            ipcRenderer.send(
+              'change-window-height',
+              document.querySelector('#app-tool').scrollHeight + 4 * 2
+            );
+          } catch (e) {}
+        })();
+      }
+    } else {
+      document.querySelector('#changge-content-state').classList.add('pack_up');
+      changeContentState(true);
+      (_ => {
+        try {
+          const { ipcRenderer } = require('electron');
+          ipcRenderer.send('change-window-height', 'full');
+        } catch (e) {}
+      })();
+      document.querySelector('#app-main').classList.add('visible');
+      document.querySelector('#app-main').style =
+        'animation: 0.2s ease 1 reverse app-main-visible;';
+      document
+        .querySelector('#app-main')
+        .addEventListener('animationend', aniEnd);
+      function aniEnd(_) {
+        _.target.style = '';
+        document
+          .querySelector('#app-main')
+          .removeEventListener('animationend', aniEnd);
+      }
+    }
+  });
+document.querySelector('#changge-content-state').click();
+function changeContentState(pack_up) {
+  if (pack_up) {
+    document.querySelector(
+      '#changge-content-state > .text'
+    ).innerHTML = `<i class="mdui-icon material-icons">arrow_upward</i>
+  收起`;
+  } else {
+    document.querySelector(
+      '#changge-content-state > .text'
+    ).innerHTML = `<i class="mdui-icon material-icons">arrow_downward</i>
+    展开`;
+  }
+}
+
+if (document.querySelector('#close-window'))
+  document.querySelector('#close-window').addEventListener('click', _ => {
+    window.ipc.send('close-window');
+  });
+document.querySelector('#shutdown-sys').addEventListener('click', _ => {
+  window.ipc.send('sys-shutdown');
+});
+
+function getWeekNumber(weekStartTime, currentTime) {
+  let start = dayjs(weekStartTime);
+  let current = dayjs(currentTime);
+  let startDate = start.startOf('week');
+  let currentDate = current.startOf('week');
+  let timeDifference = currentDate - startDate;
+  const weekNumber = Math.floor(timeDifference / (7 * 24 * 60 * 60 * 1000)) + 1;
+  return weekNumber;
+}
+function getWeekDate(Time) {
+  var day = dayjs(Time).day();
+  var weeks = new Array(
+    'Sunday',
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday'
+  );
+  var week = weeks[day];
+  return week;
+}
+function listClassesForDay(classSchedule, day, isSingleWeek = true) {
+  if (classSchedule.single && classSchedule.single[day]) {
+    let classes = classSchedule.single[day];
+    if (!isSingleWeek) {
+      if (classSchedule.double && classSchedule.double[day]) {
+        for (const key in classSchedule.double[day]) {
+          if (Object.hasOwnProperty.call(classSchedule.double[day], key)) {
+            const element = classSchedule.double[day][key];
+            const { startTime, endTime, subject } = element;
+            if (startTime && endTime && subject) {
+              classes[key] = element;
+            }
+          }
+        }
+      }
+    }
+    return classes;
+  } else {
+    return null;
+  }
+}
+start();
+async function getConfigSync(arg) {
+  return new Promise((resolve, reject) => {
+    window.ipc.send('get-config', arg);
+    window.ipc.once('get-config/' + arg, data => {
+      resolve(data);
+    });
+  });
+}
+async function generateConfig() {
+  let data_name = await getConfigSync('lessonsList.name');
+  let data_time = await getConfigSync('lessonsList.time');
+  let data_weekStart = await getConfigSync('lessonsList.weekStart');
+  let new_classSchedule = {
+    weekStartDate: data_weekStart,
+    single: {
+      sunday: {},
+      monday: {},
+      tuesday: {},
+      wednesday: {},
+      thursday: {},
+      friday: {},
+      saturday: {},
+    },
+    double: {
+      sunday: {},
+      monday: {},
+      tuesday: {},
+      wednesday: {},
+      thursday: {},
+      friday: {},
+      saturday: {},
+    },
+  };
+  data_name &&
+    data_name.forEach((rowDate, rowIndex) => {
+      if (rowDate && rowDate['all']) {
+        let name = rowDate['all'].split('\n');
+        if (name[0]) {
+          new_classSchedule.single = _.mapValues(
+            new_classSchedule.single,
+            object => {
+              return { ...object, [rowIndex]: { subject: name[0] } };
+            }
+          );
+        }
+        if (name[1]) {
+          new_classSchedule.double = _.mapValues(
+            new_classSchedule.double,
+            object => {
+              return { ...object, [rowIndex]: { subject: name[1] } };
+            }
+          );
+        }
+      }
+      _.mapValues(rowDate, function (value, key) {
+        if (key != 'all') {
+          let name = rowDate[key].split('\n');
+          if (name[0]) {
+            !new_classSchedule.single[key][rowIndex] &&
+              (new_classSchedule.single[key][rowIndex] = {});
+            new_classSchedule.single[key][rowIndex].subject = name[0];
+          }
+          if (name[1]) {
+            !new_classSchedule.double[key][rowIndex] &&
+              (new_classSchedule.double[key][rowIndex] = {});
+            new_classSchedule.double[key][rowIndex].subject = name[1];
+          }
+        }
+      });
+    });
+  data_time &&
+    data_time.forEach((rowDate, rowIndex) => {
+      if (rowDate && rowDate['all']) {
+        let name = rowDate['all'].split('-');
+        if (name[0]) {
+          _.mapValues(new_classSchedule.single, (value, key) => {
+            !new_classSchedule.single[key][rowIndex] &&
+              (new_classSchedule.single[key][rowIndex] = {});
+            new_classSchedule.single[key][rowIndex].startTime = name[0];
+          });
+          _.mapValues(new_classSchedule.double, (value, key) => {
+            !new_classSchedule.double[key][rowIndex] &&
+              (new_classSchedule.double[key][rowIndex] = {});
+            new_classSchedule.double[key][rowIndex].startTime = name[0];
+          });
+        }
+        if (name[1]) {
+          _.mapValues(new_classSchedule.single, (value, key) => {
+            !new_classSchedule.single[key][rowIndex] &&
+              (new_classSchedule.single[key][rowIndex] = {});
+            new_classSchedule.single[key][rowIndex].endTime = name[1];
+          });
+          _.mapValues(new_classSchedule.double, (value, key) => {
+            !new_classSchedule.double[key][rowIndex] &&
+              (new_classSchedule.double[key][rowIndex] = {});
+            new_classSchedule.double[key][rowIndex].endTime = name[1];
+          });
+        }
+      }
+      _.mapValues(rowDate, function (value, key) {
+        if (key != 'all') {
+          let name = rowDate[key].split('-');
+          !new_classSchedule.single[key][rowIndex] &&
+            (new_classSchedule.single[key][rowIndex] = {});
+          !new_classSchedule.double[key][rowIndex] &&
+            (new_classSchedule.double[key][rowIndex] = {});
+          if (name) {
+            new_classSchedule.single[key][rowIndex].startTime = name[0];
+            new_classSchedule.double[key][rowIndex].startTime = name[0];
+            new_classSchedule.single[key][rowIndex].endTime = name[1];
+            new_classSchedule.double[key][rowIndex].endTime = name[1];
+          }
+        }
+      });
+    });
+  return new_classSchedule;
+}
+async function start() {
+  let classSchedule = await generateConfig();
+  // alert(JSON.stringify(classSchedule, null, '  '));
+  let classes = listClassesForDay(
+    classSchedule,
+    getWeekDate().toLowerCase(),
+    getWeekNumber(classSchedule.weekStartDate) % 2 == 1
+  );
+  (async () => {
+    const fontSize = await getConfigSync('display.fontSize');
+    fontSize &&
+      (document.querySelector('#app-main .content .class-list').style[
+        'font-size'
+      ] = fontSize + 'em');
+  })();
+  window.ipc.on('sync-config', async () => {
+    (async () => {
+      const fontSize = await getConfigSync('display.fontSize');
+      fontSize &&
+        (document.querySelector('#app-main .content .class-list').style[
+          'font-size'
+        ] = fontSize + 'em');
+    })();
+    classSchedule = await generateConfig();
+  });
+  redraw(classes);
+  setInterval(() => {
+    let classes = listClassesForDay(
+      classSchedule,
+      getWeekDate().toLowerCase(),
+      getWeekNumber(classSchedule.weekStartDate) % 2 == 1
+    );
+    redraw(classes);
+  }, 1 * 1000);
+  function redraw(classes) {
+    const contentContainer = document.querySelector(
+      '#app-main > .content > .class-list'
+    );
+    contentContainer.innerHTML = '';
+    let temp_scroll_item = null,
+      temp_is_first_item = true;
+    for (const classNumber in classes) {
+      const classInfo = classes[classNumber];
+      const { startTime, endTime, subject } = classInfo;
+
+      if (startTime && endTime && subject) {
+        // 创建新的<div>元素
+        const classElement = document.createElement('div');
+        classElement.textContent = `${startTime} - ${endTime} ${subject}`;
+
+        classElement.setAttribute('classNumber', classNumber);
+        classElement.setAttribute('startTime', startTime);
+        classElement.setAttribute('endTime', endTime);
+        classElement.setAttribute('subject', subject);
+
+        // 检查是否已经上课
+        let currentTime = new Date();
+        let temp_classStartTime = startTime.split(':');
+        let classStartTime = new Date(
+          currentTime.getFullYear(),
+          currentTime.getMonth(),
+          currentTime.getDate(),
+          temp_classStartTime[0],
+          temp_classStartTime[1]
+        );
+        let temp_classEndTime = endTime.split(':');
+        let classEndTime = new Date(
+          currentTime.getFullYear(),
+          currentTime.getMonth(),
+          currentTime.getDate(),
+          temp_classEndTime[0],
+          temp_classEndTime[1]
+        );
+
+        // console.log(currentTime, subject, classStartTime, classEndTime);
+        if (temp_is_first_item) {
+          temp_is_first_item = false;
+          temp_scroll_item = classElement;
+        }
+        if (currentTime >= classStartTime && currentTime <= classEndTime) {
+          // 正在上的课程
+          // classElement.style.backgroundColor = '#F3F6FC';
+          classElement.style.backgroundColor = '#F7F2FA';
+          temp_scroll_item = classElement;
+        } else if (currentTime > classEndTime) {
+          // 已经上的课程
+          classElement.style.color = 'gray';
+          temp_scroll_item = classElement;
+        }
+        // classElement.style.boxShadow = '0 0px 8px -2px rgba(0, 0, 0, 0.2)';
+        classElement.style.boxShadow = 'var(--mdui-elevation-level2)';
+        let percent =
+          ((currentTime.getTime() - classStartTime.getTime()) /
+            (classEndTime.getTime() - classStartTime.getTime())) *
+          100;
+        let subjectElement = document.createElement('div');
+        //   subjectElement.innerHTML = `<div class="mdui-progress" style="border-radius: 50em;height: 6px;margin-top: 4px;">
+        //   <div class="mdui-progress-determinate" style="border-radius: 50em;width: ${percent}%;"></div>
+        // </div>`;
+        subjectElement.innerHTML = `<mdui-linear-progress value="${
+          percent > 0 ? percent : 0
+        }" max="100"></mdui-linear-progress>`;
+        classElement.appendChild(subjectElement.firstChild);
+
+        // 将新元素添加到容器
+        contentContainer.appendChild(classElement);
+      }
+    }
+    if (temp_scroll_item)
+      temp_scroll_item.scrollIntoView({
+        behavior: 'smooth', // 可以选择平滑滚动，也可以使用 'auto' 或 'instant'
+        block: 'center', // 'start', 'center', 'end', 或 'nearest'
+        inline: 'nearest', // 'start', 'center', 'end', 或 'nearest'
+      });
+  }
+}

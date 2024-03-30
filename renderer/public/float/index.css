@@ -1,0 +1,72 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  --shape-corner: 8px;
+}
+html,
+body {
+  height: 100%;
+  width: 100%;
+  background-color: transparent !important;
+  overflow: hidden;
+}
+body {
+  padding: 4px;
+  display: flex;
+  flex-direction: column;
+}
+#app-tool {
+  /* height: 100%; */
+  width: 100%;
+  padding: 0.5rem;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 8px -2px rgba(0, 0, 0, 0.5);
+  margin-bottom: 4px;
+}
+#tool-bar {
+  width: 100%;
+  padding: 6px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 8px -2px rgba(0, 0, 0, 0.5);
+  margin-top: 4px;
+  /* padding: 0; */
+  /* overflow: hidden; */
+}
+#app-main {
+  height: 100%;
+  width: 100%;
+  padding: 0.5rem;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 8px -2px rgba(0, 0, 0, 0.5);
+  overflow: auto;
+  display: none;
+}
+#app-main.visible {
+  display: block;
+}
+@keyframes app-main-visible {
+  0% {
+    overflow: hidden;
+    height: 100%;
+    opacity: 1;
+  }
+  100% {
+    overflow: hidden;
+    height: 0%;
+    opacity: 0;
+  }
+}
+
+#app-main .content .class-list {
+  font-size: 1.2em;
+  transition: all 0.2s ease;
+}
+#app-main .content .class-list > * {
+  border-radius: 4px;
+  padding: 4px;
+  margin-bottom: 4px;
+}

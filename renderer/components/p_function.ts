@@ -1,0 +1,184 @@
+import dayjs from 'dayjs';
+import _ from 'lodash';
+
+export function getWeekNumber(weekStartTime, currentTime) {
+  let start = dayjs(weekStartTime);
+  let current = dayjs(currentTime);
+  let startDate = start.startOf('week').valueOf();
+  let currentDate = current.startOf('week').valueOf();
+  let timeDifference = currentDate - startDate;
+  const weekNumber = Math.floor(timeDifference / (7 * 24 * 60 * 60 * 1000)) + 1;
+  return weekNumber;
+}
+
+export function getWeekDate(Time) {
+  var day = dayjs(Time).day();
+  var weeks = new Array(
+    'Sunday',
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday'
+  );
+  var week = weeks[day];
+  return week;
+}
+
+/**
+ * @param classSchedule JSON, use generateConfig()
+ * @param day 星期
+ * @example
+  let classes = listClassesForDay(
+  classSchedule,
+  getWeekDate().toLowerCase(),
+  getWeekNumber(classSchedule.weekStartDate) % 2 == 1
+);
+*/
+export function listClassesForDay(
+  classSchedule,
+  day,
+  isSingleWeek: boolean = true
+) {
+  if (classSchedule.single && classSchedule.single[day]) {
+    let classes = classSchedule.single[day];
+    if (!isSingleWeek) {
+      if (classSchedule.double && classSchedule.double[day]) {
+        for (const key in classSchedule.double[day]) {
+          if (Object.hasOwnProperty.call(classSchedule.double[day], key)) {
+            const element = classSchedule.double[day][key];
+            const { startTime, endTime, subject } = element;
+            if (startTime && endTime && subject) {
+              classes[key] = element;
+            }
+          }
+        }
+      }
+    }
+    return classes;
+  } else {
+    return null;
+  }
+}
+export async function getConfigSync(arg) {
+  return new Promise((resolve, reject) => {
+    window.ipc.send('get-config', arg);
+    window.ipc.once('get-config/' + arg, data => {
+      resolve(data);
+    });
+  });
+}
+async function generateConfig() {
+  let data_name = (await getConfigSync('lessonsList.name')) as Array<{
+    [key: string]: string;
+  }>;
+  let data_time = (await getConfigSync('lessonsList.time')) as Array<{
+    [key: string]: string;
+  }>;
+  let data_weekStart = (await getConfigSync('lessonsList.weekStart')) as string;
+  let new_classSchedule = {
+    weekStartDate: data_weekStart,
+    single: {
+      sunday: {},
+      monday: {},
+      tuesday: {},
+      wednesday: {},
+      thursday: {},
+      friday: {},
+      saturday: {},
+    },
+    double: {
+      sunday: {},
+      monday: {},
+      tuesday: {},
+      wednesday: {},
+      thursday: {},
+      friday: {},
+      saturday: {},
+    },
+  };
+  data_name &&
+    data_name.forEach((rowDate, rowIndex) => {
+      if (rowDate && rowDate['all']) {
+        let name = rowDate['all'].split('\n');
+        if (name[0]) {
+          new_classSchedule.single = _.mapValues(
+            new_classSchedule.single,
+            object => {
+              return { ...object, [rowIndex]: { subject: name[0] } };
+            }
+          );
+        }
+        if (name[1]) {
+          new_classSchedule.double = _.mapValues(
+            new_classSchedule.double,
+            object => {
+              return { ...object, [rowIndex]: { subject: name[1] } };
+            }
+          );
+        }
+      }
+      _.mapValues(rowDate, function (value, key) {
+        if (key != 'all') {
+          let name = rowDate[key].split('\n');
+          if (name[0]) {
+            !new_classSchedule.single[key][rowIndex] &&
+              (new_classSchedule.single[key][rowIndex] = {});
+            new_classSchedule.single[key][rowIndex].subject = name[0];
+          }
+          if (name[1]) {
+            !new_classSchedule.double[key][rowIndex] &&
+              (new_classSchedule.double[key][rowIndex] = {});
+            new_classSchedule.double[key][rowIndex].subject = name[1];
+          }
+        }
+      });
+    });
+  data_time &&
+    data_time.forEach((rowDate, rowIndex) => {
+      if (rowDate && rowDate['all']) {
+        let name = rowDate['all'].split('-');
+        if (name[0]) {
+          _.mapValues(new_classSchedule.single, (value, key) => {
+            !new_classSchedule.single[key][rowIndex] &&
+              (new_classSchedule.single[key][rowIndex] = {});
+            new_classSchedule.single[key][rowIndex].startTime = name[0];
+          });
+          _.mapValues(new_classSchedule.double, (value, key) => {
+            !new_classSchedule.double[key][rowIndex] &&
+              (new_classSchedule.double[key][rowIndex] = {});
+            new_classSchedule.double[key][rowIndex].startTime = name[0];
+          });
+        }
+        if (name[1]) {
+          _.mapValues(new_classSchedule.single, (value, key) => {
+            !new_classSchedule.single[key][rowIndex] &&
+              (new_classSchedule.single[key][rowIndex] = {});
+            new_classSchedule.single[key][rowIndex].endTime = name[1];
+          });
+          _.mapValues(new_classSchedule.double, (value, key) => {
+            !new_classSchedule.double[key][rowIndex] &&
+              (new_classSchedule.double[key][rowIndex] = {});
+            new_classSchedule.double[key][rowIndex].endTime = name[1];
+          });
+        }
+      }
+      _.mapValues(rowDate, function (value, key) {
+        if (key != 'all') {
+          let name = rowDate[key].split('-');
+          !new_classSchedule.single[key][rowIndex] &&
+            (new_classSchedule.single[key][rowIndex] = {});
+          !new_classSchedule.double[key][rowIndex] &&
+            (new_classSchedule.double[key][rowIndex] = {});
+          if (name) {
+            new_classSchedule.single[key][rowIndex].startTime = name[0];
+            new_classSchedule.double[key][rowIndex].startTime = name[0];
+            new_classSchedule.single[key][rowIndex].endTime = name[1];
+            new_classSchedule.double[key][rowIndex].endTime = name[1];
+          }
+        }
+      });
+    });
+  return new_classSchedule;
+}

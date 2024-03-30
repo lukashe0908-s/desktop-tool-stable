@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Floating</title>
+    <link rel="stylesheet" href="/float/mdui/css/mdui.min.css" />
+    <link rel="stylesheet" href="/float/mdui/mdui.css" />
+    <link rel="stylesheet" href="/float/index.css" />
+  </head>
+
+  <body>
+    <div id="app-tool">
+      <mdui-chip elevated onclick="window.ipc.send('settings-window')">
+        <i class="mdui-icon material-icons">settings</i>
+      </mdui-chip>
+      <mdui-chip elevated onclick="location.reload()">
+        <i class="mdui-icon material-icons">refresh</i>
+      </mdui-chip>
+      <mdui-chip
+        elevated
+        style="float: right; display: noned"
+        id="close-window"
+      >
+        <i class="mdui-icon material-icons">close</i>
+      </mdui-chip>
+      <div style="display: flex; gap: 4px">
+        <mdui-chip
+          elevated
+          style="
+            width: 100%;
+            /* border-radius: 1rem; */
+            padding: 0;
+            margin-top: 4px;
+            text-align: center;
+          "
+          id="changge-content-state"
+        >
+          <div class="text"></div>
+        </mdui-chip>
+        <mdui-chip
+          onclick="location.href='/home'"
+          elevated
+          style="
+            width: 50%;
+            /* border-radius: 1rem; */
+            padding: 0;
+            margin-top: 4px;
+            text-align: center;
+          "
+        >
+          Go Modern
+        </mdui-chip>
+      </div>
+    </div>
+    <div id="app-main" class="">
+      <div class="content">
+        <!-- 课程表 -->
+        <div class="class-list"></div>
+        <span>
+          *
+          <b>Edition:</b>
+          <b>Legacy</b>
+        </span>
+      </div>
+    </div>
+    <div id="tool-bar">
+      <mdui-dropdown placement="top">
+        <mdui-button slot="trigger" variant="tonal" full-width>
+          <mdui-icon slot="icon" name="power_settings_new"></mdui-icon>
+          关机
+        </mdui-button>
+        <mdui-menu>
+          <mdui-menu-item id="shutdown-sys" style="text-align: center">
+            确认
+          </mdui-menu-item>
+        </mdui-menu>
+      </mdui-dropdown>
+    </div>
+  </body>
+  <script src="/float/mdui/js/mdui.min.js"></script>
+  <script src="/float/mdui/mdui.global.js"></script>
+  <script src="/float/loadsh.min.js"></script>
+  <script src="/float/dayjs.min.js"></script>
+  <script src="/float/index.js"></script>
+</html>
