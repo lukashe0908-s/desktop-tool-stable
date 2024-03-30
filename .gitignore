@@ -1,7 +1,8 @@
 node_modules
 *.log
 .next
-# app
+/app
 dist
 out
 .data
+.yarn
