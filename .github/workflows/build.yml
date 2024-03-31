@@ -31,7 +31,7 @@ jobs:
         with:
           path: dist/win-unpacked
 
-      - name: Archive artifacts
+      - name: Setup artifacts
         uses: actions/upload-artifact@v2
         with:
           #   name: desktop-tool Setup.exe
