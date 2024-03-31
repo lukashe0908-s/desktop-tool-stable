@@ -16,6 +16,15 @@ if (isProd) {
   app.setPath('userData', path.join(process.cwd(), '.data'));
 }
 
+function getProviderPath(params: string) {
+  if (isProd) {
+    return `app://${params}`;
+  } else {
+    const port = process.argv[2];
+    return `http://localhost:${port}${params}`;
+  }
+}
+
 let mainWindow_g: BrowserWindow;
 let settingsWindow_g: BrowserWindow;
 (async () => {
@@ -71,13 +80,24 @@ let settingsWindow_g: BrowserWindow;
       mainWindow.setSize(winWidth, winHeight);
       mainWindow.setPosition(screen.getPrimaryDisplay().workArea.width - winWidth, 0);
     }
+    const heightP = store.get('display.windowHeight');
+    if (heightP) {
+      winHeight = (() => {
+        let base = screen.getPrimaryDisplay().size.width * Number(widthP);
+        if (base < 200) base = 200;
+        base = Math.floor(base);
+        // console.log('width', base);
+        return base;
+      })();
+      mainWindow.setSize(winWidth, winHeight);
+      mainWindow.setPosition(screen.getPrimaryDisplay().workArea.width - winWidth, 0);
+    }
   }
 
   if (isProd) {
-    await mainWindow.loadURL('app://./float');
+    await mainWindow.loadURL(getProviderPath('/float'));
   } else {
-    const port = process.argv[2];
-    await mainWindow.loadURL(`http://localhost:${port}/home`);
+    await mainWindow.loadURL(getProviderPath('/home'));
     // mainWindow.webContents.openDevTools()
   }
   ipcMain.on('close-window', async (event, arg) => {
@@ -89,9 +109,6 @@ app.on('window-all-closed', () => {
   app.quit();
 });
 
-ipcMain.on('message', async (event, arg) => {
-  event.reply('message', `${arg} World!`);
-});
 ipcMain.on('get-config', async (event, ...arg) => {
   event.reply('get-config/' + arg[0], store.get(arg[0]));
 });
@@ -130,12 +147,7 @@ ipcMain.on('settings-window', async (event, arg) => {
 
   arg && arg[0] && settingsWindow.webContents.openDevTools();
 
-  if (isProd) {
-    await settingsWindow.loadURL('app://./settings');
-  } else {
-    const port = process.argv[2];
-    await settingsWindow.loadURL(`http://localhost:${port}/settings`);
-  }
+  await settingsWindow.loadURL(getProviderPath('/settings'));
 });
 ipcMain.on('ai-window', async (event, arg) => {
   const window = new BrowserWindow({
@@ -151,10 +163,5 @@ ipcMain.on('ai-window', async (event, arg) => {
   });
   window.setMenu(null);
 
-  if (isProd) {
-    await window.loadURL('app://./ai');
-  } else {
-    const port = process.argv[2];
-    await window.loadURL(`http://localhost:${port}/ai`);
-  }
+  await window.loadURL(getProviderPath('/settings'));
 });
