@@ -195,23 +195,25 @@ export function LessonsListName() {
 }
 export function LessonsListTime() {
   const [isLoading, setIsLoading] = useState(true);
+  const [isLoading2, setIsLoading2] = useState(true);
   const [rows, setRows] = useState([{}]) as any;
   const [weekStart, setWeekStart] = useState('') as any;
   useEffect(() => {
     (async () => {
       const data = await getConfigSync('lessonsList.time');
       data && setRows(data);
+      setIsLoading(false);
     })();
     (async () => {
       const data = await getConfigSync('lessonsList.weekStart');
       data && setWeekStart(data);
+      setIsLoading2(false);
     })();
   }, []);
   return (
     <>
       {(() => {
-        if (rows && weekStart) {
-        } else {
+        if (isLoading || isLoading2) {
           return (
             <div className='fixed w-full h-full bg-white z-50 flex justify-center items-center'>
               <CircularProgress size='lg' label='Loading...' className='-translate-x-unit-20' />

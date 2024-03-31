@@ -4,7 +4,7 @@ import { NextUIProvider } from '@nextui-org/react';
 import { LicenseInfo } from '@mui/x-license-pro';
 
 LicenseInfo.setLicenseKey(
-  'f68799e8c93fcaf73ad1f7ab9394f43eTz1yZWdpc3RlcmVkIHRvIEx1a2FzSGUwOTA4LEU9OTk5OTk5OTk5OTk5OTk5OTk5OTksUz1wcmVtaXVtLExNPXBlcnBldHVhbCxLVj0y'
+  'a6cd63f803393a33165ef9d2b180b307Tz0sRT05OTk5OTk5OTk5OTk5OTk5OTk5OSxTPXByZW1pdW0sTE09cGVycGV0dWFsLEtWPTI='
 );
 
 export default function RootLayout({
@@ -20,7 +20,7 @@ export default function RootLayout({
         <head>
           <title>Desktop Tool</title>
           <meta charSet='UTF-8' />
-          <meta name='viewport' content='width=2device-width, initial-scale=1.0' />
+          <meta name='viewport' content='width=device-width, initial-scale=1.0' />
         </head>
         <body>
           <NextUIProvider className='h-full'>{children}</NextUIProvider>
