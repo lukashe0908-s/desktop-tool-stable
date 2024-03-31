@@ -30,6 +30,12 @@ jobs:
       - name: Archive artifacts
         uses: actions/upload-artifact@v4
         with:
+          name: buiuld-artifact
+          path: dist
+
+      - name: Archive artifacts
+        uses: actions/upload-artifact@v4
+        with:
           name: win-unpacked
           path: dist/win-unpacked
 
