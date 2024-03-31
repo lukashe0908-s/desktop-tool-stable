@@ -4,10 +4,14 @@ import { Switch, Slider, Autocomplete, AutocompleteItem } from '@nextui-org/reac
 
 async function getConfigSync(arg) {
   return new Promise((resolve, reject) => {
-    window.ipc.send('get-config', arg);
-    window.ipc.once('get-config/' + arg, data => {
-      resolve(data);
-    });
+    try {
+      window.ipc.send('get-config', arg);
+      window.ipc.once('get-config/' + arg, data => {
+        resolve(data);
+      });
+    } catch (error) {
+      resolve('');
+    }
   });
 }
 

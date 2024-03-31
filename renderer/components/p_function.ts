@@ -13,15 +13,7 @@ export function getWeekNumber(weekStartTime, currentTime) {
 
 export function getWeekDate(Time) {
   var day = dayjs(Time).day();
-  var weeks = new Array(
-    'Sunday',
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday',
-    'Saturday'
-  );
+  var weeks = new Array('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday');
   var week = weeks[day];
   return week;
 }
@@ -36,11 +28,7 @@ export function getWeekDate(Time) {
   getWeekNumber(classSchedule.weekStartDate) % 2 == 1
 );
 */
-export function listClassesForDay(
-  classSchedule,
-  day,
-  isSingleWeek: boolean = true
-) {
+export function listClassesForDay(classSchedule, day, isSingleWeek: boolean = true) {
   if (classSchedule.single && classSchedule.single[day]) {
     let classes = classSchedule.single[day];
     if (!isSingleWeek) {
@@ -63,10 +51,14 @@ export function listClassesForDay(
 }
 export async function getConfigSync(arg) {
   return new Promise((resolve, reject) => {
-    window.ipc.send('get-config', arg);
-    window.ipc.once('get-config/' + arg, data => {
-      resolve(data);
-    });
+    try {
+      window.ipc.send('get-config', arg);
+      window.ipc.once('get-config/' + arg, data => {
+        resolve(data);
+      });
+    } catch (error) {
+      resolve('');
+    }
   });
 }
 async function generateConfig() {
@@ -103,33 +95,25 @@ async function generateConfig() {
       if (rowDate && rowDate['all']) {
         let name = rowDate['all'].split('\n');
         if (name[0]) {
-          new_classSchedule.single = _.mapValues(
-            new_classSchedule.single,
-            object => {
-              return { ...object, [rowIndex]: { subject: name[0] } };
-            }
-          );
+          new_classSchedule.single = _.mapValues(new_classSchedule.single, object => {
+            return { ...object, [rowIndex]: { subject: name[0] } };
+          });
         }
         if (name[1]) {
-          new_classSchedule.double = _.mapValues(
-            new_classSchedule.double,
-            object => {
-              return { ...object, [rowIndex]: { subject: name[1] } };
-            }
-          );
+          new_classSchedule.double = _.mapValues(new_classSchedule.double, object => {
+            return { ...object, [rowIndex]: { subject: name[1] } };
+          });
         }
       }
       _.mapValues(rowDate, function (value, key) {
         if (key != 'all') {
           let name = rowDate[key].split('\n');
           if (name[0]) {
-            !new_classSchedule.single[key][rowIndex] &&
-              (new_classSchedule.single[key][rowIndex] = {});
+            !new_classSchedule.single[key][rowIndex] && (new_classSchedule.single[key][rowIndex] = {});
             new_classSchedule.single[key][rowIndex].subject = name[0];
           }
           if (name[1]) {
-            !new_classSchedule.double[key][rowIndex] &&
-              (new_classSchedule.double[key][rowIndex] = {});
+            !new_classSchedule.double[key][rowIndex] && (new_classSchedule.double[key][rowIndex] = {});
             new_classSchedule.double[key][rowIndex].subject = name[1];
           }
         }
@@ -141,25 +125,21 @@ async function generateConfig() {
         let name = rowDate['all'].split('-');
         if (name[0]) {
           _.mapValues(new_classSchedule.single, (value, key) => {
-            !new_classSchedule.single[key][rowIndex] &&
-              (new_classSchedule.single[key][rowIndex] = {});
+            !new_classSchedule.single[key][rowIndex] && (new_classSchedule.single[key][rowIndex] = {});
             new_classSchedule.single[key][rowIndex].startTime = name[0];
           });
           _.mapValues(new_classSchedule.double, (value, key) => {
-            !new_classSchedule.double[key][rowIndex] &&
-              (new_classSchedule.double[key][rowIndex] = {});
+            !new_classSchedule.double[key][rowIndex] && (new_classSchedule.double[key][rowIndex] = {});
             new_classSchedule.double[key][rowIndex].startTime = name[0];
           });
         }
         if (name[1]) {
           _.mapValues(new_classSchedule.single, (value, key) => {
-            !new_classSchedule.single[key][rowIndex] &&
-              (new_classSchedule.single[key][rowIndex] = {});
+            !new_classSchedule.single[key][rowIndex] && (new_classSchedule.single[key][rowIndex] = {});
             new_classSchedule.single[key][rowIndex].endTime = name[1];
           });
           _.mapValues(new_classSchedule.double, (value, key) => {
-            !new_classSchedule.double[key][rowIndex] &&
-              (new_classSchedule.double[key][rowIndex] = {});
+            !new_classSchedule.double[key][rowIndex] && (new_classSchedule.double[key][rowIndex] = {});
             new_classSchedule.double[key][rowIndex].endTime = name[1];
           });
         }
@@ -167,10 +147,8 @@ async function generateConfig() {
       _.mapValues(rowDate, function (value, key) {
         if (key != 'all') {
           let name = rowDate[key].split('-');
-          !new_classSchedule.single[key][rowIndex] &&
-            (new_classSchedule.single[key][rowIndex] = {});
-          !new_classSchedule.double[key][rowIndex] &&
-            (new_classSchedule.double[key][rowIndex] = {});
+          !new_classSchedule.single[key][rowIndex] && (new_classSchedule.single[key][rowIndex] = {});
+          !new_classSchedule.double[key][rowIndex] && (new_classSchedule.double[key][rowIndex] = {});
           if (name) {
             new_classSchedule.single[key][rowIndex].startTime = name[0];
             new_classSchedule.double[key][rowIndex].startTime = name[0];
