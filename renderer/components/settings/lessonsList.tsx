@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Table,
   TableHeader,
@@ -12,6 +12,7 @@ import {
   Textarea,
   Button,
   Divider,
+  CircularProgress,
 } from '@nextui-org/react';
 import { DataGridPremium, GridApiPro, useGridApiRef } from '@mui/x-data-grid-premium';
 import dayjs from 'dayjs';
@@ -78,18 +79,26 @@ async function getConfigSync(arg) {
   });
 }
 
-export function LessonsListName() {
-  const [rows, setRows] = useState([{}]) as any;
+function List({ rows, setRows, children }) {
+  const refTable = useRef();
   useEffect(() => {
-    (async () => {
-      const data = await getConfigSync('lessonsList.name');
-      data && setRows(data);
-    })();
+    const Table = refTable.current as HTMLElement;
+    Table.parentElement.classList.add('!p-0');
+    Table.querySelector('thead').classList.add('z-[11]');
   }, []);
+
   return (
     <>
       <div className='*:mb-4'>
-        <Table isStriped aria-label='Example table with dynamic content'>
+        <Table
+          isStriped
+          isHeaderSticky
+          aria-label=' '
+          ref={refTable}
+          classNames={{
+            base: 'max-h-[80vh] overflow-auto',
+          }}
+        >
           <TableHeader>
             {columns.map(column => (
               <TableColumn key={column.id}>{column.label}</TableColumn>
@@ -98,57 +107,94 @@ export function LessonsListName() {
           <TableBody>
             {rows.map((row, rowIndex) => (
               <TableRow key={rowIndex}>
-                {columnKey => (
-                  <TableCell className={columnKey == 'id' ? '' : 'min-w-[14ch]'}>
-                    {columnKey == 'id' ? (
-                      rowIndex + 1
-                    ) : (
-                      <textarea
-                        className='resize-none !outline-0 !border-0 bg-[transparent] w-full h-full rounded-sm'
-                        defaultValue={getKeyValue(row, columnKey)}
-                        onInput={(e: any) => {
-                          e.target.style.height = `auto`;
-                          e.target.style.height = `${e.target.scrollHeight}px`;
-                        }}
-                        onChange={e => {
-                          let new_rows = [...rows];
-                          if (e.target.value) {
-                            new_rows[rowIndex][columnKey] = e.target.value;
-                          } else {
-                            delete new_rows[rowIndex][columnKey];
-                          }
-                          let finished_delete = false;
-                          for (let i = 0; i < new_rows.length; i++) {
-                            const element = new_rows[new_rows.length - 1 - i];
-                            if (!finished_delete) {
-                              if (Object.keys(element).length == 0) {
-                                new_rows[new_rows.length - 1 - i] = undefined;
-                              } else {
-                                finished_delete = true;
-                              }
-                            }
-                          }
-                          new_rows = new_rows.filter(value => value != undefined);
-                          new_rows.push({});
-                          // console.log(new_rows);
-                          window.ipc.send('set-config', 'lessonsList.name', new_rows);
-                          setRows(new_rows);
-                        }}
-                      />
-                    )}
-                  </TableCell>
-                )}
+                {columnKey => {
+                  return (
+                    <TableCell className={columnKey == 'id' ? 'sticky left-0 bg-white z-[10]' : 'min-w-[14ch]'}>
+                      {columnKey == 'id' ? rowIndex + 1 : children(row, rowIndex, columnKey)}
+                    </TableCell>
+                  );
+                }}
               </TableRow>
             ))}
           </TableBody>
         </Table>
         <Divider></Divider>
-        <CellSelectionGrid rows={rows}></CellSelectionGrid>
+        {/* <CellSelectionGrid rows={rows}></CellSelectionGrid> */}
       </div>
     </>
   );
 }
+
+function CustomTextarea(props) {
+  const component = useRef();
+  useEffect(() => {
+    const ele = component.current as HTMLTextAreaElement;
+    ele.style.height = `auto`;
+    ele.style.height = `${ele.scrollHeight}px`;
+  });
+  return (
+    <textarea
+      className='resize-none !outline-0 !border-0 bg-[transparent] w-full h-full rounded-sm'
+      onInput={e => {
+        const ele = e.target as HTMLTextAreaElement;
+        ele.style.height = `auto`;
+        ele.style.height = `${ele.scrollHeight}px`;
+      }}
+      ref={component}
+      {...props}
+    ></textarea>
+  );
+}
+
+export function LessonsListName() {
+  const [rows, setRows] = useState([{}]) as any;
+  useEffect(() => {
+    (async () => {
+      const data = await getConfigSync('lessonsList.name');
+      data && setRows(data);
+    })();
+  }, []);
+
+  return (
+    <>
+      <List rows={rows} setRows={setRows}>
+        {(row, rowIndex, columnKey) => {
+          return (
+            <CustomTextarea
+              defaultValue={getKeyValue(row, columnKey)}
+              onChange={e => {
+                let new_rows = [...rows];
+                if (e.target.value) {
+                  new_rows[rowIndex][columnKey] = e.target.value;
+                } else {
+                  delete new_rows[rowIndex][columnKey];
+                }
+                let finished_delete = false;
+                for (let i = 0; i < new_rows.length; i++) {
+                  const element = new_rows[new_rows.length - 1 - i];
+                  if (!finished_delete) {
+                    if (Object.keys(element).length == 0) {
+                      new_rows[new_rows.length - 1 - i] = undefined;
+                    } else {
+                      finished_delete = true;
+                    }
+                  }
+                }
+                new_rows = new_rows.filter(value => value != undefined);
+                new_rows.push({});
+                // console.log(new_rows);
+                window.ipc.send('set-config', 'lessonsList.name', new_rows);
+                setRows(new_rows);
+              }}
+            />
+          );
+        }}
+      </List>
+    </>
+  );
+}
 export function LessonsListTime() {
+  const [isLoading, setIsLoading] = useState(true);
   const [rows, setRows] = useState([{}]) as any;
   const [weekStart, setWeekStart] = useState('') as any;
   useEffect(() => {
@@ -163,6 +209,16 @@ export function LessonsListTime() {
   }, []);
   return (
     <>
+      {(() => {
+        if (rows && weekStart) {
+        } else {
+          return (
+            <div className='fixed w-full h-full bg-white z-50 flex justify-center items-center'>
+              <CircularProgress size='lg' label='Loading...' className='-translate-x-unit-20' />
+            </div>
+          );
+        }
+      })()}
       <div className='*:mb-4'>
         <Input
           label='Week Start Time'
@@ -173,109 +229,92 @@ export function LessonsListTime() {
             setWeekStart(e.target.value);
           }}
         ></Input>
-        <Table isStriped aria-label='Example table with dynamic content'>
-          <TableHeader>
-            {columns.map(column => (
-              <TableColumn key={column.id}>{column.label}</TableColumn>
-            ))}
-          </TableHeader>
-          <TableBody>
-            {rows.map((row, rowIndex) => (
-              <TableRow key={rowIndex}>
-                {columnKey => (
-                  <TableCell className={columnKey == 'id' ? '' : 'min-w-[20ch]'}>
-                    {columnKey == 'id' ? (
-                      rowIndex + 1
-                    ) : (
-                      <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <TimePicker
-                          label='Start Time'
-                          viewRenderers={{
-                            hours: renderTimeViewClock,
-                            minutes: renderTimeViewClock,
-                          }}
-                          ampm={false}
-                          className='resize-none !outline-0 !border-0 w-full h-full rounded-sm'
-                          value={getKeyValue(row, columnKey) ? dayjs('1970-1-1 ' + getKeyValue(row, columnKey).split('-')[0]) : null}
-                          onChange={e => {
-                            const time = e.format('HH:mm');
-                            let new_rows = [...rows];
-                            if (time && time !== 'Invalid Date') {
-                              if (new_rows[rowIndex][columnKey] && new_rows[rowIndex][columnKey].split('-')[1]) {
-                                new_rows[rowIndex][columnKey] = time + '-' + new_rows[rowIndex][columnKey].split('-')[1];
-                              } else {
-                                new_rows[rowIndex][columnKey] = time + '-';
-                              }
-                            } else {
-                              delete new_rows[rowIndex][columnKey];
-                            }
-                            let finished_delete = false;
-                            for (let i = 0; i < new_rows.length; i++) {
-                              const element = new_rows[new_rows.length - 1 - i];
-                              if (!finished_delete) {
-                                if (Object.keys(element).length == 0) {
-                                  new_rows[new_rows.length - 1 - i] = undefined;
-                                } else {
-                                  finished_delete = true;
-                                }
-                              }
-                            }
-                            new_rows = new_rows.filter(value => value != undefined);
-                            new_rows.push({});
-                            // console.log(new_rows);
-                            window.ipc.send('set-config', 'lessonsList.time', new_rows);
-                            setRows(new_rows);
-                          }}
-                        />
-                        <TimePicker
-                          label='End Time'
-                          viewRenderers={{
-                            hours: renderTimeViewClock,
-                            minutes: renderTimeViewClock,
-                          }}
-                          ampm={false}
-                          className='resize-none !outline-0 !border-0 w-full h-full rounded-sm'
-                          value={getKeyValue(row, columnKey) ? dayjs('1970-1-1 ' + getKeyValue(row, columnKey).split('-')[1]) : null}
-                          onChange={e => {
-                            const time = e.format('HH:mm');
-                            let new_rows = [...rows];
-                            if (time && time !== 'Invalid Date') {
-                              if (new_rows[rowIndex][columnKey] && new_rows[rowIndex][columnKey].split('-')[0]) {
-                                new_rows[rowIndex][columnKey] = new_rows[rowIndex][columnKey].split('-')[0] + '-' + time;
-                              } else {
-                                new_rows[rowIndex][columnKey] = '-' + time;
-                              }
-                            } else {
-                              delete new_rows[rowIndex][columnKey];
-                            }
-                            let finished_delete = false;
-                            for (let i = 0; i < new_rows.length; i++) {
-                              const element = new_rows[new_rows.length - 1 - i];
-                              if (!finished_delete) {
-                                if (Object.keys(element).length == 0) {
-                                  new_rows[new_rows.length - 1 - i] = undefined;
-                                } else {
-                                  finished_delete = true;
-                                }
-                              }
-                            }
-                            new_rows = new_rows.filter(value => value != undefined);
-                            new_rows.push({});
-                            // console.log(new_rows);
-                            window.ipc.send('set-config', 'lessonsList.time', new_rows);
-                            setRows(new_rows);
-                          }}
-                        />
-                      </LocalizationProvider>
-                    )}
-                  </TableCell>
-                )}
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-        <Divider></Divider>
-        <CellSelectionGrid rows={rows}></CellSelectionGrid>
+        <List rows={rows} setRows={setRows}>
+          {(row, rowIndex, columnKey) => {
+            return (
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <TimePicker
+                  label='Start Time'
+                  viewRenderers={{
+                    hours: renderTimeViewClock,
+                    minutes: renderTimeViewClock,
+                  }}
+                  ampm={false}
+                  className='resize-none !outline-0 !border-0 w-full h-full rounded-sm !min-w-[14ch]'
+                  value={getKeyValue(row, columnKey) ? dayjs('1970-1-1 ' + getKeyValue(row, columnKey).split('-')[0]) : null}
+                  onChange={e => {
+                    const time = e.format('HH:mm');
+                    let new_rows = [...rows];
+                    if (time && time !== 'Invalid Date') {
+                      if (new_rows[rowIndex][columnKey] && new_rows[rowIndex][columnKey].split('-')[1]) {
+                        new_rows[rowIndex][columnKey] = time + '-' + new_rows[rowIndex][columnKey].split('-')[1];
+                      } else {
+                        new_rows[rowIndex][columnKey] = time + '-';
+                      }
+                    } else {
+                      delete new_rows[rowIndex][columnKey];
+                    }
+                    let finished_delete = false;
+                    for (let i = 0; i < new_rows.length; i++) {
+                      const element = new_rows[new_rows.length - 1 - i];
+                      if (!finished_delete) {
+                        if (Object.keys(element).length == 0) {
+                          new_rows[new_rows.length - 1 - i] = undefined;
+                        } else {
+                          finished_delete = true;
+                        }
+                      }
+                    }
+                    new_rows = new_rows.filter(value => value != undefined);
+                    new_rows.push({});
+                    // console.log(new_rows);
+                    window.ipc.send('set-config', 'lessonsList.time', new_rows);
+                    setRows(new_rows);
+                  }}
+                />
+                <TimePicker
+                  label='End Time'
+                  viewRenderers={{
+                    hours: renderTimeViewClock,
+                    minutes: renderTimeViewClock,
+                  }}
+                  ampm={false}
+                  className='resize-none !outline-0 !border-0 w-full h-full rounded-sm'
+                  value={getKeyValue(row, columnKey) ? dayjs('1970-1-1 ' + getKeyValue(row, columnKey).split('-')[1]) : null}
+                  onChange={e => {
+                    const time = e.format('HH:mm');
+                    let new_rows = [...rows];
+                    if (time && time !== 'Invalid Date') {
+                      if (new_rows[rowIndex][columnKey] && new_rows[rowIndex][columnKey].split('-')[0]) {
+                        new_rows[rowIndex][columnKey] = new_rows[rowIndex][columnKey].split('-')[0] + '-' + time;
+                      } else {
+                        new_rows[rowIndex][columnKey] = '-' + time;
+                      }
+                    } else {
+                      delete new_rows[rowIndex][columnKey];
+                    }
+                    let finished_delete = false;
+                    for (let i = 0; i < new_rows.length; i++) {
+                      const element = new_rows[new_rows.length - 1 - i];
+                      if (!finished_delete) {
+                        if (Object.keys(element).length == 0) {
+                          new_rows[new_rows.length - 1 - i] = undefined;
+                        } else {
+                          finished_delete = true;
+                        }
+                      }
+                    }
+                    new_rows = new_rows.filter(value => value != undefined);
+                    new_rows.push({});
+                    // console.log(new_rows);
+                    window.ipc.send('set-config', 'lessonsList.time', new_rows);
+                    setRows(new_rows);
+                  }}
+                />
+              </LocalizationProvider>
+            );
+          }}
+        </List>
       </div>
     </>
   );

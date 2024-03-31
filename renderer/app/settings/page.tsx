@@ -78,14 +78,14 @@ export default function SettingsPage() {
               return (
                 <>
                   <div className='h-full flex gap-5 flex-col' key={mainTab}>
-                    {/* <Card>
+                    <Card>
                       <CardBody>
                         <p>你正在发送必需诊断数据</p>
                         <span className='text-gray-600 text-sm'>
                           帮助改进软件并使其保特安全、最新并按预期工作
                         </span>
                       </CardBody>
-                    </Card> */}
+                    </Card>
                     <div className='flex gap-4 flex-wrap'>
                       <Switch isDisabled defaultSelected>
                         参数使用云控值

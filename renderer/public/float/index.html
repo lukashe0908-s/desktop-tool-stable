@@ -14,40 +14,24 @@
       <mdui-chip elevated onclick="window.ipc.send('settings-window')">
         <i class="mdui-icon material-icons">settings</i>
       </mdui-chip>
-      <mdui-chip elevated onclick="location.reload()">
+      <mdui-chip elevated onclick="location.reload()" id="refresh-window">
         <i class="mdui-icon material-icons">refresh</i>
       </mdui-chip>
-      <mdui-chip
-        elevated
-        style="float: right; display: noned"
-        id="close-window"
-      >
+      <mdui-chip elevated style="float: right" id="close-window">
         <i class="mdui-icon material-icons">close</i>
       </mdui-chip>
-      <div style="display: flex; gap: 4px">
+      <div style="display: flex; gap: 4px" class="put_away">
         <mdui-chip
           elevated
-          style="
-            width: 100%;
-            /* border-radius: 1rem; */
-            padding: 0;
-            margin-top: 4px;
-            text-align: center;
-          "
-          id="changge-content-state"
+          style="width: 100%; /* border-radius: 1rem; */ padding: 0; margin-top: 4px; text-align: center"
+          id="change-content-state"
         >
           <div class="text"></div>
         </mdui-chip>
         <mdui-chip
           onclick="location.href='/home'"
           elevated
-          style="
-            width: 50%;
-            /* border-radius: 1rem; */
-            padding: 0;
-            margin-top: 4px;
-            text-align: center;
-          "
+          style="width: 50%; /* border-radius: 1rem; */ padding: 0; margin-top: 4px; text-align: center"
         >
           Go Modern
         </mdui-chip>
@@ -71,9 +55,7 @@
           关机
         </mdui-button>
         <mdui-menu>
-          <mdui-menu-item id="shutdown-sys" style="text-align: center">
-            确认
-          </mdui-menu-item>
+          <mdui-menu-item id="shutdown-sys" style="text-align: center">确认</mdui-menu-item>
         </mdui-menu>
       </mdui-dropdown>
     </div>

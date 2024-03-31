@@ -6,18 +6,17 @@ import { BrowserWindow } from 'electron';
 import Store from 'electron-store';
 
 const isProd = process.env.NODE_ENV === 'production';
-
-const store = new Store();
-
 if (isProd) {
   serve({ directory: 'app' });
 } else {
   // app.setPath('userData', `${app.getPath('userData')} (development)`)
   app.setPath('userData', path.join(process.cwd(), '.data'));
 }
+const store = new Store();
 
 function getProviderPath(params: string) {
   if (isProd) {
+    if (store.get('online')) return `https://dt.misee.dns.army${params}`;
     return `app://${params}`;
   } else {
     const port = process.argv[2];
@@ -49,7 +48,7 @@ let settingsWindow_g: BrowserWindow;
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
     },
-    backgroundMaterial: 'acrylic',
+    // backgroundMaterial: 'acrylic',
     transparent: true,
     frame: false,
     width: winWidth,
