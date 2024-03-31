@@ -5,10 +5,11 @@
   "version": "1.0.1",
   "main": "app/background.js",
   "scripts": {
-    "dev": "nextron --run-only",
-    "dev2": "next dev ./renderer",
-    "build": "node main/helpers/nextronBuild build",
-    "build:web": "next build ./renderer",
+    "dev": "yarn build:prepare && nextron --run-only",
+    "dev2": "yarn build:prepare && next dev ./renderer",
+    "build": "yarn build:prepare && node main/helpers/nextronBuild build",
+    "build:web": "yarn build:prepare && next build ./renderer",
+    "build:prepare": "node main/helpers/workboxBuild",
     "build_": "nextron build",
     "postinstall": "electron-builder install-app-deps"
   },
@@ -26,7 +27,6 @@
     "@mui/x-date-pickers-pro": "^7.1.0",
     "@mui/x-license-pro": "^6.10.2",
     "@nextui-org/react": "^2.2.10",
-    "@types/next-pwa": "^5.6.9",
     "@types/node": "^20.12.2",
     "@types/react": "^18.2.73",
     "autoprefixer": "^10.4.19",
@@ -36,7 +36,6 @@
     "framer-motion": "^11.0.24",
     "lodash": "^4.17.21",
     "next": "^14.1.4",
-    "next-pwa": "^5.6.0",
     "nextron": "^8.13.0",
     "postcss": "^8.4.38",
     "react": "^18.2.0",
@@ -44,6 +43,7 @@
     "redux": "^5.0.1",
     "styled-components": "^6.1.8",
     "tailwindcss": "^3.4.3",
-    "typescript": "^5.4.3"
+    "typescript": "^5.4.3",
+    "workbox-build": "^7.0.0"
   }
 }

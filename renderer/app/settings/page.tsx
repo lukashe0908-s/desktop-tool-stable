@@ -1,21 +1,8 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import {
-  Listbox,
-  ListboxItem,
-  Card,
-  CardBody,
-  Switch,
-  Button,
-  ButtonGroup,
-  Slider,
-  Divider,
-} from '@nextui-org/react';
-import {
-  LessonsListName,
-  LessonsListTime,
-} from '../../components/settings/lessonsList';
+import { Listbox, ListboxItem, Card, CardBody, Switch, Button, ButtonGroup, Slider, Divider } from '@nextui-org/react';
+import { LessonsListName, LessonsListTime } from '../../components/settings/lessonsList';
 import { Display as DisplayTab } from '../../components/settings/display';
 import IconMenu from '../../components/Icon menu';
 
@@ -81,9 +68,7 @@ export default function SettingsPage() {
                     <Card>
                       <CardBody>
                         <p>你正在发送必需诊断数据</p>
-                        <span className='text-gray-600 text-sm'>
-                          帮助改进软件并使其保特安全、最新并按预期工作
-                        </span>
+                        <span className='text-gray-600 text-sm'>帮助改进软件并使其保特安全、最新并按预期工作</span>
                       </CardBody>
                     </Card>
                     <div className='flex gap-4 flex-wrap'>
@@ -101,9 +86,7 @@ export default function SettingsPage() {
                 <div className='px-[40%] h-full' key={mainTab}>
                   <Card>
                     <CardBody>
-                      <p className='text-center text-lg font-bold'>
-                        Tab Not Found
-                      </p>
+                      <p className='text-center text-lg font-bold'>Tab Not Found</p>
                     </CardBody>
                   </Card>
                 </div>

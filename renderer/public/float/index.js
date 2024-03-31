@@ -1,3 +1,13 @@
+const serviceWorkerScope = `/sw.js`;
+navigator.serviceWorker
+  .register(serviceWorkerScope)
+  .then(() => {
+    // console.info(`Service worker registered at ${serviceWorkerScope}`);
+  })
+  .catch(error => {
+    console.error('Error in serviceWorker registration: ', error);
+  });
+
 document.querySelector('#change-content-state').addEventListener('click', _ => {
   if (document.querySelector('#change-content-state').classList.contains('pack_up')) {
     document.querySelector('#change-content-state').classList.remove('pack_up');
