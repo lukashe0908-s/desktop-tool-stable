@@ -9,14 +9,15 @@ LicenseInfo.setLicenseKey('a6cd63f803393a33165ef9d2b180b307Tz0sRT05OTk5OTk5OTk5O
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const serviceWorkerScope = `/sw.js`;
-    navigator.serviceWorker
-      .register(serviceWorkerScope)
-      .then(() => {
-        // console.info(`Service worker registered at ${serviceWorkerScope}`);
-      })
-      .catch(error => {
-        console.error('Error in serviceWorker registration: ', error);
-      });
+    navigator.serviceWorker &&
+      navigator.serviceWorker
+        .register(serviceWorkerScope)
+        .then(() => {
+          // console.info(`Service worker registered at ${serviceWorkerScope}`);
+        })
+        .catch(error => {
+          console.error('Error in serviceWorker registration: ', error);
+        });
   });
   return (
     <>
