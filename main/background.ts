@@ -137,6 +137,8 @@ ipcMain.on('settings-window', async (event, arg) => {
     // transparent: true,
     resizable: true,
     parent: mainWindow_g,
+    x: 100,
+    y: 50,
   });
   settingsWindow.setMenu(null);
   settingsWindow.on('close', () => {
@@ -160,6 +162,8 @@ ipcMain.on('ai-window', async (event, arg) => {
     // transparent: true,
     resizable: true,
     parent: mainWindow_g,
+    x: 100,
+    y: 50,
   });
   window.setMenu(null);
 
