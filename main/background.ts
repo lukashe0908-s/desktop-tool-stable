@@ -161,5 +161,5 @@ ipcMain.on('ai-window', async (event, arg) => {
   });
   window.setMenu(null);
 
-  await window.loadURL(getProviderPath('/settings'));
+  await window.loadURL(getProviderPath('/ai'));
 });
