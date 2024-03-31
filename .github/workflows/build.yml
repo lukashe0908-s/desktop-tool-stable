@@ -27,7 +27,7 @@ jobs:
       - name: Build
         run: |
           yarn install
-          yarn build --win222
+          yarn build --win
 
       - name: Archive artifacts
         uses: actions/upload-artifact@v4
