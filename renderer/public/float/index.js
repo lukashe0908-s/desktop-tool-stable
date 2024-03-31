@@ -223,7 +223,7 @@ async function start() {
       if (hiddenCloseWindow) {
         document.querySelector('#close-window').style.display = 'none';
       } else {
-        document.querySelector('#close-window').style.display = 'unset';
+        document.querySelector('#close-window').style.display = 'inline-block';
       }
     } catch (error) {}
   })();
@@ -233,7 +233,7 @@ async function start() {
       if (hiddenRefreshWindow) {
         document.querySelector('#refresh-window').style.display = 'none';
       } else {
-        document.querySelector('#refresh-window').style.display = 'unset';
+        document.querySelector('#refresh-window').style.display = 'inline-block';
       }
     } catch (error) {}
   })();
@@ -260,7 +260,7 @@ async function start() {
           if (hiddenCloseWindow) {
             document.querySelector('#close-window').style.display = 'none';
           } else {
-            document.querySelector('#close-window').style.display = 'unset';
+            document.querySelector('#close-window').style.display = 'inline-block';
           }
         } catch (error) {}
       })();
@@ -270,7 +270,7 @@ async function start() {
           if (hiddenRefreshWindow) {
             document.querySelector('#refresh-window').style.display = 'none';
           } else {
-            document.querySelector('#refresh-window').style.display = 'unset';
+            document.querySelector('#refresh-window').style.display = 'inline-block';
           }
         } catch (error) {}
       })();
