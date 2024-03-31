@@ -149,7 +149,7 @@ export function Display() {
             window.ipc.send('set-config', 'online', !online);
           }}
         >
-          使用在线模式（重启后生效）
+          使用在线模式（不推荐）
         </Switch>
         <Switch isDisabled>自动更新主程序</Switch>
       </div>
