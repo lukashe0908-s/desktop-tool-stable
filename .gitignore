@@ -6,3 +6,5 @@ dist
 out
 .data
 .yarn
+renderer/public/sw.js
+renderer/public/workbox-*.js

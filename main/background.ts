@@ -82,10 +82,9 @@ let settingsWindow_g: BrowserWindow;
     const heightP = store.get('display.windowHeight');
     if (heightP) {
       winHeight = (() => {
-        let base = screen.getPrimaryDisplay().size.width * Number(widthP);
-        if (base < 200) base = 200;
+        let base = screen.getPrimaryDisplay().workArea.height * Number(widthP);
         base = Math.floor(base);
-        // console.log('width', base);
+        // console.log('height', base);
         return base;
       })();
       mainWindow.setSize(winWidth, winHeight);
