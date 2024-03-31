@@ -12,6 +12,7 @@ async function getConfigSync(arg) {
 }
 export function Display() {
   const [windowWidth, setWindowWidth] = useState(0.13);
+  const [windowHeight, setWindowHeight] = useState(1);
   const [fontSize, setFontSize] = useState(1.2);
   const [online, setOnline] = useState(false);
   const [hiddenCloseWindow, setHiddenCloseWindow] = useState(false);
@@ -22,6 +23,10 @@ export function Display() {
     (async () => {
       const data = await getConfigSync('display.windowWidth');
       data && setWindowWidth(Number(data));
+    })();
+    (async () => {
+      const data = await getConfigSync('display.windowHeight');
+      data && setWindowHeight(Number(data));
     })();
     (async () => {
       const data = await getConfigSync('display.fontSize');
@@ -38,7 +43,8 @@ export function Display() {
     (async () => {
       const data = await getConfigSync('display.hidden.refreshWindow');
       data && setHiddenRefreshWindow(Boolean(data));
-    })(); (async () => {
+    })();
+    (async () => {
       const data = await getConfigSync('display.hidden.putaway');
       data && setHiddenPutaway(Boolean(data));
     })();
@@ -79,6 +85,20 @@ export function Display() {
         }}
         onChangeEnd={(value: number) => {
           window.ipc.send('set-config', 'display.windowWidth', value);
+        }}
+      />{' '}
+      <Slider
+        label='窗口高度'
+        step={0.01}
+        maxValue={1}
+        minValue={0.05}
+        className='max-w-4xl'
+        value={windowHeight}
+        onChange={(value: number) => {
+          setWindowHeight(value);
+        }}
+        onChangeEnd={(value: number) => {
+          window.ipc.send('set-config', 'display.windowHeight', value);
         }}
       />
       <Slider
