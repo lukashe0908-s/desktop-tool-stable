@@ -136,6 +136,7 @@ ipcMain.on('settings-window', async (event, arg) => {
     // backgroundMaterial: 'acrylic',
     // transparent: true,
     resizable: true,
+    parent: mainWindow_g,
   });
   settingsWindow.setMenu(null);
   settingsWindow.on('close', () => {
@@ -158,6 +159,7 @@ ipcMain.on('ai-window', async (event, arg) => {
     // backgroundMaterial: 'acrylic',
     // transparent: true,
     resizable: true,
+    parent: mainWindow_g,
   });
   window.setMenu(null);
 
