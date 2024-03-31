@@ -10,6 +10,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   useEffect(() => {
     const serviceWorkerScope = `/sw.js`;
     navigator.serviceWorker &&
+      location.protocol === 'https:' &&
       navigator.serviceWorker
         .register(serviceWorkerScope)
         .then(() => {

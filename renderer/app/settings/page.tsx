@@ -21,7 +21,7 @@ export default function SettingsPage() {
       <title>Settings - Desktop Tool</title>
       <div className='flex h-full select-none'>
         <div className='h-full flex'>
-          <div className='m-2 border-small px-1 py-2 rounded-small border-default-200 dark:border-default-100 overflow-auto'>
+          <div className='m-2 border-small px-1 py-2 rounded-small border-default-200 dark:border-default-100 overflow-auto scrollbar-hide'>
             <Listbox
               aria-label='d0f0cc60-dbc5-43c2-9838-46c620935d9f'
               color='primary'
@@ -37,7 +37,7 @@ export default function SettingsPage() {
             </Listbox>
           </div>
         </div>
-        <div className='h-full w-full p-2 overflow-auto'>
+        <div className='h-full w-full p-2 overflow-auto scrollbar-hide'>
           {(() => {
             if (mainTab == '' || mainTab == 'lesson-edit') {
               return (

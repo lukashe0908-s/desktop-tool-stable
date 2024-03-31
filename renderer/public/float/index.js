@@ -1,5 +1,6 @@
 const serviceWorkerScope = `/sw.js`;
 navigator.serviceWorker &&
+  location.protocol === 'https:' &&
   navigator.serviceWorker
     .register(serviceWorkerScope)
     .then(() => {
@@ -102,10 +103,14 @@ function listClassesForDay(classSchedule, day, isSingleWeek = true) {
 start();
 async function getConfigSync(arg) {
   return new Promise((resolve, reject) => {
-    window.ipc.send('get-config', arg);
-    window.ipc.once('get-config/' + arg, data => {
-      resolve(data);
-    });
+    try {
+      window.ipc.send('get-config', arg);
+      window.ipc.once('get-config/' + arg, data => {
+        resolve(data);
+      });
+    } catch {
+      resolve('');
+    }
   });
 }
 async function generateConfig() {
@@ -207,6 +212,7 @@ async function start() {
   let classSchedule = await generateConfig();
   // alert(JSON.stringify(classSchedule, null, '  '));
   let classes = listClassesForDay(classSchedule, getWeekDate().toLowerCase(), getWeekNumber(classSchedule.weekStartDate) % 2 == 1);
+  let slidingPosition = (await getConfigSync('display.slidingPosition')) || 'center';
   (async () => {
     const fontSize = await getConfigSync('display.fontSize');
     fontSize && (document.querySelector('#app-main .content .class-list').style['font-size'] = fontSize + 'em');
@@ -241,43 +247,45 @@ async function start() {
       }
     } catch (error) {}
   })();
-  window.ipc.on('sync-config', async () => {
-    (async () => {
-      const fontSize = await getConfigSync('display.fontSize');
-      fontSize && (document.querySelector('#app-main .content .class-list').style['font-size'] = fontSize + 'em');
-    })();
-    (async () => {
-      try {
-        const hiddenCloseWindow = await getConfigSync('display.hidden.closeWindow');
-        if (hiddenCloseWindow) {
-          document.querySelector('#close-window').style.display = 'none';
-        } else {
-          document.querySelector('#close-window').style.display = 'unset';
-        }
-      } catch (error) {}
-    })();
-    (async () => {
-      try {
-        const hiddenRefreshWindow = await getConfigSync('display.hidden.refreshWindow');
-        if (hiddenRefreshWindow) {
-          document.querySelector('#refresh-window').style.display = 'none';
-        } else {
-          document.querySelector('#refresh-window').style.display = 'unset';
-        }
-      } catch (error) {}
-    })();
-    (async () => {
-      try {
-        const hiddenPutaway = await getConfigSync('display.hidden.putaway');
-        if (hiddenPutaway) {
-          document.querySelector('.put_away').style.display = 'none';
-        } else {
-          document.querySelector('.put_away').style.display = 'flex';
-        }
-      } catch (error) {}
-    })();
-    classSchedule = await generateConfig();
-  });
+  window.ipc &&
+    window.ipc.on('sync-config', async () => {
+      slidingPosition = (await getConfigSync('display.slidingPosition')) || 'center';
+      (async () => {
+        const fontSize = await getConfigSync('display.fontSize');
+        fontSize && (document.querySelector('#app-main .content .class-list').style['font-size'] = fontSize + 'em');
+      })();
+      (async () => {
+        try {
+          const hiddenCloseWindow = await getConfigSync('display.hidden.closeWindow');
+          if (hiddenCloseWindow) {
+            document.querySelector('#close-window').style.display = 'none';
+          } else {
+            document.querySelector('#close-window').style.display = 'unset';
+          }
+        } catch (error) {}
+      })();
+      (async () => {
+        try {
+          const hiddenRefreshWindow = await getConfigSync('display.hidden.refreshWindow');
+          if (hiddenRefreshWindow) {
+            document.querySelector('#refresh-window').style.display = 'none';
+          } else {
+            document.querySelector('#refresh-window').style.display = 'unset';
+          }
+        } catch (error) {}
+      })();
+      (async () => {
+        try {
+          const hiddenPutaway = await getConfigSync('display.hidden.putaway');
+          if (hiddenPutaway) {
+            document.querySelector('.put_away').style.display = 'none';
+          } else {
+            document.querySelector('.put_away').style.display = 'flex';
+          }
+        } catch (error) {}
+      })();
+      classSchedule = await generateConfig();
+    });
   redraw(classes);
   setInterval(() => {
     let classes = listClassesForDay(classSchedule, getWeekDate().toLowerCase(), getWeekNumber(classSchedule.weekStartDate) % 2 == 1);
@@ -297,10 +305,10 @@ async function start() {
         const classElement = document.createElement('div');
         classElement.textContent = `${startTime} - ${endTime} ${subject}`;
 
-        classElement.setAttribute('classNumber', classNumber);
-        classElement.setAttribute('startTime', startTime);
-        classElement.setAttribute('endTime', endTime);
-        classElement.setAttribute('subject', subject);
+        // classElement.setAttribute('classNumber', classNumber);
+        // classElement.setAttribute('startTime', startTime);
+        // classElement.setAttribute('endTime', endTime);
+        // classElement.setAttribute('subject', subject);
 
         // 检查是否已经上课
         let currentTime = new Date();
@@ -353,7 +361,7 @@ async function start() {
     if (temp_scroll_item)
       temp_scroll_item.scrollIntoView({
         behavior: 'smooth', // 可以选择平滑滚动，也可以使用 'auto' 或 'instant'
-        block: 'center', // 'start', 'center', 'end', 或 'nearest'
+        block: slidingPosition, // 'start', 'center', 'end', 或 'nearest'
         inline: 'nearest', // 'start', 'center', 'end', 或 'nearest'
       });
   }

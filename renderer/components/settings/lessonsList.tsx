@@ -84,6 +84,7 @@ function List({ rows, setRows, children }) {
   useEffect(() => {
     const Table = refTable.current as HTMLElement;
     Table.parentElement.classList.add('!p-0');
+    Table.parentElement.classList.add('scrollbar-hide');
     Table.querySelector('thead').classList.add('z-[11]');
   }, []);
 
@@ -119,7 +120,7 @@ function List({ rows, setRows, children }) {
           </TableBody>
         </Table>
         <Divider></Divider>
-        {/* <CellSelectionGrid rows={rows}></CellSelectionGrid> */}
+        <CellSelectionGrid rows={rows}></CellSelectionGrid>
       </div>
     </>
   );
@@ -134,7 +135,7 @@ function CustomTextarea(props) {
   });
   return (
     <textarea
-      className='resize-none !outline-0 !border-0 bg-[transparent] w-full h-full rounded-sm'
+      className='resize-none focus-visible:!outline-none bg-[transparent] w-full h-full rounded-sm'
       onInput={e => {
         const ele = e.target as HTMLTextAreaElement;
         ele.style.height = `auto`;
