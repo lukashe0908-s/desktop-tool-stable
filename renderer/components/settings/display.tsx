@@ -43,7 +43,7 @@ export function Display() {
       data && setOnline(Boolean(data));
     })();
     (async () => {
-      const data = await getConfigSync('slidingPosition');
+      const data = await getConfigSync('display.slidingPosition');
       data && setSlidingPosition(String(data));
     })();
     (async () => {
