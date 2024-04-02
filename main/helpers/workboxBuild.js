@@ -2,7 +2,7 @@
 require('dotenv').config();
 const workboxBuild = require('workbox-build');
 const { NODE_ENV } = process.env;
-const urlPattern = new RegExp(`/\/static|_next|float\/.*/`);
+const urlPattern = new RegExp(`/\/.*/`);
 
 // https://developers.google.com/web/tools/workbox/reference-docs/latest/module-workbox-build#.generateSW
 const buildSW = () => {
