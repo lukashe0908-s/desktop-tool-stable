@@ -1,9 +1,11 @@
-import { useRef, useState } from 'react';
+'use client';
+import { useRef, useEffect } from 'react';
 export default function App() {
   const svg = useRef();
-  useState(() => {
+  useEffect(() => {
     const ele = svg.current as HTMLElement;
-    ele.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 195" xmlns:xlink="http://www.w3.org/1999/xlink" focusable="false" style="pointer-events: none; display: inherit; width: 100%; height: 100%;">
+    if (ele)
+      ele.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 195" xmlns:xlink="http://www.w3.org/1999/xlink" focusable="false" style="pointer-events: none; display: inherit; width: 100%; height: 100%;">
     <defs>
       <path id="a_yt331" d="M0 194.555V.675h191.961v193.88z"></path>
       <path d="M.668 18.586C8.545 12.047 15.125 3.19 25.082.49v20.673H.668v-2.577z" id="c_yt331"></path>
@@ -57,7 +59,7 @@ export default function App() {
   });
   return (
     <>
-      <div ref={svg}></div>
+      <div ref={svg} className='h-40 w-40'></div>
     </>
   );
 }

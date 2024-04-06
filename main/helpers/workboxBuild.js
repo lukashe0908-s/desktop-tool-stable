@@ -17,11 +17,11 @@ const buildSW = () => {
         urlPattern: urlPattern,
 
         // Apply a cache-first strategy.
-        handler: 'CacheFirst',
+        handler: 'StaleWhileRevalidate',
         options: {
           cacheName: 'desktop-tool',
           expiration: {
-            // maxEntries: 50,
+            // maxEntries: 500,
             // maxAgeSeconds: 15 * 60,
           },
         },

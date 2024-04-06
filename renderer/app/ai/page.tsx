@@ -32,7 +32,7 @@ export default function App() {
                   height={300}
                   width={300}
                   shadow='lg'
-                  src='https://worker-lively-bonus-e4f6.fhngkwng.workers.dev/?prompt=anime'
+                  src='https://p.misee.dns.army/https://worker-lively-bonus-e4f6.fhngkwng.workers.dev/?prompt=anime'
                   referrerPolicy='no-referrer'
                 />
               </CardBody>

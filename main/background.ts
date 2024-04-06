@@ -12,6 +12,20 @@ if (isProd) {
   // app.setPath('userData', `${app.getPath('userData')} (development)`)
   app.setPath('userData', path.join(process.cwd(), '.data'));
 }
+let mainWindow_g: BrowserWindow;
+let settingsWindow_g: BrowserWindow;
+const gotTheLock = app.requestSingleInstanceLock();
+if (!gotTheLock) {
+  app.quit();
+} else {
+  app.on('second-instance', (event, commandLine, workingDirectory) => {
+    // 有人试图运行第二个实例，我们应该关注我们的窗口
+    if (mainWindow_g) {
+      if (mainWindow_g.isMinimized()) mainWindow_g.restore();
+      mainWindow_g.focus();
+    }
+  });
+}
 const store = new Store();
 
 function getProviderPath(params: string) {
@@ -24,8 +38,6 @@ function getProviderPath(params: string) {
   }
 }
 
-let mainWindow_g: BrowserWindow;
-let settingsWindow_g: BrowserWindow;
 (async () => {
   await app.whenReady();
   let winWidth = (() => {
