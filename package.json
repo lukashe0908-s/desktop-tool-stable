@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "yarn build:prepare && nextron --run-only",
     "dev2": "yarn build:prepare && next dev ./renderer",
-    "build": "npm run build:prepare && node main/helpers/nextronBuild build",
+    "build": "node main/helpers/workboxBuild && node main/helpers/nextronBuild build",
     "build:web": "yarn build:prepare && next build ./renderer",
     "build:prepare": "next telemetry disable && node main/helpers/workboxBuild",
     "build_": "nextron build",
