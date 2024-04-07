@@ -19,7 +19,6 @@ if (!gotTheLock) {
   app.quit();
 } else {
   app.on('second-instance', (event, commandLine, workingDirectory) => {
-    // 有人试图运行第二个实例，我们应该关注我们的窗口
     if (mainWindow_g) {
       if (mainWindow_g.isMinimized()) mainWindow_g.restore();
       mainWindow_g.focus();
@@ -31,7 +30,7 @@ const store = new Store();
 function getProviderPath(params: string) {
   if (isProd) {
     if (store.get('online')) return `https://dt.misee.dns.army${params}`;
-    return `app://.${params}`;
+    return `app://-${params}`;
   } else {
     const port = process.argv[2];
     return `http://localhost:${port}${params}`;
@@ -68,6 +67,7 @@ function getProviderPath(params: string) {
     x: screen.getPrimaryDisplay().workArea.width - winWidth,
     y: 0,
     skipTaskbar: true,
+    resizable: false,
   });
   mainWindow.setMenu(null);
   mainWindow.on('close', () => {
