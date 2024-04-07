@@ -27,7 +27,6 @@ jobs:
 
       - name: Build
         run: |
-          corepack enable
           yarn install
           yarn build
 
