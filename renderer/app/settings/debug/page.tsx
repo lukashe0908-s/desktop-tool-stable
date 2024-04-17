@@ -6,8 +6,6 @@ export default function App() {
       <div className='h-full flex gap-5 flex-col'>
         <Card>
           <CardBody className='block'>
-            <del>有意见给我憋着</del>
-            <br />
             <span className='text-red-600 font-bold text-xl'>仅供调试使用，使用可能会暂时减慢打开速度</span>
           </CardBody>
         </Card>
