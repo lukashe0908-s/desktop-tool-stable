@@ -2,7 +2,7 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  --shape-corner: 8px;
+  --shape-corner: 0.5em;
 }
 html,
 body {
@@ -19,17 +19,17 @@ body {
 #app-tool {
   /* height: 100%; */
   width: 100%;
-  padding: 0.5rem;
+  padding: 0.25em;
   background-color: #fff;
-  border-radius: 8px;
+  border-radius: 0.5em;
   box-shadow: 0 0 8px -2px rgba(0, 0, 0, 0.5);
   margin-bottom: 4px;
 }
 #tool-bar {
   width: 100%;
-  padding: 6px;
+  padding: 0.25em;
   background-color: #fff;
-  border-radius: 8px;
+  border-radius: 0.5em;
   box-shadow: 0 0 8px -2px rgba(0, 0, 0, 0.5);
   margin-top: 4px;
   /* padding: 0; */
@@ -38,9 +38,9 @@ body {
 #app-main {
   height: 100%;
   width: 100%;
-  padding: 0.5rem;
+  padding: 4px;
   background-color: #fff;
-  border-radius: 8px;
+  border-radius: 0.5em;
   box-shadow: 0 0 8px -2px rgba(0, 0, 0, 0.5);
   overflow: auto;
   display: none;
@@ -66,7 +66,7 @@ body {
   transition: all 0.2s ease;
 }
 #app-main .content .class-list > * {
-  border-radius: 4px;
-  padding: 4px;
+  border-radius: 0.5em;
+  padding: 0.25em;
   margin-bottom: 4px;
 }
