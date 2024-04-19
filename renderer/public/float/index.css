@@ -70,3 +70,27 @@ body {
   padding: 0.25em;
   margin-bottom: 4px;
 }
+
+
+/* Scroll Hide */
+.scrollbar-hide {
+  /* IE and Edge */
+  -ms-overflow-style: none;
+  /* Firefox */
+  scrollbar-width: none;
+  /* Safari and Chrome */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.scrollbar-default {
+  /* IE and Edge */
+  -ms-overflow-style: auto;
+  /* Firefox */
+  scrollbar-width: auto;
+  /* Safari and Chrome */
+  &::-webkit-scrollbar {
+    display: block;
+  }
+}
