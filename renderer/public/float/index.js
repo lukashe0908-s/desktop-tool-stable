@@ -215,7 +215,7 @@ async function start() {
   let slidingPosition = (await getConfigSync('display.slidingPosition')) || 'center';
   (async () => {
     const fontSize = await getConfigSync('display.fontSize');
-    fontSize && (document.querySelector('#app-main .content .class-list').style['font-size'] = fontSize + 'em');
+    fontSize && (document.querySelector('body').style['font-size'] = fontSize + 'em');
   })();
   (async () => {
     try {
@@ -252,7 +252,7 @@ async function start() {
       slidingPosition = (await getConfigSync('display.slidingPosition')) || 'center';
       (async () => {
         const fontSize = await getConfigSync('display.fontSize');
-        fontSize && (document.querySelector('#app-main .content .class-list').style['font-size'] = fontSize + 'em');
+        fontSize && (document.querySelector('body').style['font-size'] = fontSize + 'em');
       })();
       (async () => {
         try {
