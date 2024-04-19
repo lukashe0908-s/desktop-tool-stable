@@ -22,7 +22,7 @@ export default function Template({ children }) {
                 <NavigationItem link={'/settings/lessonEdit/change'}>换课</NavigationItem>
               </NavigationSub>
               <NavigationItem link={'/settings/display'}>常规</NavigationItem>
-              <NavigationItem link={'/settings/privacy'}>隐私和数据</NavigationItem>
+              <NavigationItem link={'/settings/privacy'}>隐私与数据</NavigationItem>
               <NavigationItem link={'/settings/debug'}>Debug</NavigationItem>
             </Navigation>
           </div>
