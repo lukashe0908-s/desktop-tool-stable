@@ -1,6 +1,6 @@
-name: NodeJS build
+name: Build Electron
 
-on: 
+on:
   workflow_dispatch:
   # push:
   #   branches: ['main']
@@ -23,7 +23,10 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'npm'
+          # cache: 'npm'
+
+      - name: Enable Corepack
+        run: corepack enable
 
       - name: Build
         run: |
@@ -35,7 +38,7 @@ jobs:
         with:
           name: win-unpacked
           path: dist/win-unpacked
-          
+
       - name: Upload binaries to release
         uses: svenstaro/upload-release-action@v2
         with:
@@ -44,4 +47,4 @@ jobs:
           file: dist/*.exe
           tag: ${{ github.ref }}
           overwrite: true
-          body: "This is my release text"
+          body: 'This is my release text'
