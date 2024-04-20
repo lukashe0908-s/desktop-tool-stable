@@ -18,7 +18,7 @@ export default function App() {
         </Card>
         <div className='flex gap-4 flex-wrap'>
           <Switch isDisabled defaultSelected>
-            参数使用云控值
+            Remote Overlay
           </Switch>
           <Switch>配置云端备份</Switch>
         </div>
