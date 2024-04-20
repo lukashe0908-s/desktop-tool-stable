@@ -21,8 +21,8 @@ const buildSW = () => {
         options: {
           cacheName: 'desktop-tool',
           expiration: {
-            // maxEntries: 500,
-            // maxAgeSeconds: 15 * 60,
+            maxEntries: 500,
+            maxAgeSeconds: 7 * 24 * 60 * 60,
           },
         },
       },

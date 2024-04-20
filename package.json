@@ -8,6 +8,7 @@
     "dev": "yarn build:prepare && nextron --run-only",
     "dev2": "yarn build:prepare && next dev ./renderer",
     "build": "yarn build:prepare && node main/helpers/nextronBuild build",
+    "build:np": "yarn build:prepare && node main/helpers/nextronBuild build --no-pack",
     "build:web": "yarn build:prepare && next build ./renderer",
     "build:prepare": "next telemetry disable && node main/helpers/workboxBuild",
     "build_": "nextron build",
