@@ -7,19 +7,19 @@ import {
   TableColumn,
   TableRow,
   TableCell,
-  getKeyValue,
   Input,
   Textarea,
   Button,
   Divider,
   CircularProgress,
+  getKeyValue,
+  Checkbox,
 } from '@nextui-org/react';
 import { DataGridPremium, GridApiPro, useGridApiRef } from '@mui/x-data-grid-premium';
 import dayjs from 'dayjs';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { TimePicker } from '@mui/x-date-pickers/TimePicker';
-import { renderTimeViewClock } from '@mui/x-date-pickers/timeViewRenderers';
+import { Popper } from '@mui/material';
+import { AdapterDayjs } from '@mui/x-date-pickers-pro/AdapterDayjs';
+import { LocalizationProvider, TimePicker, renderTimeViewClock, StaticTimePicker } from '@mui/x-date-pickers-pro';
 
 const columns = [
   {
@@ -139,14 +139,16 @@ function CustomTextarea(props) {
   });
   return (
     <textarea
-      className='resize-none focus-visible:!outline-none bg-[transparent] w-full h-full rounded-sm'
+      {...props}
+      className={
+        'resize-none focus-visible:!outline-none bg-[transparent] w-full h-full rounded-sm' + (props.className ? ' ' + props.className : '')
+      }
       onInput={e => {
         const ele = e.target as HTMLTextAreaElement;
         ele.style.height = `auto`;
         ele.style.height = `${ele.scrollHeight}px`;
       }}
       ref={component}
-      {...props}
     ></textarea>
   );
 }
@@ -166,7 +168,7 @@ export function LessonsListName() {
         {(row, rowIndex, columnKey) => {
           return (
             <CustomTextarea
-              defaultValue={getKeyValue(row, columnKey)}
+              value={getKeyValue(row, columnKey)}
               onChange={e => {
                 let new_rows = [...rows];
                 if (e.target.value) {
@@ -201,6 +203,7 @@ export function LessonsListName() {
 export function LessonsListTime() {
   const [isLoading, setIsLoading] = useState(true);
   const [isLoading2, setIsLoading2] = useState(true);
+  const [isEditMode, setEditMode] = useState(false);
   const [rows, setRows] = useState([{}]) as any;
   const [weekStart, setWeekStart] = useState('') as any;
   useEffect(() => {
@@ -236,96 +239,208 @@ export function LessonsListTime() {
             setWeekStart(e.target.value);
           }}
         ></Input>
-        <List rows={rows} setRows={setRows}>
-          {(row, rowIndex, columnKey) => {
-            return (
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <TimePicker
-                  label='Start Time'
-                  viewRenderers={{
-                    hours: renderTimeViewClock,
-                    minutes: renderTimeViewClock,
-                  }}
-                  ampm={false}
-                  className='resize-none !outline-0 !border-0 w-full h-full rounded-sm !min-w-[14ch]'
-                  value={getKeyValue(row, columnKey) ? dayjs('1970-1-1 ' + getKeyValue(row, columnKey).split('-')[0]) : null}
-                  onChange={e => {
-                    const time = e.format('HH:mm');
-                    let new_rows = [...rows];
-                    if (time && time !== 'Invalid Date') {
-                      if (new_rows[rowIndex][columnKey] && new_rows[rowIndex][columnKey].split('-')[1]) {
-                        new_rows[rowIndex][columnKey] = time + '-' + new_rows[rowIndex][columnKey].split('-')[1];
-                      } else {
-                        new_rows[rowIndex][columnKey] = time + '-';
-                      }
-                    } else {
-                      delete new_rows[rowIndex][columnKey];
-                    }
-                    let finished_delete = false;
-                    for (let i = 0; i < new_rows.length; i++) {
-                      const element = new_rows[new_rows.length - 1 - i];
-                      if (!finished_delete) {
-                        if (Object.keys(element).length == 0) {
-                          new_rows[new_rows.length - 1 - i] = undefined;
-                        } else {
-                          finished_delete = true;
-                        }
-                      }
-                    }
-                    new_rows = new_rows.filter(value => value != undefined);
-                    new_rows.push({});
-                    // console.log(new_rows);
-                    window.ipc.send('set-config', 'lessonsList.time', new_rows);
-                    setRows(new_rows);
-                  }}
-                />
-                <TimePicker
-                  label='End Time'
-                  viewRenderers={{
-                    hours: renderTimeViewClock,
-                    minutes: renderTimeViewClock,
-                  }}
-                  ampm={false}
-                  className='resize-none !outline-0 !border-0 w-full h-full rounded-sm'
-                  value={getKeyValue(row, columnKey) ? dayjs('1970-1-1 ' + getKeyValue(row, columnKey).split('-')[1]) : null}
-                  onChange={e => {
-                    const time = e.format('HH:mm');
-                    let new_rows = [...rows];
-                    if (time && time !== 'Invalid Date') {
-                      if (new_rows[rowIndex][columnKey] && new_rows[rowIndex][columnKey].split('-')[0]) {
-                        new_rows[rowIndex][columnKey] = new_rows[rowIndex][columnKey].split('-')[0] + '-' + time;
-                      } else {
-                        new_rows[rowIndex][columnKey] = '-' + time;
-                      }
-                    } else {
-                      delete new_rows[rowIndex][columnKey];
-                    }
-                    let finished_delete = false;
-                    for (let i = 0; i < new_rows.length; i++) {
-                      const element = new_rows[new_rows.length - 1 - i];
-                      if (!finished_delete) {
-                        if (Object.keys(element).length == 0) {
-                          new_rows[new_rows.length - 1 - i] = undefined;
-                        } else {
-                          finished_delete = true;
-                        }
-                      }
-                    }
-                    new_rows = new_rows.filter(value => value != undefined);
-                    new_rows.push({});
-                    // console.log(new_rows);
-                    window.ipc.send('set-config', 'lessonsList.time', new_rows);
-                    setRows(new_rows);
-                  }}
-                />
-              </LocalizationProvider>
-            );
-          }}
-        </List>
+        <div>
+          <Checkbox
+            isSelected={isEditMode}
+            onValueChange={value => {
+              setEditMode(value);
+            }}
+          >
+            使用时间选择器
+          </Checkbox>
+          <List rows={rows} setRows={setRows}>
+            {(row, rowIndex, columnKey) => {
+              const context = getKeyValue(row, columnKey);
+              const startTime = context && context.split('-')[0];
+              const endTime = context && context.split('-')[1];
+              return (
+                <div className='flex flex-col gap-1'>
+                  {!isEditMode ? (
+                    <>
+                      <LessonsListTime_TimeDisplayer
+                        time={startTime}
+                        onChange={e => {
+                          const time = dayjs('1970-1-1 ' + e.target.value).format('HH:mm');
+                          if (time == 'Invalid Date') return;
+                          let new_rows = [...rows];
+                          if (time) {
+                            if (new_rows[rowIndex][columnKey] && new_rows[rowIndex][columnKey].split('-')[1]) {
+                              new_rows[rowIndex][columnKey] = time + '-' + new_rows[rowIndex][columnKey].split('-')[1];
+                            } else {
+                              new_rows[rowIndex][columnKey] = time + '-';
+                            }
+                          } else {
+                            delete new_rows[rowIndex][columnKey];
+                          }
+                          let finished_delete = false;
+                          for (let i = 0; i < new_rows.length; i++) {
+                            const element = new_rows[new_rows.length - 1 - i];
+                            if (!finished_delete) {
+                              if (Object.keys(element).length == 0) {
+                                new_rows[new_rows.length - 1 - i] = undefined;
+                              } else {
+                                finished_delete = true;
+                              }
+                            }
+                          }
+                          new_rows = new_rows.filter(value => value != undefined);
+                          new_rows.push({});
+                          // console.log(new_rows);
+                          window.ipc.send('set-config', 'lessonsList.time', new_rows);
+                          setRows(new_rows);
+                        }}
+                      >
+                        Start Time
+                      </LessonsListTime_TimeDisplayer>
+                      <LessonsListTime_TimeDisplayer
+                        time={endTime}
+                        onChange={e => {
+                          const time = dayjs('1970-1-1 ' + e.target.value).format('HH:mm');
+                          if (time == 'Invalid Date') return;
+                          let new_rows = [...rows];
+                          if (time) {
+                            if (new_rows[rowIndex][columnKey] && new_rows[rowIndex][columnKey].split('-')[0]) {
+                              new_rows[rowIndex][columnKey] = new_rows[rowIndex][columnKey].split('-')[0] + '-' + time;
+                            } else {
+                              new_rows[rowIndex][columnKey] = '-' + time;
+                            }
+                          } else {
+                            delete new_rows[rowIndex][columnKey];
+                          }
+                          let finished_delete = false;
+                          for (let i = 0; i < new_rows.length; i++) {
+                            const element = new_rows[new_rows.length - 1 - i];
+                            if (!finished_delete) {
+                              if (Object.keys(element).length == 0) {
+                                new_rows[new_rows.length - 1 - i] = undefined;
+                              } else {
+                                finished_delete = true;
+                              }
+                            }
+                          }
+                          new_rows = new_rows.filter(value => value != undefined);
+                          new_rows.push({});
+                          // console.log(new_rows);
+                          window.ipc.send('set-config', 'lessonsList.time', new_rows);
+                          setRows(new_rows);
+                        }}
+                      >
+                        End Time
+                      </LessonsListTime_TimeDisplayer>
+                    </>
+                  ) : (
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <TimePicker
+                        label='Start Time'
+                        viewRenderers={{
+                          hours: renderTimeViewClock,
+                          minutes: renderTimeViewClock,
+                        }}
+                        ampm={false}
+                        className='resize-none !outline-0 !border-0 w-full h-full rounded-sm !min-w-[14ch]'
+                        value={getKeyValue(row, columnKey) ? dayjs('1970-1-1 ' + getKeyValue(row, columnKey).split('-')[0]) : null}
+                        onChange={e => {
+                          const time = e.format('HH:mm');
+                          let new_rows = [...rows];
+                          if (time && time !== 'Invalid Date') {
+                            if (new_rows[rowIndex][columnKey] && new_rows[rowIndex][columnKey].split('-')[1]) {
+                              new_rows[rowIndex][columnKey] = time + '-' + new_rows[rowIndex][columnKey].split('-')[1];
+                            } else {
+                              new_rows[rowIndex][columnKey] = time + '-';
+                            }
+                          } else {
+                            delete new_rows[rowIndex][columnKey];
+                          }
+                          let finished_delete = false;
+                          for (let i = 0; i < new_rows.length; i++) {
+                            const element = new_rows[new_rows.length - 1 - i];
+                            if (!finished_delete) {
+                              if (Object.keys(element).length == 0) {
+                                new_rows[new_rows.length - 1 - i] = undefined;
+                              } else {
+                                finished_delete = true;
+                              }
+                            }
+                          }
+                          new_rows = new_rows.filter(value => value != undefined);
+                          new_rows.push({});
+                          // console.log(new_rows);
+                          window.ipc.send('set-config', 'lessonsList.time', new_rows);
+                          setRows(new_rows);
+                        }}
+                      />
+                      <TimePicker
+                        label='End Time'
+                        viewRenderers={{
+                          hours: renderTimeViewClock,
+                          minutes: renderTimeViewClock,
+                        }}
+                        ampm={false}
+                        className='resize-none !outline-0 !border-0 w-full h-full rounded-sm'
+                        value={getKeyValue(row, columnKey) ? dayjs('1970-1-1 ' + getKeyValue(row, columnKey).split('-')[1]) : null}
+                        onChange={e => {
+                          const time = e.format('HH:mm');
+                          let new_rows = [...rows];
+                          if (time && time !== 'Invalid Date') {
+                            if (new_rows[rowIndex][columnKey] && new_rows[rowIndex][columnKey].split('-')[0]) {
+                              new_rows[rowIndex][columnKey] = new_rows[rowIndex][columnKey].split('-')[0] + '-' + time;
+                            } else {
+                              new_rows[rowIndex][columnKey] = '-' + time;
+                            }
+                          } else {
+                            delete new_rows[rowIndex][columnKey];
+                          }
+                          let finished_delete = false;
+                          for (let i = 0; i < new_rows.length; i++) {
+                            const element = new_rows[new_rows.length - 1 - i];
+                            if (!finished_delete) {
+                              if (Object.keys(element).length == 0) {
+                                new_rows[new_rows.length - 1 - i] = undefined;
+                              } else {
+                                finished_delete = true;
+                              }
+                            }
+                          }
+                          new_rows = new_rows.filter(value => value != undefined);
+                          new_rows.push({});
+                          // console.log(new_rows);
+                          window.ipc.send('set-config', 'lessonsList.time', new_rows);
+                          setRows(new_rows);
+                        }}
+                      />
+                    </LocalizationProvider>
+                  )}
+                </div>
+              );
+            }}
+          </List>{' '}
+        </div>
       </div>
     </>
   );
 }
+
+export function LessonsListTime_TimeDisplayer({
+  time,
+  children = <>&ensp;</>,
+  onChange,
+}: {
+  time: string;
+  children?: any;
+  onChange?: React.ChangeEventHandler<HTMLInputElement>;
+}) {
+  return (
+    <div className='inline-flex items-start justify-center box-border select-none whitespace-nowrap overflow-hidden text-small rounded-medium bg-default h-auto min-h-10 flex-col gap-0 py-1 px-3'>
+      <div className='text-sm text-default-foreground'>{children}</div>
+      <input
+        className='text-lg bg-transparent focus-visible:!outline-0 w-[6ch]'
+        defaultValue={time ? time : ''}
+        onChange={onChange}
+      ></input>
+    </div>
+  );
+}
+
 export function CellSelectionGrid(props) {
   const apiRef = useGridApiRef();
   const autosizeOptions = {
@@ -335,7 +450,9 @@ export function CellSelectionGrid(props) {
   };
   return (
     <>
-      <Button onClick={() => apiRef.current.autosizeColumns(autosizeOptions)}>AUTOWEIGHT</Button>
+      <Button className='!z-[5]' onClick={() => apiRef.current.autosizeColumns(autosizeOptions)}>
+        AUTOWEIGHT
+      </Button>
       <div style={{ width: '100%' }}>
         <div style={{ height: '90vh' }}>
           <DataGridPremium

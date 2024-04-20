@@ -43,19 +43,15 @@ function getProviderPath(params: string) {
     let base = screen.getPrimaryDisplay().size.width * 0.13;
     if (base < 200) base = 200;
     base = Math.floor(base);
-    // console.log('width', base);
     return base;
   })();
   let winHeight = (() => {
     let base = screen.getPrimaryDisplay().workArea.height * 1;
     base = Math.floor(base);
-    // console.log('height', base);
     return base;
   })();
 
   const mainWindow = new BrowserWindow({
-    // width: 1000,
-    // height: 600,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
     },
@@ -67,7 +63,7 @@ function getProviderPath(params: string) {
     x: screen.getPrimaryDisplay().workArea.width - winWidth,
     y: 0,
     skipTaskbar: true,
-    resizable: false,
+    resizable: true,
   });
   mainWindow.setMenu(null);
   mainWindow.on('close', () => {
@@ -85,7 +81,6 @@ function getProviderPath(params: string) {
         let base = screen.getPrimaryDisplay().size.width * Number(widthP);
         if (base < 200) base = 200;
         base = Math.floor(base);
-        // console.log('width', base);
         return base;
       })();
       mainWindow.setSize(winWidth, winHeight);
@@ -96,7 +91,6 @@ function getProviderPath(params: string) {
       winHeight = (() => {
         let base = screen.getPrimaryDisplay().workArea.height * Number(heightP);
         base = Math.floor(base);
-        // console.log('height', base);
         return base;
       })();
       mainWindow.setSize(winWidth, winHeight);
@@ -139,18 +133,16 @@ ipcMain.on('settings-window', async (event, arg) => {
     return;
   }
   const settingsWindow = new BrowserWindow({
-    width: 1400,
-    height: 800,
+    width: 1000,
+    height: 600,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
     },
     maximizable: true,
-    // backgroundMaterial: 'acrylic',
-    // transparent: true,
-    resizable: true,
-    parent: mainWindow_g,
-    x: 100,
-    y: 50,
+    // resizable: true,
+    // parent: mainWindow_g,
+    // x: 100,
+    // y: 50,
   });
   settingsWindow.setMenu(null);
   settingsWindow.on('close', () => {
@@ -164,18 +156,16 @@ ipcMain.on('settings-window', async (event, arg) => {
 });
 ipcMain.on('ai-window', async (event, arg) => {
   const window = new BrowserWindow({
-    width: 1400,
-    height: 800,
+    width: 1000,
+    height: 600,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
     },
     maximizable: true,
-    // backgroundMaterial: 'acrylic',
-    // transparent: true,
     resizable: true,
-    parent: mainWindow_g,
-    x: 100,
-    y: 50,
+    // parent: mainWindow_g,
+    // x: 100,
+    // y: 50,
   });
   window.setMenu(null);
 

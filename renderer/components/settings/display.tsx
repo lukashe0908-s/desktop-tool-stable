@@ -92,8 +92,6 @@ export function Display() {
         value={windowWidth}
         onChange={(value: number) => {
           setWindowWidth(value);
-        }}
-        onChangeEnd={(value: number) => {
           window.ipc.send('set-config', 'display.windowWidth', value);
         }}
       />
@@ -106,8 +104,6 @@ export function Display() {
         value={windowHeight}
         onChange={(value: number) => {
           setWindowHeight(value);
-        }}
-        onChangeEnd={(value: number) => {
           window.ipc.send('set-config', 'display.windowHeight', value);
         }}
       />
@@ -121,8 +117,6 @@ export function Display() {
         value={fontSize}
         onChange={(value: number) => {
           setFontSize(value);
-        }}
-        onChangeEnd={(value: number) => {
           window.ipc.send('set-config', 'display.fontSize', value);
         }}
       />
