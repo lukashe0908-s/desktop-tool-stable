@@ -32,11 +32,11 @@ jobs:
           yarn install
           yarn build
 
-      # - name: Archive artifacts
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: win-unpacked
-      #     path: dist/win-unpacked
+      - name: Delete release
+        uses: cb80/delrel@latest
+        with:
+          tag: 'latest'
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload binaries to release
         uses: svenstaro/upload-release-action@v2
@@ -44,6 +44,6 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file_glob: true
           file: dist/*.exe
-          tag: 'Latest'
+          tag: 'latest'
           overwrite: true
           body: '自动编译'
