@@ -39,10 +39,9 @@ const execaOptions = {
 
     logger.info('Building renderer process');
     await execa('next', ['build', path.join(cwd, rendererSrcDir)], execaOptions);
-    await Promise.all([fs.moveSync(path.join(rendererSrcDir, 'out'), appDir)]);
 
     logger.info('Building main process');
-    await execa('node', [path.join(__dirname, 'webpack.config.js')], execaOptions);
+    await execa('node', [path.join(__dirname, './configs/webpack.config.production.js')], execaOptions);
 
     if (args['--no-pack']) {
       logger.info('Skip packaging...');
