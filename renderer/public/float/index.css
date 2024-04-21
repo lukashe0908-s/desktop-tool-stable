@@ -2,7 +2,7 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  --shape-corner: 0.5em;
+  --shape-corner: 1em;
 }
 html,
 body {
@@ -19,28 +19,28 @@ body {
 #app-tool {
   /* height: 100%; */
   width: 100%;
-  padding: 0.25em;
+  padding: min(0.25em, 12px);
   background-color: #fff;
-  border-radius: 0.5em;
+  border-radius: min(0.5em, 24px);
   box-shadow: 0 0 8px -2px rgba(0, 0, 0, 0.5);
   margin-bottom: 4px;
+  display: flex;
+  flex-direction: column;
 }
 #tool-bar {
   width: 100%;
-  padding: 0.25em;
+  padding: min(0.25em, 12px);
   background-color: #fff;
-  border-radius: 0.5em;
+  border-radius: min(0.5em, 24px);
   box-shadow: 0 0 8px -2px rgba(0, 0, 0, 0.5);
   margin-top: 4px;
-  /* padding: 0; */
-  /* overflow: hidden; */
 }
 #app-main {
   height: 100%;
   width: 100%;
-  padding: 0.25em;
+  padding: min(0.25em, 12px);
   background-color: #fff;
-  border-radius: 0.5em;
+  border-radius: min(0.5em, 24px);
   box-shadow: 0 0 8px -2px rgba(0, 0, 0, 0.5);
   overflow: auto;
   display: none;
@@ -66,11 +66,10 @@ body {
   transition: all 0.2s ease;
 }
 #app-main .content .class-list > * {
-  border-radius: 0.5em;
-  padding: 0.25em;
+  border-radius: min(0.5em, 24px);
+  padding: min(0.25em, 12px);
   margin-bottom: 4px;
 }
-
 
 /* Scroll Hide */
 .scrollbar-hide {

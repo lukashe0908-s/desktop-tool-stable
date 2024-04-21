@@ -303,7 +303,7 @@ async function start() {
       if (startTime && endTime && subject) {
         // 创建新的<div>元素
         const classElement = document.createElement('div');
-        classElement.textContent = `${startTime} - ${endTime} ${subject}`;
+        classElement.innerHTML = `<span style="font-size:0.8em;border-radius:8px;background:#f0f0f0;padding:0 4px;margin-right:0.25em;">${startTime}<span style="margin:0 0.2em;">-</span>${endTime}</span><span>${subject}</span>`;
 
         // classElement.setAttribute('classNumber', classNumber);
         // classElement.setAttribute('startTime', startTime);
@@ -348,10 +348,9 @@ async function start() {
         classElement.style.boxShadow = 'var(--mdui-elevation-level2)';
         let percent = ((currentTime.getTime() - classStartTime.getTime()) / (classEndTime.getTime() - classStartTime.getTime())) * 100;
         let subjectElement = document.createElement('div');
-        //   subjectElement.innerHTML = `<div class="mdui-progress" style="border-radius: 50em;height: 6px;margin-top: 4px;">
-        //   <div class="mdui-progress-determinate" style="border-radius: 50em;width: ${percent}%;"></div>
-        // </div>`;
-        subjectElement.innerHTML = `<mdui-linear-progress value="${percent > 0 ? percent : 0}" max="100"></mdui-linear-progress>`;
+        subjectElement.innerHTML = `<mdui-linear-progress style="margin-top:4px;display: flex" value="${
+          percent > 0 ? percent : 0
+        }" max="100"></mdui-linear-progress>`;
         classElement.appendChild(subjectElement.firstChild);
 
         // 将新元素添加到容器

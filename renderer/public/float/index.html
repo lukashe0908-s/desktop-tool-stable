@@ -11,15 +11,18 @@
 
   <body>
     <div id="app-tool">
-      <mdui-chip elevated onclick="window.ipc.send('settings-window')">
-        <i class="mdui-icon material-icons">settings</i>
-      </mdui-chip>
-      <mdui-chip elevated onclick="location.reload()" id="refresh-window">
-        <i class="mdui-icon material-icons">refresh</i>
-      </mdui-chip>
-      <mdui-chip elevated style="float: right" id="close-window">
-        <i class="mdui-icon material-icons">close</i>
-      </mdui-chip>
+      <div style="display: flex; gap: 4px">
+        <mdui-chip elevated onclick="window.ipc.send('settings-window')">
+          <i class="mdui-icon material-icons">settings</i>
+        </mdui-chip>
+        <mdui-chip elevated onclick="location.reload()" id="refresh-window">
+          <i class="mdui-icon material-icons">refresh</i>
+        </mdui-chip>
+        <mdui-chip elevated style="margin-left: auto" id="close-window">
+          <i class="mdui-icon material-icons">close</i>
+        </mdui-chip>
+      </div>
+
       <div style="display: flex; gap: 4px" class="put_away">
         <mdui-chip
           elevated
@@ -41,19 +44,24 @@
       <div class="content">
         <!-- 课程表 -->
         <div class="class-list"></div>
-        <span style="font-size: 0.8em;">
+        <span style="font-size: 0.8em">
           *
           <b>Edition:</b>
           <b>Legacy</b>
         </span>
-        <br>
-        <img src="https://pic4.58cdn.com.cn/nowater/c06b291b-19e4-4325-b750-0ab40e9579c3/n_v2f3d04ed5fd3248a6a8e1365ec16609f3.png" style="max-width: 100%;" referrerpolicy="no-referrer" />
+        <br />
+        <img
+          src="https://pic4.58cdn.com.cn/nowater/c06b291b-19e4-4325-b750-0ab40e9579c3/n_v2f3d04ed5fd3248a6a8e1365ec16609f3.png"
+          style="max-width: 100%"
+          referrerpolicy="no-referrer"
+          draggable="false"
+        />
       </div>
     </div>
     <div id="tool-bar">
       <mdui-dropdown placement="top">
         <mdui-button slot="trigger" variant="tonal" full-width>
-          <mdui-icon name='adjust'></mdui-icon>
+          <mdui-icon name="adjust"></mdui-icon>
           关机
         </mdui-button>
         <mdui-menu>
@@ -67,5 +75,7 @@
   <script src="/float/loadsh.min.js"></script>
   <script src="/float/dayjs.min.js"></script>
   <script src="/float/index.js"></script>
-  <script>mdui.setColorScheme('#4f8ac4');</script>
+  <script>
+    mdui.setColorScheme('#4f8ac4');
+  </script>
 </html>
