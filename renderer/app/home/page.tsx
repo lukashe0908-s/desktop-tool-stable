@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import { useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Button, ButtonGroup, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure } from '@nextui-org/react';
@@ -7,6 +7,32 @@ import CloseIcon from '@mui/icons-material/Close';
 import CheckIcon from '@mui/icons-material/Check';
 
 export default function HomePage() {
+  useEffect(() => {
+    window.ipc.send('mainWindow_ignoreMouseEvent', false);
+    let status = false;
+    let moveEvent = event => {
+      let flag = event.target === document.documentElement || event.target === document.body;
+      if (flag) {
+        if (status === false) {
+          status = true;
+          window.ipc.send('mainWindow_ignoreMouseEvent', true);
+        }
+      } else {
+        if (status === true) {
+          status = false;
+          window.ipc.send('mainWindow_ignoreMouseEvent', false);
+        }
+      }
+    };
+    window.addEventListener('mousemove', moveEvent);
+    window.addEventListener('pointermove', moveEvent);
+    window.addEventListener('touchmove', moveEvent);
+    return () => {
+      window.removeEventListener('mousemove', moveEvent);
+      window.removeEventListener('pointermove', moveEvent);
+      window.removeEventListener('touchmove', moveEvent);
+    };
+  }, []);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   return (
     <>

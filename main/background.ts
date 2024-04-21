@@ -123,6 +123,15 @@ ipcMain.on('set-config', async (event, ...arg) => {
   mainWindow_g.webContents.send('sync-config');
 });
 
+ipcMain.on('mainWindow_ignoreMouseEvent', async (event, ...arg) => {
+  // console.log(arg[0]);
+  if (arg[0] === true) {
+    mainWindow_g.setIgnoreMouseEvents(true, { forward: true });
+  } else {
+    mainWindow_g.setIgnoreMouseEvents(false);
+  }
+});
+
 ipcMain.on('sys-shutdown', async (event, arg) => {
   const cp = require('child_process');
   // cp.execSync('slidetoshutdown');

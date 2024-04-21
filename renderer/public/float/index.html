@@ -24,18 +24,13 @@
       </div>
 
       <div style="display: flex; gap: 4px" class="put_away">
-        <mdui-chip
-          elevated
-          style="width: 100%; /* border-radius: 1rem; */ padding: 0; margin-top: 4px; text-align: center"
-          id="change-content-state"
-        >
-          <div class="text"></div>
+        <mdui-chip elevated style="width: 100%; padding: 0; margin-top: 4px; text-align: center" id="change-content-state">
+          <div class="text">
+            <i class="mdui-icon material-icons">arrow_downward</i>
+            展开
+          </div>
         </mdui-chip>
-        <mdui-chip
-          onclick="location.href='/home'"
-          elevated
-          style="width: 50%; /* border-radius: 1rem; */ padding: 0; margin-top: 4px; text-align: center"
-        >
+        <mdui-chip onclick="location.href='/home'" elevated style="width: 50%; padding: 0; margin-top: 4px; text-align: center">
           Go Modern
         </mdui-chip>
       </div>
@@ -60,7 +55,7 @@
     </div>
     <div id="tool-bar">
       <mdui-dropdown placement="top">
-        <mdui-button slot="trigger" variant="tonal" full-width>
+        <mdui-button slot="trigger" variant="tonal" full-width style="border-radius: 10000vmax">
           <mdui-icon name="adjust"></mdui-icon>
           关机
         </mdui-button>
@@ -75,6 +70,7 @@
   <script src="/float/loadsh.min.js"></script>
   <script src="/float/dayjs.min.js"></script>
   <script src="/float/index.js"></script>
+  <script src="/float/penetrate.js"></script>
   <script>
     mdui.setColorScheme('#4f8ac4');
   </script>

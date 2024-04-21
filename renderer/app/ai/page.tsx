@@ -6,13 +6,13 @@ import { Card, CardBody, Tabs, Tab, Button, Code, Image, Chip } from '@nextui-or
 export default function App() {
   return (
     <>
-      <div className='flex justify-center gap-3 py-2 flex-shrink-0 flex-wrap'>
+      {/* <div className='flex justify-center gap-3 py-2 flex-shrink-0 flex-wrap'>
         <Link href='/home'>
           <Button color='primary' className='font-bold'>
             Home
           </Button>
         </Link>
-      </div>
+      </div> */}
 
       <Card>
         <CardBody>

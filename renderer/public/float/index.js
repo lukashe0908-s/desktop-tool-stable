@@ -45,14 +45,16 @@ document.querySelector('#change-content-state').addEventListener('click', _ => {
     }
   }
 });
-document.querySelector('#change-content-state').click();
+!localStorage.getItem('desktop-tool/putAway') && document.querySelector('#change-content-state').click();
 function changeContentState(pack_up) {
   if (pack_up) {
     document.querySelector('#change-content-state > .text').innerHTML = `<i class="mdui-icon material-icons">arrow_upward</i>
   收起`;
+    localStorage.removeItem('desktop-tool/putAway');
   } else {
     document.querySelector('#change-content-state > .text').innerHTML = `<i class="mdui-icon material-icons">arrow_downward</i>
     展开`;
+    localStorage.setItem('desktop-tool/putAway', true);
   }
 }
 
