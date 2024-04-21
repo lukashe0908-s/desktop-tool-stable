@@ -7037,6 +7037,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"custom-electron-titlebar@npm:^4.2.8":
+  version: 4.2.8
+  resolution: "custom-electron-titlebar@npm:4.2.8"
+  peerDependencies:
+    electron: ">20.0.0"
+  checksum: 10c0/4804efc921d98ae4b9f9a0f163dd04f2c0f5452365ce2369c224f7c1f54a19c625e677a3ac8881a999af607ca74d83e5a6b05bc29f85002822aca7f6c6ce9a6b
+  languageName: node
+  linkType: hard
+
 "data-view-buffer@npm:^1.0.1":
   version: 1.0.1
   resolution: "data-view-buffer@npm:1.0.1"
@@ -7166,6 +7175,7 @@ __metadata:
     "@types/node": "npm:^20.12.7"
     "@types/react": "npm:^18.2.79"
     autoprefixer: "npm:^10.4.19"
+    custom-electron-titlebar: "npm:^4.2.8"
     dayjs: "npm:^1.11.10"
     electron: "npm:^30.0.1"
     electron-builder: "npm:^24.13.3"

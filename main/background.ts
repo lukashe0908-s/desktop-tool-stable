@@ -4,6 +4,7 @@ import serve from 'electron-serve';
 import { createWindow } from './helpers';
 import { BrowserWindow } from 'electron';
 import Store from 'electron-store';
+import { setupTitlebar, attachTitlebarToWindow } from 'custom-electron-titlebar/main';
 
 const isProd = process.env.NODE_ENV === 'production';
 if (isProd) {
@@ -26,6 +27,7 @@ if (!gotTheLock) {
   });
 }
 const store = new Store();
+setupTitlebar();
 
 function getProviderPath(params: string) {
   if (isProd) {
@@ -135,16 +137,20 @@ ipcMain.on('settings-window', async (event, arg) => {
   const settingsWindow = new BrowserWindow({
     width: 1000,
     height: 600,
+    titleBarStyle: 'hidden',
+    titleBarOverlay: true,
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js'),
+      sandbox: false,
+      preload: path.join(__dirname, 'preload-titlebar.js'),
     },
     maximizable: true,
-    // resizable: true,
+    resizable: true,
     // parent: mainWindow_g,
     // x: 100,
     // y: 50,
   });
   settingsWindow.setMenu(null);
+  attachTitlebarToWindow(settingsWindow);
   settingsWindow.on('close', () => {
     settingsWindow_g = undefined;
   });
