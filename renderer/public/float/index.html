@@ -39,10 +39,10 @@
       <div class="content">
         <!-- 课程表 -->
         <div class="class-list"></div>
-        <span style="font-size: 0.8em">
-          *
-          <b>Edition:</b>
+        <span style="font-size: 16px; display: flex; align-items: center">
+          * Edition:
           <b>Legacy</b>
+          <mdui-checkbox style="scale: 0.8" id="PicListController" checked></mdui-checkbox>
         </span>
         <div
           style="
@@ -55,6 +55,7 @@
             overflow: auto;
             scroll-snap-type: y mandatory;
           "
+          id="PicList"
           class="scrollbar-hide"
         >
           <div></div>
@@ -115,7 +116,17 @@
             alt="ElysiaJSLogoShadowed"
           />
           <div style="max-width: 100%; scroll-snap-align: center">
-            <div style="width: 100%; aspect-ratio: 8/5; display: flex; justify-content: center; align-items: center; font-size: 1.25rem">
+            <div
+              style="
+                width: 100%;
+                aspect-ratio: 8/5;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 1.25rem;
+                flex-direction: column;
+              "
+            >
               滚动测试
             </div>
           </div>
@@ -143,5 +154,41 @@
   <script src="/float/penetrate.js"></script>
   <script>
     mdui.setColorScheme('#4f8ac4');
+    if (localStorage.getItem('desktop-tool/hiddenPicList')) {
+      document.querySelector('#PicList').style.display = 'none';
+      document.querySelector('#PicListController').removeAttribute('checked');
+    }
+    document.querySelector('#PicListController').addEventListener('change', event => {
+      event.target.checked
+        ? localStorage.removeItem('desktop-tool/hiddenPicList') || (document.querySelector('#PicList').style.display = 'flex')
+        : localStorage.setItem('desktop-tool/hiddenPicList', true) || (document.querySelector('#PicList').style.display = 'none');
+    });
+    localStorage.getItem('desktop-tool/scrollPicList') &&
+      (document.querySelector('#PicList').scrollTop = localStorage.getItem('desktop-tool/scrollPicList'));
+    document.querySelector('#PicList').addEventListener(
+      'scroll',
+      throttle(event => {
+        // console.log(event.target.scrollTop);
+        if (event.target.scrollTop >= 100) {
+          localStorage.setItem('desktop-tool/scrollPicList', event.target.scrollTop);
+        } else {
+          localStorage.removeItem('desktop-tool/scrollPicList');
+        }
+      }, 500)
+    );
+
+    function throttle(func, wait = 0) {
+      let timer;
+      let result;
+      return function (...args) {
+        if (!timer) {
+          timer = setTimeout(() => {
+            result = func.apply(this, args);
+            timer = undefined;
+          }, wait);
+        }
+        return result;
+      };
+    }
   </script>
 </html>
