@@ -1,4 +1,5 @@
 (() => {
+  if (!window.ipc) return;
   window.ipc.send('mainWindow_ignoreMouseEvent', false);
   let status = false;
   let moveEvent = event => {
