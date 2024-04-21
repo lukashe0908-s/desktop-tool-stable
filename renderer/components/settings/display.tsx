@@ -92,7 +92,7 @@ export function Display() {
         value={windowWidth}
         onChange={(value: number) => {
           setWindowWidth(value);
-          window.ipc.send('set-config', 'display.windowWidth', value);
+          window.ipc?.send('set-config', 'display.windowWidth', value);
         }}
       />
       <Slider
@@ -104,7 +104,7 @@ export function Display() {
         value={windowHeight}
         onChange={(value: number) => {
           setWindowHeight(value);
-          window.ipc.send('set-config', 'display.windowHeight', value);
+          window.ipc?.send('set-config', 'display.windowHeight', value);
         }}
       />
       <Slider
@@ -117,7 +117,7 @@ export function Display() {
         value={fontSize}
         onChange={(value: number) => {
           setFontSize(value);
-          window.ipc.send('set-config', 'display.fontSize', value);
+          window.ipc?.send('set-config', 'display.fontSize', value);
         }}
       />
       <div className='flex w-full flex-wrap md:flex-nowrap gap-4'>
@@ -127,7 +127,7 @@ export function Display() {
           selectedKey={slidingPosition}
           onSelectionChange={(value: string) => {
             setSlidingPosition(value);
-            window.ipc.send('set-config', 'display.slidingPosition', value);
+            window.ipc?.send('set-config', 'display.slidingPosition', value);
           }}
           defaultItems={[
             { value: 'start', label: 'Start' },
@@ -144,7 +144,7 @@ export function Display() {
           isSelected={online}
           onChange={() => {
             setOnline(!online);
-            window.ipc.send('set-config', 'online', !online);
+            window.ipc?.send('set-config', 'online', !online);
           }}
         >
           使用在线模式（不推荐）
@@ -156,7 +156,7 @@ export function Display() {
           isSelected={hiddenCloseWindow}
           onChange={() => {
             setHiddenCloseWindow(!hiddenCloseWindow);
-            window.ipc.send('set-config', 'display.hidden.closeWindow', !hiddenCloseWindow);
+            window.ipc?.send('set-config', 'display.hidden.closeWindow', !hiddenCloseWindow);
           }}
         >
           隐藏关闭按钮
@@ -165,7 +165,7 @@ export function Display() {
           isSelected={hiddenRefreshWindow}
           onChange={() => {
             setHiddenRefreshWindow(!hiddenRefreshWindow);
-            window.ipc.send('set-config', 'display.hidden.refreshWindow', !hiddenRefreshWindow);
+            window.ipc?.send('set-config', 'display.hidden.refreshWindow', !hiddenRefreshWindow);
           }}
         >
           隐藏刷新按钮
@@ -174,7 +174,7 @@ export function Display() {
           isSelected={hiddenPutaway}
           onChange={() => {
             setHiddenPutaway(!hiddenPutaway);
-            window.ipc.send('set-config', 'display.hidden.putaway', !hiddenPutaway);
+            window.ipc?.send('set-config', 'display.hidden.putaway', !hiddenPutaway);
           }}
         >
           隐藏收起按钮

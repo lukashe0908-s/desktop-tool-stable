@@ -12,7 +12,7 @@ const externals = require(path.join(cwd, 'package.json')).dependencies;
 const { mainSrcDir } = getNextronConfig();
 const backgroundPath = path.join(cwd, mainSrcDir || 'main', `background${ext}`);
 const preloadPath = path.join(cwd, mainSrcDir || 'main', `preload${ext}`);
-const preloadPath_titlebar = path.join(cwd, mainSrcDir || 'main', `preload_titlebar${ext}`);
+const preloadPathTitlebar = path.join(cwd, mainSrcDir || 'main', `preloadTitlebar${ext}`);
 
 const entry = {
   background: backgroundPath,
@@ -20,8 +20,8 @@ const entry = {
 if (fs.existsSync(preloadPath)) {
   entry.preload = preloadPath;
 }
-if (fs.existsSync(preloadPath_titlebar)) {
-  entry.preload_titlebar = preloadPath_titlebar;
+if (fs.existsSync(preloadPathTitlebar)) {
+  entry.preloadTitlebar = preloadPathTitlebar;
 }
 
 const baseConfig = {

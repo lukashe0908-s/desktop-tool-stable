@@ -78,15 +78,17 @@ const execaOptions = {
   };
 
   const killWholeProcess = () => {
-    if (watching) {
-      watching.close(() => {});
-    }
-    if (mainProcess) {
-      mainProcess.kill();
-    }
-    if (rendererProcess) {
-      rendererProcess.kill();
-    }
+    try {
+      if (watching) {
+        watching.close(() => {});
+      }
+      if (mainProcess) {
+        mainProcess.kill();
+      }
+      if (rendererProcess) {
+        rendererProcess.kill();
+      }
+    } catch (error) {}
   };
 
   process.on('SIGINT', killWholeProcess);
@@ -110,7 +112,7 @@ const execaOptions = {
         if (!firstCompile && mainProcess) {
           mainProcess.kill();
         }
-        startMainProcess();
+        mainProcess = startMainProcess();
 
         if (firstCompile) {
           firstCompile = false;

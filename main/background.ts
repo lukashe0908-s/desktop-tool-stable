@@ -134,23 +134,16 @@ ipcMain.on('settings-window', async (event, arg) => {
     settingsWindow_g.show();
     return;
   }
-  const settingsWindow = new BrowserWindow({
+  const settingsWindow = createWindow('settingsWindow', {
     width: 1000,
     height: 600,
-    titleBarStyle: 'hidden',
-    titleBarOverlay: true,
     webPreferences: {
-      sandbox: false,
-      preload: path.join(__dirname, 'preload-titlebar.js'),
+      preload: path.join(__dirname, 'preload.js'),
     },
     maximizable: true,
     resizable: true,
-    // parent: mainWindow_g,
-    // x: 100,
-    // y: 50,
   });
   settingsWindow.setMenu(null);
-  attachTitlebarToWindow(settingsWindow);
   settingsWindow.on('close', () => {
     settingsWindow_g = undefined;
   });
@@ -161,7 +154,7 @@ ipcMain.on('settings-window', async (event, arg) => {
   await settingsWindow.loadURL(getProviderPath('/settings'));
 });
 ipcMain.on('ai-window', async (event, arg) => {
-  const window = new BrowserWindow({
+  const window = createWindow('aiWindow', {
     width: 1000,
     height: 600,
     webPreferences: {
@@ -169,9 +162,6 @@ ipcMain.on('ai-window', async (event, arg) => {
     },
     maximizable: true,
     resizable: true,
-    // parent: mainWindow_g,
-    // x: 100,
-    // y: 50,
   });
   window.setMenu(null);
 

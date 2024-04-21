@@ -190,7 +190,7 @@ export function LessonsListName() {
                 new_rows = new_rows.filter(value => value != undefined);
                 new_rows.push({});
                 // console.log(new_rows);
-                window.ipc.send('set-config', 'lessonsList.name', new_rows);
+                window.ipc?.send('set-config', 'lessonsList.name', new_rows);
                 setRows(new_rows);
               }}
             />
@@ -235,7 +235,7 @@ export function LessonsListTime() {
           className='max-w-xs'
           value={weekStart}
           onChange={e => {
-            window.ipc.send('set-config', 'lessonsList.weekStart', e.target.value);
+            window.ipc?.send('set-config', 'lessonsList.weekStart', e.target.value);
             setWeekStart(e.target.value);
           }}
         ></Input>
@@ -286,7 +286,7 @@ export function LessonsListTime() {
                           new_rows = new_rows.filter(value => value != undefined);
                           new_rows.push({});
                           // console.log(new_rows);
-                          window.ipc.send('set-config', 'lessonsList.time', new_rows);
+                          window.ipc?.send('set-config', 'lessonsList.time', new_rows);
                           setRows(new_rows);
                         }}
                       >
@@ -321,7 +321,7 @@ export function LessonsListTime() {
                           new_rows = new_rows.filter(value => value != undefined);
                           new_rows.push({});
                           // console.log(new_rows);
-                          window.ipc.send('set-config', 'lessonsList.time', new_rows);
+                          window.ipc?.send('set-config', 'lessonsList.time', new_rows);
                           setRows(new_rows);
                         }}
                       >
@@ -365,7 +365,7 @@ export function LessonsListTime() {
                           new_rows = new_rows.filter(value => value != undefined);
                           new_rows.push({});
                           // console.log(new_rows);
-                          window.ipc.send('set-config', 'lessonsList.time', new_rows);
+                          window.ipc?.send('set-config', 'lessonsList.time', new_rows);
                           setRows(new_rows);
                         }}
                       />
@@ -404,7 +404,7 @@ export function LessonsListTime() {
                           new_rows = new_rows.filter(value => value != undefined);
                           new_rows.push({});
                           // console.log(new_rows);
-                          window.ipc.send('set-config', 'lessonsList.time', new_rows);
+                          window.ipc?.send('set-config', 'lessonsList.time', new_rows);
                           setRows(new_rows);
                         }}
                       />
