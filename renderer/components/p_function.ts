@@ -49,7 +49,7 @@ export function listClassesForDay(classSchedule, day, isSingleWeek: boolean = tr
     return null;
   }
 }
-export async function getConfigSync(arg) {
+export async function getConfigSync(arg?) {
   return new Promise((resolve, reject) => {
     try {
       window.ipc.send('get-config', arg);

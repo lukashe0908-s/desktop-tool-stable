@@ -148,6 +148,7 @@ ipcMain.on('settings-window', async (event, arg) => {
     height: 600,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
+      webSecurity: false,
     },
     maximizable: true,
     resizable: true,

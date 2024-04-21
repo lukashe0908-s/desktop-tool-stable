@@ -1,4 +1,7 @@
-import { Card, CardBody, Switch } from '@nextui-org/react';
+'use client';
+import { Card, CardBody, Switch, Button } from '@nextui-org/react';
+import axios from 'axios';
+import { getConfigSync } from '../../../components/p_function';
 export default function App() {
   return (
     <>
@@ -22,6 +25,32 @@ export default function App() {
           </Switch>
           <Switch>配置云端备份</Switch>
         </div>
+        <Button
+          onClick={() => {
+            (async () => {
+              let foo = await axios.post('https://s.lukass.link/pastebin/api.php/edit/backup_dt', JSON.stringify(await getConfigSync()));
+              let bar = await axios.post(
+                'https://s.lukass.link/pastebin_with_oss/process.php?path=/setFile',
+                JSON.stringify({
+                  password: '5de4c32b-595d-47b4-a924-b0f456e72c8a',
+                  folder: 'f1798983-42d0-4e49-809c-944c8742817f/',
+                  name: 'backup_dt.txt',
+                  content: JSON.stringify(await getConfigSync()),
+                }),
+                {
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
+                }
+              );
+              console.log(foo.data, bar.data);
+              alert(foo.data + '\n' + JSON.stringify(bar.data));
+              alert();
+            })();
+          }}
+        >
+          备份
+        </Button>
       </div>
     </>
   );
