@@ -3,8 +3,8 @@ node_modules
 .next
 /app
 dist
+out
 .data
 .yarn
-renderer/out
 renderer/public/sw.js
 renderer/public/workbox-*.js
