@@ -3,7 +3,7 @@
   "name": "desktop-tool",
   "description": "My application description",
   "version": "1.0.4",
-  "main": "app/background.js",
+  "main": "build/app/background.js",
   "scripts": {
     "dev": "yarn build:prepare && node main/build/nextron/dev --run-only",
     "dev:web": "yarn build:prepare && next dev ./renderer",

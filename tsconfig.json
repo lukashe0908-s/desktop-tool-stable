@@ -18,8 +18,8 @@
       {
         "name": "next"
       }
-    ],
+    ]
   },
-  "exclude": ["node_modules", "renderer/next.config.js", "app", "dist"],
+  "exclude": ["node_modules", "renderer/next.config.js", "build"],
   "include": ["next-env.d.ts", ".next/types/**/*.ts", "**/*.ts", "**/*.tsx"]
 }

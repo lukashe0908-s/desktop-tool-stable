@@ -21,8 +21,8 @@ const args = arg({
 });
 
 const cwd = process.cwd();
-const appDir = path.join(cwd, 'app');
-const distDir = path.join(cwd, 'dist');
+const appDir = path.join(cwd, 'build/app');
+const distDir = path.join(cwd, 'build/dist');
 const rendererSrcDir = getNextronConfig().rendererSrcDir || 'renderer';
 const execaOptions = {
   cwd,
@@ -39,7 +39,7 @@ const execaOptions = {
 
     logger.info('Building renderer process');
     await execa('next', ['build', path.join(cwd, rendererSrcDir)], execaOptions);
-    await Promise.all([fs.moveSync(path.join(rendererSrcDir, '../out'), appDir)]);
+    await Promise.all([fs.moveSync(path.join(rendererSrcDir, '../build/out'), appDir)]);
 
     logger.info('Building main process');
     await execa('node', [path.join(__dirname, './configs/webpack.config.production.js')], execaOptions);
@@ -51,7 +51,7 @@ const execaOptions = {
       await execa('electron-builder', createBuilderArgs(), execaOptions);
     }
 
-    logger.info('See `dist` directory');
+    logger.info('See `build/dist` directory');
   } catch (err) {
     console.log(chalk`
 

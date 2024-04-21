@@ -29,7 +29,7 @@ const baseConfig = {
   entry,
   output: {
     filename: '[name].js',
-    path: path.join(cwd, 'app'),
+    path: path.join(cwd, 'build/app'),
     library: {
       type: 'umd',
     },

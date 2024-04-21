@@ -1,9 +1,10 @@
 node_modules
 *.log
 .next
-/app
-dist
-out
+/build
+# /app
+# dist
+# out
 .data
 .yarn
 renderer/public/sw.js

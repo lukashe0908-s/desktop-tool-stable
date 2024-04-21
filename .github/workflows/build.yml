@@ -43,7 +43,7 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file_glob: true
-          file: dist/*.exe
+          file: build/dist/*.exe
           tag: 'latest'
           overwrite: true
           body: '自动编译'
