@@ -291,6 +291,9 @@ async function start() {
   redraw(classes);
   setInterval(() => {
     let classes = listClassesForDay(classSchedule, getWeekDate().toLowerCase(), getWeekNumber(classSchedule.weekStartDate) % 2 == 1);
+    if(classes.length===0){
+      classes={0:{startTime:"11:45",endTime:"14:19",subject:"Example"}}
+    }
     redraw(classes);
   }, 1 * 1000);
   function redraw(classes) {
