@@ -290,12 +290,13 @@ async function start() {
     });
   redraw(classes);
   setInterval(() => {
+    //temp
 let today = new Date();
 let isSingleWeek = getWeekNumber(classSchedule.weekStartDate) % 2 === 1;
 let dayOfWeek = getWeekDate().toLowerCase();
 
 if (today.getMonth() === 3 && today.getDate() === 28) {
-    dayOfWeek = "thursday"; // 改成双周的周四
+    dayOfWeek = "Thursday"; // 改成双周的周四
     isSingleWeek=false.
 }
 
