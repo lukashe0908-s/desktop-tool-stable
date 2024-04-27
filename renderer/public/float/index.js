@@ -297,7 +297,7 @@ let dayOfWeek = getWeekDate().toLowerCase();
 
 if (today.getMonth() === 3 && today.getDate() === 28) {
     dayOfWeek = "Thursday"; // 改成双周的周四
-    isSingleWeek=false.
+    isSingleWeek=false;
 }
 
 let classes = listClassesForDay(classSchedule, dayOfWeek, isSingleWeek);
