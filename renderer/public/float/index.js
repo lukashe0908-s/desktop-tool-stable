@@ -245,7 +245,7 @@ async function start() {
 
   let inputTime = dayjs();
   let changed = await getChangeDay(true, inputTime);
-  changed = changed.set('h', inputTime.get('h')).set('m', inputTime.get('m')).set('s', inputTime.get('s'));
+  if (changed) changed = changed.set('h', inputTime.get('h')).set('m', inputTime.get('m')).set('s', inputTime.get('s'));
 
   let classes = listClassesForDay(
     classSchedule,
