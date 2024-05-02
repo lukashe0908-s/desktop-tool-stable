@@ -148,9 +148,9 @@
         </div>
       </div>
     </div>
-    <div id="tool-bar">
+    <div id="tool-bar" style="border-radius: 12px">
       <mdui-dropdown placement="top">
-        <mdui-button slot="trigger" variant="tonal" full-width style="border-radius: 10000vmax">
+        <mdui-button slot="trigger" variant="tonal" style="width: 100%">
           <mdui-icon name="adjust"></mdui-icon>
           关机
         </mdui-button>
@@ -158,6 +158,20 @@
           <mdui-menu-item id="shutdown-sys" style="text-align: center">确认</mdui-menu-item>
         </mdui-menu>
       </mdui-dropdown>
+      <div
+        id="weather"
+        style="
+          display: flex;
+          align-items: center;
+          font-size: 16px;
+          white-space: pre;
+          text-align: center;
+          background-color: #228acb;
+          color: white;
+          padding-left: 6px;
+          padding-right: 6px;
+        "
+      ></div>
     </div>
   </body>
   <script src="/float/mdui/js/mdui.min.js"></script>
@@ -166,6 +180,7 @@
   <script src="/float/dayjs.min.js"></script>
   <script src="/float/index.js"></script>
   <script src="/float/penetrate.js"></script>
+  <script src="/float/weather.js"></script>
   <script>
     mdui.setColorScheme('#4f8ac4');
     if (localStorage.getItem('desktop-tool/hiddenPicList')) {

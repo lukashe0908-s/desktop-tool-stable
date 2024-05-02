@@ -1,3 +1,17 @@
+(() => {
+  const handleError = e => {
+    console.log(e);
+    mdui.snackbar({
+      message: '<b>Runtime Error</b><br>' + (e.message || e.reason),
+      placement: 'bottom-start',
+      // queue: 'window.handleError',
+      autoCloseDelay: 1.5 * 1000,
+      closeable: true,
+    });
+  };
+  window.addEventListener('error', handleError);
+  window.addEventListener('unhandledrejection', handleError);
+})();
 const serviceWorkerScope = `/sw.js`;
 navigator.serviceWorker &&
   location.protocol === 'https:' &&
@@ -288,14 +302,16 @@ async function start() {
       })();
       classSchedule = await generateConfig();
     });
-  redraw(classes);
-  setInterval(() => {
+  (() => {
     let classes = listClassesForDay(classSchedule, getWeekDate().toLowerCase(), getWeekNumber(classSchedule.weekStartDate) % 2 == 1);
-    if(Object.keys(classes).length===0||!classes){
-      classes={0:{startTime:"11:45",endTime:"14:19",subject:"Example"}}
+    if (Object.keys(classes).length === 0 || !classes) {
+      classes = { 0: { startTime: '11:45', endTime: '14:19', subject: 'Example' } };
     }
     redraw(classes);
-  }, 1 * 1000);
+    setInterval(() => {
+      redraw(classes);
+    }, 0.5 * 1000);
+  })();
   function redraw(classes) {
     const contentContainer = document.querySelector('#app-main > .content > .class-list');
     contentContainer.innerHTML = '';
