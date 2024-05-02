@@ -9,7 +9,7 @@ module.exports = {
   },
   distDir: '../build/out',
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
-    config.plugins.push(new MonacoWebpackPlugin());
+    // config.plugins.push(new MonacoWebpackPlugin());
     // Important: return the modified config
     return config;
   },

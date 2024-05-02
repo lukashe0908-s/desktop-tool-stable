@@ -1,19 +1,7 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import { Switch, Slider, Autocomplete, AutocompleteItem } from '@nextui-org/react';
-
-async function getConfigSync(arg) {
-  return new Promise((resolve, reject) => {
-    try {
-      window.ipc.send('get-config', arg);
-      window.ipc.once('get-config/' + arg, data => {
-        resolve(data);
-      });
-    } catch (error) {
-      resolve('');
-    }
-  });
-}
+import { getConfigSync } from '../p_function';
 
 export function Display() {
   const [windowWidth, setWindowWidth] = useState(0.13);

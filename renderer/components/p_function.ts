@@ -1,3 +1,4 @@
+'use client';
 import dayjs, { Dayjs } from 'dayjs';
 import _ from 'lodash';
 
