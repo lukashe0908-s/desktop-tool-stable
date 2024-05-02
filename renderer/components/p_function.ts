@@ -61,11 +61,9 @@ export function listClassesForDay(classSchedule, day: string, isSingleWeek: bool
 })();
 */
 export async function getChangeDay(parse_out: boolean = true, currentTime?: string | Dayjs | Date): Promise<undefined | string | Dayjs> {
-  const days = [
-    ...((await getConfigSync('lessonsList.changeDay')) as string).matchAll(
-      /(\d{4}\/\d{1,2}\/\d{1,2})[ ]*?=[ ]*?(\d{4}\/\d{1,2}\/\d{1,2})/g
-    ),
-  ];
+  const days_origin = (await getConfigSync('lessonsList.changeDay')) as string | undefined;
+  if (!days_origin) return;
+  const days = [...days_origin.matchAll(/(\d{4}\/\d{1,2}\/\d{1,2})[ ]*?=[ ]*?(\d{4}\/\d{1,2}\/\d{1,2})/g)];
   const now = dayjs(currentTime);
   for (const key in days) {
     if (Object.prototype.hasOwnProperty.call(days, key)) {
