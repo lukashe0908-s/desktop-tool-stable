@@ -9,7 +9,6 @@ import { setupTitlebar, attachTitlebarToWindow } from 'custom-electron-titlebar/
 const isProd = process.env.NODE_ENV === 'production';
 if (isProd) {
   serve({ directory: 'build/app' });
-  app.setPath('userData', path.join(process.cwd(), '.data'));
 } else {
   // app.setPath('userData', `${app.getPath('userData')} (development)`)
   app.setPath('userData', path.join(process.cwd(), '.data'));
