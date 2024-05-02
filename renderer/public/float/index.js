@@ -302,10 +302,29 @@ async function start() {
       })();
       classSchedule = await generateConfig();
     });
+<<<<<<< HEAD
   (() => {
     let classes = listClassesForDay(classSchedule, getWeekDate().toLowerCase(), getWeekNumber(classSchedule.weekStartDate) % 2 == 1);
     if (Object.keys(classes).length === 0 || !classes) {
       classes = { 0: { startTime: '11:45', endTime: '14:19', subject: 'Example' } };
+=======
+  redraw(classes);
+  setInterval(() => {
+    //temp
+let today = new Date();
+let isSingleWeek = getWeekNumber(classSchedule.weekStartDate) % 2 === 1;
+let dayOfWeek = getWeekDate().toLowerCase();
+
+if (today.getMonth() === 3 && today.getDate() === 28) {
+    dayOfWeek = "Thursday"; // 改成双周的周四
+    isSingleWeek=false;
+}
+
+let classes = listClassesForDay(classSchedule, dayOfWeek, isSingleWeek);
+   // let classes = listClassesForDay(classSchedule, getWeekDate().toLowerCase(), getWeekNumber(classSchedule.weekStartDate) % 2 == 1);
+    if(Object.keys(classes).length===0||!classes){
+      classes={0:{startTime:"11:45",endTime:"14:19",subject:"Example"}}
+>>>>>>> 2b2c7cf4a85581ba79dcf4512efc59bab0dd3e2d
     }
     redraw(classes);
     setInterval(() => {
