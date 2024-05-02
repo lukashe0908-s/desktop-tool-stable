@@ -1,7 +1,7 @@
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import _ from 'lodash';
 
-export function getWeekNumber(weekStartTime, currentTime) {
+export function getWeekNumber(weekStartTime: string | Dayjs | Date, currentTime?: string | Dayjs | Date) {
   let start = dayjs(weekStartTime);
   let current = dayjs(currentTime);
   let startDate = start.startOf('week').valueOf();
@@ -11,7 +11,7 @@ export function getWeekNumber(weekStartTime, currentTime) {
   return weekNumber;
 }
 
-export function getWeekDate(Time) {
+export function getWeekDate(Time?: string | Dayjs | Date) {
   var day = dayjs(Time).day();
   var weeks = new Array('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday');
   var week = weeks[day];
@@ -28,7 +28,7 @@ export function getWeekDate(Time) {
   getWeekNumber(classSchedule.weekStartDate) % 2 == 1
 );
 */
-export function listClassesForDay(classSchedule, day, isSingleWeek: boolean = true) {
+export function listClassesForDay(classSchedule, day: string, isSingleWeek: boolean = true) {
   if (classSchedule.single && classSchedule.single[day]) {
     let classes = classSchedule.single[day];
     if (!isSingleWeek) {
@@ -49,6 +49,35 @@ export function listClassesForDay(classSchedule, day, isSingleWeek: boolean = tr
     return null;
   }
 }
+
+/**
+ * @example
+  (async () => {
+  let inputTime = dayjs();
+  let changed = (await getChangeDay(true, inputTime)) as Dayjs;
+  changed = changed.set('h', inputTime.get('h')).set('m', inputTime.get('m')).set('s', inputTime.get('s'));
+  console.log(changed);
+})();
+*/
+export async function getChangeDay(parse_out: boolean = true, currentTime?: string | Dayjs | Date): Promise<undefined | string | Dayjs> {
+  const days = [
+    ...((await getConfigSync('lessonsList.changeDay')) as string).matchAll(
+      /(\d{4}\/\d{1,2}\/\d{1,2})[ ]*?=[ ]*?(\d{4}\/\d{1,2}\/\d{1,2})/g
+    ),
+  ];
+  const now = dayjs(currentTime);
+  for (const key in days) {
+    if (Object.prototype.hasOwnProperty.call(days, key)) {
+      const day = days[key];
+      const daySource = dayjs(day[1]);
+      if (now.isSame(daySource, 'day')) {
+        const dayTransform = parse_out ? dayjs(day[2]) : day[2];
+        return dayTransform;
+      }
+    }
+  }
+}
+
 export async function getConfigSync(arg?) {
   return new Promise((resolve, reject) => {
     try {
@@ -61,7 +90,8 @@ export async function getConfigSync(arg?) {
     }
   });
 }
-async function generateConfig() {
+
+export async function generateConfig() {
   let data_name = (await getConfigSync('lessonsList.name')) as Array<{
     [key: string]: string;
   }>;

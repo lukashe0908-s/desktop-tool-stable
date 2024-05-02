@@ -226,8 +226,32 @@ async function generateConfig() {
 }
 async function start() {
   let classSchedule = await generateConfig();
-  // alert(JSON.stringify(classSchedule, null, '  '));
-  let classes = listClassesForDay(classSchedule, getWeekDate().toLowerCase(), getWeekNumber(classSchedule.weekStartDate) % 2 == 1);
+  async function getChangeDay(parse_out = true, currentTime) {
+    const days = [
+      ...(await getConfigSync('lessonsList.changeDay')).matchAll(/(\d{4}\/\d{1,2}\/\d{1,2})[ ]*?=[ ]*?(\d{4}\/\d{1,2}\/\d{1,2})/g),
+    ];
+    const now = dayjs(currentTime);
+    for (const key in days) {
+      if (Object.prototype.hasOwnProperty.call(days, key)) {
+        const day = days[key];
+        const daySource = dayjs(day[1]);
+        if (now.isSame(daySource, 'day')) {
+          const dayTransform = parse_out ? dayjs(day[2]) : day[2];
+          return dayTransform;
+        }
+      }
+    }
+  }
+
+  let inputTime = dayjs();
+  let changed = await getChangeDay(true, inputTime);
+  changed = changed.set('h', inputTime.get('h')).set('m', inputTime.get('m')).set('s', inputTime.get('s'));
+
+  let classes = listClassesForDay(
+    classSchedule,
+    getWeekDate(changed).toLowerCase(),
+    getWeekNumber(classSchedule.weekStartDate, changed) % 2 == 1
+  );
   let slidingPosition = (await getConfigSync('display.slidingPosition')) || 'center';
   (async () => {
     const fontSize = await getConfigSync('display.fontSize');
@@ -302,29 +326,9 @@ async function start() {
       })();
       classSchedule = await generateConfig();
     });
-<<<<<<< HEAD
   (() => {
-    let classes = listClassesForDay(classSchedule, getWeekDate().toLowerCase(), getWeekNumber(classSchedule.weekStartDate) % 2 == 1);
     if (Object.keys(classes).length === 0 || !classes) {
       classes = { 0: { startTime: '11:45', endTime: '14:19', subject: 'Example' } };
-=======
-  redraw(classes);
-  setInterval(() => {
-    //temp
-let today = new Date();
-let isSingleWeek = getWeekNumber(classSchedule.weekStartDate) % 2 === 1;
-let dayOfWeek = getWeekDate().toLowerCase();
-
-if (today.getMonth() === 3 && today.getDate() === 28) {
-    dayOfWeek = "Thursday"; // 改成双周的周四
-    isSingleWeek=false;
-}
-
-let classes = listClassesForDay(classSchedule, dayOfWeek, isSingleWeek);
-   // let classes = listClassesForDay(classSchedule, getWeekDate().toLowerCase(), getWeekNumber(classSchedule.weekStartDate) % 2 == 1);
-    if(Object.keys(classes).length===0||!classes){
-      classes={0:{startTime:"11:45",endTime:"14:19",subject:"Example"}}
->>>>>>> 2b2c7cf4a85581ba79dcf4512efc59bab0dd3e2d
     }
     redraw(classes);
     setInterval(() => {
