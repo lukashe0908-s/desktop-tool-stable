@@ -18,11 +18,6 @@ async function getWeather(location = 101300505) {
   if (localStorage.getItem('weather') && localStorage.getItem('weather_expires') > Date.now()) {
     return JSON.parse(localStorage.getItem('weather'));
   }
-  await new Promise(resolve => {
-    setTimeout(() => {
-      resolve();
-    }, 1000);
-  });
   let json = await (
     await fetch(`https://api.qweather.com/v7/weather/now?location=${location}&key=bdd98ec1d87747f3a2e8b1741a5af796`, {
       referrerPolicy: 'no-referrer',
