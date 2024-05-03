@@ -2,7 +2,7 @@
 require('dotenv').config();
 const workboxBuild = require('workbox-build');
 const { NODE_ENV } = process.env;
-const urlPattern = new RegExp(`/\/.*/`);
+const urlPattern = new RegExp(`/.*`);
 
 // https://developers.google.com/web/tools/workbox/reference-docs/latest/module-workbox-build#.generateSW
 const buildSW = () => {
@@ -14,7 +14,7 @@ const buildSW = () => {
     sourcemap: false,
     runtimeCaching: [
       {
-        urlPattern: new RegExp(String.raw`//static/.*/`),
+        urlPattern: new RegExp(String.raw`/(static|float/lib)/.*`),
         handler: 'CacheFirst',
         options: {
           cacheName: 'desktop-tool',
