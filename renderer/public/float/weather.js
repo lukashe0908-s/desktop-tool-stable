@@ -11,7 +11,13 @@
       const json = await getWeather(101300505, force);
       //   console.log(json);
       weatherComponent.style.backgroundColor = '#228acb';
-      weatherComponent.innerHTML = `${json.now.text ? json.now.text + ' ' : ''}${json.now.temp ? json.now.temp : '--'}°`;
+      let icon = json.now.icon;
+      if (icon == 154) {
+        icon = 104;
+      }
+      weatherComponent.innerHTML = `${icon ? `<i class="qi-${icon}"></i>` : ''}  ${json.now.text ? json.now.text + ' ' : ''}${
+        json.now.temp ? json.now.temp : '--'
+      }°`;
       useTimeout &&
         setTimeout(() => {
           interval();

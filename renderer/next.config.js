@@ -10,10 +10,6 @@ module.exports = {
   distDir: '../build/out',
   // outputFileTracing: false,
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
-    config.module.rules.push({
-      test: /\.ttf$/,
-      type: 'asset/resource',
-    });
     if (!isServer) {
       config.plugins.push(
         new MonacoWebpackPlugin({
