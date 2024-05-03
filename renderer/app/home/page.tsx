@@ -80,7 +80,7 @@ function OpenSettingsWindow({ children }) {
         color='primary'
         className='font-bold'
         onClick={() => {
-          window.ipc?.send('settings-window', 'true');
+          window?.ipc?.send('settings-window', 'true');
         }}
       >
         {children}
@@ -95,7 +95,7 @@ function OpenAiWindow({ children }) {
         color='primary'
         className='font-bold'
         onClick={() => {
-          window.ipc?.send('ai-window', 'true');
+          window?.ipc?.send('ai-window', 'true');
         }}
       >
         {children}

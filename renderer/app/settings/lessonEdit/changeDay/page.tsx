@@ -20,7 +20,7 @@ export default function App() {
       window.removeEventListener('resize', handler);
     };
   }, []);
-  const [value, setValue] = useState('// 格式： 要换的日期 = 替换成的日期\n// 正则匹配，请确保行数不要太多\n\n');
+  const [value, setValue] = useState('// 格式： 要换的日期 - 替换成的日期\n// 正则匹配，请确保行数不要太多\n\n');
   useEffect(() => {
     (async () => {
       const foo = (await getConfigSync('lessonsList.changeDay')) as string;
