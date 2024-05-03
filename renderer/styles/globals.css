@@ -9,9 +9,15 @@
   }
 }
 
+@font-face {
+  font-family: 'NotoSansSC';
+  src: url('/NotoSansSC-VariableFont_wght.ttf');
+}
+
 html,
 body {
   width: 100%;
   height: 100%;
   box-sizing: border-box;
+  font-family: Arial, Helvetica, 'NotoSansSC', sans-serif;
 }

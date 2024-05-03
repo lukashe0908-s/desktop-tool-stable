@@ -9,14 +9,13 @@ const buildSW = () => {
   return workboxBuild.generateSW({
     swDest: 'renderer/public/sw.js',
     clientsClaim: true,
+    // mode: 'development',
     mode: NODE_ENV,
     skipWaiting: true,
     sourcemap: false,
     runtimeCaching: [
       {
         urlPattern: urlPattern,
-
-        // Apply a cache-first strategy.
         handler: 'StaleWhileRevalidate',
         options: {
           cacheName: 'desktop-tool',

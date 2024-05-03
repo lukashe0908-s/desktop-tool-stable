@@ -41,6 +41,10 @@ export default function App() {
             删除缓存
           </Button>
         </div>
+        <div className='flex items-center bg-yellow-100 rounded-lg w-fit px-4'>
+          <span className='font-black text-lg'>字体测试：</span>
+          <span className='text-[80px]'>𰻝𱁬</span>
+        </div>
       </div>
     </>
   );

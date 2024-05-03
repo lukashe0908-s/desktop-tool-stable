@@ -62,11 +62,15 @@ document.querySelector('#change-content-state').addEventListener('click', _ => {
 !localStorage.getItem('desktop-tool/putAway') && document.querySelector('#change-content-state').click();
 function changeContentState(pack_up) {
   if (pack_up) {
-    document.querySelector('#change-content-state > .text').innerHTML = `<i class="mdui-icon material-icons">arrow_upward</i>
+    document.querySelector(
+      '#change-content-state > .text'
+    ).innerHTML = `<mdui-icon name="arrow_upward"></mdui-icon>
   收起`;
     localStorage.removeItem('desktop-tool/putAway');
   } else {
-    document.querySelector('#change-content-state > .text').innerHTML = `<i class="mdui-icon material-icons">arrow_downward</i>
+    document.querySelector(
+      '#change-content-state > .text'
+    ).innerHTML = `<mdui-icon name="arrow_downward"></mdui-icon>
     展开`;
     localStorage.setItem('desktop-tool/putAway', true);
   }
@@ -225,33 +229,6 @@ async function generateConfig() {
   return new_classSchedule;
 }
 async function start() {
-  let classSchedule = await generateConfig();
-  async function getChangeDay(parse_out = true, currentTime) {
-    const days_origin = await getConfigSync('lessonsList.changeDay');
-    if (!days_origin) return;
-    const days = [...days_origin.matchAll(/(\d{4}\/\d{1,2}\/\d{1,2})[ ]*?-[ ]*?(\d{4}\/\d{1,2}\/\d{1,2})/g)];
-    const now = dayjs(currentTime);
-    for (const key in days) {
-      if (Object.prototype.hasOwnProperty.call(days, key)) {
-        const day = days[key];
-        const daySource = dayjs(day[1]);
-        if (now.isSame(daySource, 'day')) {
-          const dayTransform = parse_out ? dayjs(day[2]) : day[2];
-          return dayTransform;
-        }
-      }
-    }
-  }
-
-  let inputTime = dayjs();
-  let changed = await getChangeDay(true, inputTime);
-  if (changed) changed = changed.set('h', inputTime.get('h')).set('m', inputTime.get('m')).set('s', inputTime.get('s'));
-
-  let classes = listClassesForDay(
-    classSchedule,
-    getWeekDate(changed).toLowerCase(),
-    getWeekNumber(classSchedule.weekStartDate, changed) % 2 == 1
-  );
   let slidingPosition = (await getConfigSync('display.slidingPosition')) || 'center';
   (async () => {
     const fontSize = await getConfigSync('display.fontSize');
@@ -327,15 +304,42 @@ async function start() {
       classSchedule = await generateConfig();
     });
   (() => {
+    redraw();
+    setInterval(() => {
+      redraw();
+    }, 1 * 1000);
+  })();
+  async function redraw() {
+    async function getChangeDay(parse_out = true, currentTime) {
+      const days_origin = await getConfigSync('lessonsList.changeDay');
+      if (!days_origin) return;
+      const days = [...days_origin.matchAll(/(\d{4}\/\d{1,2}\/\d{1,2})[ ]*?-[ ]*?(\d{4}\/\d{1,2}\/\d{1,2})/g)];
+      const now = dayjs(currentTime);
+      for (const key in days) {
+        if (Object.prototype.hasOwnProperty.call(days, key)) {
+          const day = days[key];
+          const daySource = dayjs(day[1]);
+          if (now.isSame(daySource, 'day')) {
+            const dayTransform = parse_out ? dayjs(day[2]) : day[2];
+            return dayTransform;
+          }
+        }
+      }
+    }
+    let classSchedule = await generateConfig();
+    let inputTime = dayjs();
+    let changed = await getChangeDay(true, inputTime);
+    if (changed) changed = changed.set('h', inputTime.get('h')).set('m', inputTime.get('m')).set('s', inputTime.get('s'));
+
+    let classes = listClassesForDay(
+      classSchedule,
+      getWeekDate(changed).toLowerCase(),
+      getWeekNumber(classSchedule.weekStartDate, changed) % 2 == 1
+    );
     if (Object.keys(classes).length === 0 || !classes) {
       classes = { 0: { startTime: '11:45', endTime: '14:19', subject: 'Example' } };
     }
-    redraw(classes);
-    setInterval(() => {
-      redraw(classes);
-    }, 0.5 * 1000);
-  })();
-  function redraw(classes) {
+
     const contentContainer = document.querySelector('#app-main > .content > .class-list');
     contentContainer.innerHTML = '';
     let temp_scroll_item = null,

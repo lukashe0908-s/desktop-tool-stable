@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Floating</title>
-    <link rel="stylesheet" href="/float/mdui/css/mdui.min.css" />
+    <link href="/float/font/index.css" rel="stylesheet" />
     <link rel="stylesheet" href="/float/mdui/mdui.css" />
     <link rel="stylesheet" href="/float/index.css" />
   </head>
@@ -12,26 +12,26 @@
   <body>
     <div id="app-tool">
       <div style="display: flex; gap: 4px">
-        <mdui-chip elevated onclick="window.ipc.send('settings-window')">
-          <i class="mdui-icon material-icons">settings</i>
+        <mdui-chip elevated onclick="window.ipc.send('settings-window')" class="text">
+          <mdui-icon name="settings"></mdui-icon>
         </mdui-chip>
-        <mdui-chip elevated onclick="location.reload()" id="refresh-window">
-          <i class="mdui-icon material-icons">refresh</i>
+        <mdui-chip elevated onclick="location.reload()" id="refresh-window" class="text">
+          <mdui-icon name="refresh"></mdui-icon>
         </mdui-chip>
-        <mdui-chip elevated style="margin-left: auto" id="close-window">
-          <i class="mdui-icon material-icons">close</i>
+        <mdui-chip elevated style="margin-left: auto" id="close-window" class="text">
+          <mdui-icon name="close"></mdui-icon>
         </mdui-chip>
       </div>
 
       <div style="display: flex; gap: 4px" class="put_away">
         <mdui-chip elevated style="width: 100%; padding: 0; margin-top: 4px; text-align: center" id="change-content-state">
           <div class="text">
-            <i class="mdui-icon material-icons">arrow_downward</i>
+            <mdui-icon name="arrow_downward"></mdui-icon>
             展开
           </div>
         </mdui-chip>
         <mdui-chip onclick="location.href='/home'" elevated style="width: 50%; padding: 0; margin-top: 4px; text-align: center">
-          Go Modern
+          Dev
         </mdui-chip>
       </div>
     </div>
@@ -39,7 +39,7 @@
       <div class="content">
         <!-- 课程表 -->
         <div class="class-list"></div>
-        <span style="font-size: 16px; display: flex; align-items: center">
+        <span style="font-size: 16px; display: flex; align-items: center; flex-wrap: wrap">
           * Edition:
           <b>Legacy</b>
           <mdui-checkbox style="scale: 0.8" id="PicListController" checked></mdui-checkbox>
@@ -51,7 +51,7 @@
             display: flex;
             flex-direction: column;
             gap: 10vh;
-            aspect-ratio: 8/6;
+            aspect-ratio: 4/3;
             overflow: auto;
             scroll-snap-type: y mandatory;
           "
@@ -139,9 +139,13 @@
                 align-items: center;
                 font-size: 1.25rem;
                 flex-direction: column;
+                text-align: center;
               "
             >
-              滚动测试
+              Weather data source:
+              <br />
+              <br />
+              Qweather
             </div>
           </div>
           <div></div>
@@ -151,8 +155,9 @@
     <div id="tool-bar" style="border-radius: 12px">
       <mdui-dropdown placement="top">
         <mdui-button slot="trigger" variant="tonal" style="width: 100%">
-          <mdui-icon name="adjust"></mdui-icon>
-          关机
+          <div class="text">
+            <mdui-icon name="power_settings_new"></mdui-icon>
+          </div>
         </mdui-button>
         <mdui-menu>
           <mdui-menu-item id="shutdown-sys" style="text-align: center">确认</mdui-menu-item>
@@ -179,7 +184,6 @@
       </div>
     </div>
   </body>
-  <script src="/float/mdui/js/mdui.min.js"></script>
   <script src="/float/mdui/mdui.global.js"></script>
   <script src="/float/loadsh.min.js"></script>
   <script src="/float/dayjs.min.js"></script>
