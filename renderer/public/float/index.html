@@ -4,8 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Floating</title>
-    <link href="/float/font/index.css" rel="stylesheet" />
-    <link rel="stylesheet" href="/float/mdui/mdui.css" />
+    <link href="/float/lib/font/index.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/float/lib/mdui/mdui.css" />
     <link rel="stylesheet" href="/float/index.css" />
   </head>
 
@@ -184,9 +184,9 @@
       </div>
     </div>
   </body>
-  <script src="/float/mdui/mdui.global.js"></script>
-  <script src="/float/loadsh.min.js"></script>
-  <script src="/float/dayjs.min.js"></script>
+  <script src="/float/lib/mdui/mdui.global.js"></script>
+  <script src="/float/lib/loadsh.min.js"></script>
+  <script src="/float/lib/dayjs.min.js"></script>
   <script src="/float/index.js"></script>
   <script src="/float/penetrate.js"></script>
   <script src="/float/weather.js"></script>
@@ -205,7 +205,7 @@
       (document.querySelector('#PicList').scrollTop = localStorage.getItem('desktop-tool/scrollPicList'));
     document.querySelector('#PicList').addEventListener(
       'scroll',
-      throttle(event => {
+      _.throttle(event => {
         // console.log(event.target.scrollTop);
         if (event.target.scrollTop >= 100) {
           localStorage.setItem('desktop-tool/scrollPicList', event.target.scrollTop);
@@ -214,19 +214,5 @@
         }
       }, 500)
     );
-
-    function throttle(func, wait = 0) {
-      let timer;
-      let result;
-      return function (...args) {
-        if (!timer) {
-          timer = setTimeout(() => {
-            result = func.apply(this, args);
-            timer = undefined;
-          }, wait);
-        }
-        return result;
-      };
-    }
   </script>
 </html>

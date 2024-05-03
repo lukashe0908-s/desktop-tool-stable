@@ -9,11 +9,21 @@ const buildSW = () => {
   return workboxBuild.generateSW({
     swDest: 'renderer/public/sw.js',
     clientsClaim: true,
-    // mode: 'development',
     mode: NODE_ENV,
     skipWaiting: true,
     sourcemap: false,
     runtimeCaching: [
+      {
+        urlPattern: new RegExp(String.raw`//static/.*/`),
+        handler: 'CacheFirst',
+        options: {
+          cacheName: 'desktop-tool',
+          expiration: {
+            maxEntries: 500,
+            maxAgeSeconds: 7 * 24 * 60 * 60,
+          },
+        },
+      },
       {
         urlPattern: urlPattern,
         handler: 'StaleWhileRevalidate',

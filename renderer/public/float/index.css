@@ -8,7 +8,7 @@
 }
 @font-face {
   font-family: 'NotoSansSC';
-  src: url('/NotoSansSC-VariableFont_wght.ttf');
+  src: url('/static/NotoSansSC-VariableFont_wght.ttf');
 }
 
 html,
