@@ -108,6 +108,7 @@ function getProviderPath(params: string) {
   }
   ipcMain.on('close-window', async (event, arg) => {
     mainWindow.close();
+    app.quit();
   });
 })();
 

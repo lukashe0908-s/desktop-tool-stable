@@ -11,7 +11,7 @@
 
 @font-face {
   font-family: 'NotoSansSC';
-  src: url('/static/NotoSansSC-VariableFont_wght.woff2');
+  src: url('app://-/static/NotoSansSC-VariableFont_wght.woff2'), url('/static/NotoSansSC-VariableFont_wght.woff2');
   font-display: swap;
 }
 
