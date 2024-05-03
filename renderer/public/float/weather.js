@@ -1,21 +1,26 @@
 (() => {
   let weatherComponent = document.querySelector('#weather');
-  console.log(weatherComponent);
   if (weatherComponent) {
+    weatherComponent.addEventListener('click', () => {
+      interval(false, true);
+    });
     interval();
-    async function interval() {
-      weatherComponent.innerHTML = ` --° `;
-      const json = await getWeather();
+    async function interval(useTimeout = true, force = false) {
+      weatherComponent.style.backgroundColor = '#1a6899';
+      useTimeout && (weatherComponent.innerHTML = ` --° `);
+      const json = await getWeather(101300505, force);
       //   console.log(json);
+      weatherComponent.style.backgroundColor = '#228acb';
       weatherComponent.innerHTML = `${json.now.text ? json.now.text + ' ' : ''}${json.now.temp ? json.now.temp : '--'}°`;
-      setTimeout(() => {
-        interval();
-      }, 1 * 1000);
+      useTimeout &&
+        setTimeout(() => {
+          interval();
+        }, 1 * 1000);
     }
   }
 })();
-async function getWeather(location = 101300505) {
-  if (localStorage.getItem('weather') && localStorage.getItem('weather_expires') > Date.now()) {
+async function getWeather(location, force = false) {
+  if (!force && localStorage.getItem('weather') && localStorage.getItem('weather_expires') > Date.now()) {
     return JSON.parse(localStorage.getItem('weather'));
   }
   let json = await (
