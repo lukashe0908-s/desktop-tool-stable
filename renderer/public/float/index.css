@@ -17,7 +17,7 @@ body {
   width: 100%;
   height: 100%;
   box-sizing: border-box;
-  font-family: Arial, Helvetica, 'NotoSansSC', sans-serif;
+  /*font-family: Arial, Helvetica, 'NotoSansSC', sans-serif;*/
   background-color: transparent !important;
   overflow: hidden;
   word-break: break-all;
