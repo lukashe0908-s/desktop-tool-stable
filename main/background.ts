@@ -56,6 +56,7 @@ function getProviderPath(params: string) {
   const mainWindow = new BrowserWindow({
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
+      webSecurity: false,
     },
     // backgroundMaterial: 'acrylic',
     transparent: true,

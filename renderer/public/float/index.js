@@ -62,15 +62,11 @@ document.querySelector('#change-content-state').addEventListener('click', _ => {
 !localStorage.getItem('desktop-tool/putAway') && document.querySelector('#change-content-state').click();
 function changeContentState(pack_up) {
   if (pack_up) {
-    document.querySelector(
-      '#change-content-state > .text'
-    ).innerHTML = `<mdui-icon name="arrow_upward"></mdui-icon>
+    document.querySelector('#change-content-state > .text').innerHTML = `<mdui-icon name="arrow_upward"></mdui-icon>
   收起`;
     localStorage.removeItem('desktop-tool/putAway');
   } else {
-    document.querySelector(
-      '#change-content-state > .text'
-    ).innerHTML = `<mdui-icon name="arrow_downward"></mdui-icon>
+    document.querySelector('#change-content-state > .text').innerHTML = `<mdui-icon name="arrow_downward"></mdui-icon>
     展开`;
     localStorage.setItem('desktop-tool/putAway', true);
   }
@@ -337,7 +333,33 @@ async function start() {
       getWeekNumber(classSchedule.weekStartDate, changed) % 2 == 1
     );
     if (Object.keys(classes).length === 0 || !classes) {
-      classes = { 0: { startTime: '11:45', endTime: '14:19', subject: 'Example' } };
+      classes = [
+        { startTime: '11:45', endTime: '14:19', subject: 'Example' },
+        { startTime: '11:45', endTime: '14:19', subject: 'Example' },
+        { startTime: '11:45', endTime: '14:19', subject: 'Example' },
+        { startTime: '11:45', endTime: '14:19', subject: 'Example' },
+        { startTime: '11:45', endTime: '14:19', subject: 'Example' },
+        { startTime: '11:45', endTime: '14:19', subject: 'Example' },
+        { startTime: '11:45', endTime: '14:19', subject: 'Example' },
+        { startTime: '11:45', endTime: '14:19', subject: 'Example' },
+        { startTime: '11:45', endTime: '14:19', subject: 'Example' },
+        { startTime: '11:45', endTime: '14:19', subject: 'Example' },
+        { startTime: '11:45', endTime: '14:19', subject: 'Example' },
+        { startTime: '11:45', endTime: '14:19', subject: 'Example' },
+        { startTime: '11:45', endTime: '14:19', subject: 'Example' },
+        { startTime: '11:45', endTime: '14:19', subject: 'Example' },
+        { startTime: '11:45', endTime: '14:19', subject: 'Example' },
+        { startTime: '11:45', endTime: '14:19', subject: 'Example' },
+        { startTime: '11:45', endTime: '14:19', subject: 'Example' },
+        { startTime: '11:45', endTime: '14:19', subject: 'Example' },
+        { startTime: '11:45', endTime: '14:19', subject: 'Example' },
+        { startTime: '11:45', endTime: '14:19', subject: 'Example' },
+        { startTime: '11:45', endTime: '14:19', subject: 'Example' },
+        { startTime: '11:45', endTime: '14:19', subject: 'Example' },
+        { startTime: '11:45', endTime: '14:19', subject: 'Example' },
+        { startTime: '11:45', endTime: '14:19', subject: 'Example' },
+        { startTime: '11:45', endTime: '14:19', subject: 'Example' },
+      ];
     }
 
     const contentContainer = document.querySelector('#app-main > .content > .class-list');
@@ -382,9 +404,9 @@ async function start() {
           temp_is_first_item = false;
           temp_scroll_item = classElement;
         }
+        classElement.style.backgroundColor = '#fffd';
         if (currentTime >= classStartTime && currentTime <= classEndTime) {
           // 正在上的课程
-          // classElement.style.backgroundColor = '#F3F6FC';
           classElement.style.backgroundColor = 'rgb(var(--mdui-color-tertiary-container))';
           temp_scroll_item = classElement;
         } else if (currentTime > classEndTime) {
