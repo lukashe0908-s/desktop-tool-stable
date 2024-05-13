@@ -389,10 +389,10 @@ async function start() {
           temp_is_first_item = false;
           temp_scroll_item = classElement;
         }
-        classElement.style.backgroundColor = '#fffa';
+        classElement.style.backgroundColor = '#fff8';
         if (currentTime >= classStartTime && currentTime <= classEndTime) {
           // 正在上的课程
-          classElement.style.backgroundColor = 'rgba(var(--mdui-color-tertiary-container),160)';
+          classElement.style.backgroundColor = 'rgba(var(--mdui-color-tertiary-container),128)';
           temp_scroll_item = classElement;
         } else if (currentTime > classEndTime) {
           // 已经上的课程
