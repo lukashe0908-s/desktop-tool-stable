@@ -384,7 +384,7 @@ async function start() {
         classElement.style.backgroundColor = '#fff8';
         if (currentTime >= classStartTime && currentTime <= classEndTime) {
           // 正在上的课程
-          classElement.style.backgroundColor = 'rgba(var(--mdui-color-tertiary-container),128)';
+          classElement.style.backgroundColor = 'rgba(var(--mdui-color-tertiary-container),0.7)';
           temp_scroll_item = classElement;
         } else if (currentTime > classEndTime) {
           // 已经上的课程

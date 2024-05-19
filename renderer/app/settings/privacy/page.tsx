@@ -5,7 +5,7 @@ import { getConfigSync } from '../../../components/p_function';
 export default function App() {
   return (
     <>
-      <div className='h-full flex gap-5 flex-col'>
+      <div className='flex gap-5 flex-col'>
         <Card>
           <CardBody className='block'>
             <p>你正在发送必需诊断数据</p>

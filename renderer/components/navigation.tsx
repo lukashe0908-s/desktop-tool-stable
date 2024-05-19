@@ -28,7 +28,7 @@ export function NavigationItemInner(props) {
   const isSub = useContext(SubContext);
   return (
     <li
-      className={`transition-all hover:underline hover:decoration-dotted underline-offset-4 ${
+      className={`transition-all hover:underline hover:decoration-dotted underline-offset-4 flex items-center ${
         isSub ? 'py-1' : 'py-2'
       } pl-4 [color:#002b67] hover:[background-color:#E9F7FB] rounded-l-full cursor-pointer ${
         props?.active

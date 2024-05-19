@@ -69,6 +69,7 @@ function getProviderPath(params: string) {
     resizable: true,
   });
   mainWindow.setMenu(null);
+  mainWindow.webContents.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36')
   mainWindow.on('close', () => {
     mainWindow_g = undefined;
   });

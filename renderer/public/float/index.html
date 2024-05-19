@@ -61,19 +61,63 @@
           id="PicList"
           class="scrollbar-hide"
         >
-          <!-- <div></div> -->
-          <img id="bing-wallpaper" style="max-width: 100%; scroll-snap-align: center" referrerpolicy="no-referrer" draggable="false" src="https://pic4.58cdn.com.cn/nowater/c06b291b-19e4-4325-b750-0ab40e9579c3/n_v201dc0bc44d3e482db193ebf6e7481b5f.jpg" />
-          <img id="bing-wallpaper2" style="max-width: 100%; scroll-snap-align: center" referrerpolicy="no-referrer" draggable="false" />
-          <img id="bing-wallpaper3" style="max-width: 100%; scroll-snap-align: center" referrerpolicy="no-referrer" draggable="false" />
-          <img id="bing-wallpaper4" style="max-width: 100%; scroll-snap-align: center" referrerpolicy="no-referrer" draggable="false" />
-          <img id="bing-wallpaper5" style="max-width: 100%; scroll-snap-align: center" referrerpolicy="no-referrer" draggable="false" />
-          <img id="bing-wallpaper6" style="max-width: 100%; scroll-snap-align: center" referrerpolicy="no-referrer" draggable="false" />
-          <img id="bing-wallpaper7" style="max-width: 100%; scroll-snap-align: center" referrerpolicy="no-referrer" draggable="false" />
+          <div></div>
+          <img
+            id="bing-wallpaper"
+            style="max-width: 100%; scroll-snap-align: center"
+            loading="lazy"
+            referrerpolicy="no-referrer"
+            draggable="false"
+            src="https://pic4.58cdn.com.cn/nowater/c06b291b-19e4-4325-b750-0ab40e9579c3/n_v201dc0bc44d3e482db193ebf6e7481b5f.jpg"
+          />
+          <img
+            id="bing-wallpaper2"
+            style="max-width: 100%; scroll-snap-align: center"
+            loading="lazy"
+            referrerpolicy="no-referrer"
+            draggable="false"
+          />
+          <img
+            id="bing-wallpaper3"
+            style="max-width: 100%; scroll-snap-align: center"
+            loading="lazy"
+            referrerpolicy="no-referrer"
+            draggable="false"
+          />
+          <img
+            id="bing-wallpaper4"
+            style="max-width: 100%; scroll-snap-align: center"
+            loading="lazy"
+            referrerpolicy="no-referrer"
+            draggable="false"
+          />
+          <img
+            id="bing-wallpaper5"
+            style="max-width: 100%; scroll-snap-align: center"
+            loading="lazy"
+            referrerpolicy="no-referrer"
+            draggable="false"
+          />
+          <img
+            id="bing-wallpaper6"
+            style="max-width: 100%; scroll-snap-align: center"
+            loading="lazy"
+            referrerpolicy="no-referrer"
+            draggable="false"
+          />
+          <img
+            id="bing-wallpaper7"
+            style="max-width: 100%; scroll-snap-align: center"
+            loading="lazy"
+            referrerpolicy="no-referrer"
+            draggable="false"
+          />
           <div></div>
         </div>
       </div>
       <img
         id="bing-wallpaper-bg"
+        class="blur"
         style="
           top: 0;
           left: 50%;
@@ -85,9 +129,9 @@
           width: auto;
           height: 100%;
           transform: translate(-50%, 0);
-          filter: blur(10px);
           opacity: 0.6;
         "
+        loading="lazy"
         referrerpolicy="no-referrer"
         draggable="false"
         srco="https://pic4.58cdn.com.cn/nowater/c06b291b-19e4-4325-b750-0ab40e9579c3/n_v20a53911f32274c4fa741efe7dc6e3e56.png"
@@ -153,11 +197,22 @@
           }
         });
 
-        let wallpaper_data = await (
-          await fetch('https://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=7', {
-            headers: {},
-          })
-        ).json();
+        async function getWallpaper(force = false) {
+          if (!window.ipc) return '';
+          if (!force && localStorage.getItem('wallpaper_data') && localStorage.getItem('wallpaper_data_expires') > Date.now()) {
+            return JSON.parse(localStorage.getItem('wallpaper_data'));
+          }
+          let wallpaper_data = await (
+            await fetch('https://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=7', {
+              headers: {},
+            })
+          ).json();
+          localStorage.setItem('wallpaper_data', JSON.stringify(wallpaper_data));
+          localStorage.setItem('wallpaper_data_expires', Date.now() + 10 * 60 * 1000);
+          return wallpaper_data;
+        }
+
+        let wallpaper_data = await getWallpaper();
         let url = '';
         url = wallpaper_data?.images[0]?.url;
         document.querySelector('#bing-wallpaper').src = 'https://www.bing.com' + url;
