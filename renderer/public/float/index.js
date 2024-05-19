@@ -336,14 +336,6 @@ async function start() {
       classes = [
         { startTime: '11:45', endTime: '14:19', subject: 'Example' },
         { startTime: '11:45', endTime: '14:19', subject: 'Example' },
-        { startTime: '11:45', endTime: '14:19', subject: 'Example' },
-        { startTime: '11:45', endTime: '14:19', subject: 'Example' },
-        { startTime: '11:45', endTime: '14:19', subject: 'Example' },
-        { startTime: '11:45', endTime: '14:19', subject: 'Example' },
-        { startTime: '11:45', endTime: '14:19', subject: 'Example' },
-        { startTime: '11:45', endTime: '14:19', subject: 'Example' },
-        { startTime: '11:45', endTime: '14:19', subject: 'Example' },
-        { startTime: '11:45', endTime: '14:19', subject: 'Example' },
       ];
     }
 
