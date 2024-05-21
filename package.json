@@ -1,8 +1,8 @@
 {
   "private": true,
   "name": "desktop-tool",
-  "author": "Lukas",
-  "version": "1.0.5",
+  "author": "472",
+  "version": "114514",
   "main": "build/app/background.js",
   "scripts": {
     "dev": "yarn build:prepare && node main/build/nextron/dev --run-only",
