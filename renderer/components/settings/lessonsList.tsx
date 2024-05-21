@@ -123,8 +123,6 @@ function List({ rows, setRows, children }) {
             ))}
           </TableBody>
         </Table>
-        <Divider></Divider>
-        <CellSelectionGrid rows={rows}></CellSelectionGrid>
       </div>
     </>
   );
