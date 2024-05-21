@@ -238,14 +238,21 @@ export function LessonsListTime() {
           }}
         ></Input>
         <div>
-          <Checkbox
+          /*<Checkbox
             isSelected={isEditMode}
             onValueChange={value => {
               setEditMode(value);
             }}
           >
             使用时间选择器
-          </Checkbox>
+          </Checkbox>*/
+          <Button
+            onClick={() => {
+              let new_rows = [{"all":"08:00-08:40","monday":"07:50-08:30"},{"all":"08:50-09:30","monday":"08:40-09:20"},{"all":"09:40-10:20","monday":"09:30-10:10"},{"all":"10:50-11:30"},{"all":"11:40-12:20"},{"all":"14:30-15:10"},{"all":"15:20-16:00"},{"all":"16:10-16:50"},{"all":"17:00-17:40"},{"all":"19:00-20:30","monday":"19:00-19:40","wednesday":"19:00-19:40","thursday":"19:00-19:40","saturday":"00:00-"},{"all":"20:50-22:20","monday":"19:50-20:30","wednesday":"19:50-20:30","thursday":"19:50-20:30","saturday":"00:00-"},{"all":"20:50-22:20"},{}];
+              window.ipc?.send('set-config', 'lessonsList.time', new_rows);
+              setRows(new_rows);
+            }}
+            >填充高一时间</Button>
           <List rows={rows} setRows={setRows}>
             {(row, rowIndex, columnKey) => {
               const context = getKeyValue(row, columnKey);
