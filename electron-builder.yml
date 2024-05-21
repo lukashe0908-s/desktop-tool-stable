@@ -1,6 +1,6 @@
-appId: org.eu.lukass.desktop-tool
+appId: org.desktop-tool
 productName: desktop-tool
-copyright: Copyright © 2024 Lukas
+copyright: Copyright © 2024 
 directories:
   output: build/dist
   buildResources: resources
