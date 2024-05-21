@@ -19,8 +19,8 @@ const buildSW = () => {
         options: {
           cacheName: 'desktop-tool',
           expiration: {
-            maxEntries: 500,
-            maxAgeSeconds: 7 * 24 * 60 * 60,
+            maxEntries: 50,
+            maxAgeSeconds: 3 * 24 * 60 * 60,
           },
         },
       },
@@ -30,8 +30,8 @@ const buildSW = () => {
         options: {
           cacheName: 'desktop-tool',
           expiration: {
-            maxEntries: 500,
-            maxAgeSeconds: 7 * 24 * 60 * 60,
+            maxEntries: 100,
+            maxAgeSeconds: 3 * 24 * 60 * 60,
           },
         },
       },
