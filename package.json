@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "desktop-tool",
-  "author": "472",
+  "author": "glzx",
   "version": "1.14.514",
   "main": "build/app/background.js",
   "scripts": {
