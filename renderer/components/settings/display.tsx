@@ -129,18 +129,6 @@ export function Display() {
       </div>
       <div className='flex gap-4 flex-wrap'>
         <Switch
-          isSelected={online}
-          onChange={() => {
-            setOnline(!online);
-            window.ipc?.send('set-config', 'online', !online);
-          }}
-        >
-          使用在线模式
-        </Switch>
-        <Switch isDisabled>自动更新主程序</Switch>
-      </div>
-      <div className='flex gap-4 flex-wrap'>
-        <Switch
           isSelected={hiddenCloseWindow}
           onChange={() => {
             setHiddenCloseWindow(!hiddenCloseWindow);
