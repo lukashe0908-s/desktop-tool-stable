@@ -2,28 +2,14 @@
 import { Card, CardBody, Switch, Button, Calendar, Divider } from '@nextui-org/react';
 import { useEffect, useState } from 'react';
 export default function App() {
-  const [navigatorInfo, setNavigatorInfo] = useState('');
-  useEffect(() => {
-    const interval = setInterval(() => {
-      let foo = {};
-      for (const key in navigator) {
-        const element = navigator[key];
-        if (typeof element !== 'object') foo[key] = element;
-      }
-      setNavigatorInfo(JSON.stringify(foo, null, '\t'));
-    }, 100);
-    return () => {
-      clearInterval(interval);
-    };
-  });
   return (
     <>
       <div className='flex gap-5 flex-col'>
-        {/* <Card>
+        <Card>
           <CardBody className='block'>
-            <span className='text-red-600 font-bold text-xl'>仅供调试使用</span>
+            <span className='text-red-600 font-bold text-xl'>作者：472 秦子元</span>
           </CardBody>
-        </Card> */}
+        </Card>
         <div className='flex gap-4 flex-wrap'>
           <Button
             onClick={() => {
@@ -42,7 +28,7 @@ export default function App() {
                   });
             }}
           >
-            删除Service Worker
+            删除离线加载器
           </Button>
           <Button
             onClick={async () => {
@@ -55,20 +41,6 @@ export default function App() {
           >
             删除缓存
           </Button>
-        </div>
-        <Divider></Divider>
-        <div className='flex items-center bg-yellow-100 rounded-lg w-fit px-4'>
-          <span className='font-black text-lg'>字体测试：</span>
-          <span className='text-[80px]'>𰻝𱁬</span>
-        </div>
-        <div>
-          <Calendar aria-label='Date (No Selection)' />
-          <div className='h-10'></div>
-        </div>
-        <div className=' bg-orange-100 rounded-lg w-fit px-4'>
-          <span className='text-lg font-bold'>Navigator:</span>
-          <br />
-          <span className='whitespace-pre-wrap'>{navigatorInfo}</span>
         </div>
       </div>
     </>
