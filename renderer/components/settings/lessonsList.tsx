@@ -24,39 +24,39 @@ import { LocalizationProvider, TimePicker, renderTimeViewClock, StaticTimePicker
 const columns = [
   {
     id: 'id',
-    label: 'Index',
+    label: '星期：',
   },
   {
     id: 'all',
-    label: 'All',
+    label: '所有',
   },
   {
     id: 'sunday',
-    label: 'Sunday',
+    label: '日',
   },
   {
     id: 'monday',
-    label: 'Monday',
+    label: '一',
   },
   {
     id: 'tuesday',
-    label: 'Tuesday',
+    label: '二',
   },
   {
     id: 'wednesday',
-    label: 'Wednesday',
+    label: '三',
   },
   {
     id: 'thursday',
-    label: 'Thursday',
+    label: '四',
   },
   {
     id: 'friday',
-    label: 'Friday',
+    label: '五',
   },
   {
     id: 'saturday',
-    label: 'Saturday',
+    label: '六',
   },
 ];
 function formattedRows(rows) {
@@ -229,7 +229,7 @@ export function LessonsListTime() {
       })()}
       <div className='*:mb-4'>
         <Input
-          label='Week Start Time'
+          label='学期开始时间'
           className='max-w-xs'
           value={weekStart}
           onChange={e => {
