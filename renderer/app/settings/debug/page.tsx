@@ -7,7 +7,7 @@ export default function App() {
       <div className='flex gap-5 flex-col'>
         <Card>
           <CardBody className='block'>
-            <span className='font-bold text-xl'>作者：472 秦子元</span>
+            <span className='font-bold text-xl'>作者：章教授</span>
           </CardBody>
         </Card>
         <div className='flex gap-4 flex-wrap'>
