@@ -10,7 +10,7 @@ export default function App() {
             <span className='font-bold text-xl'>作者：章教授</span>
           </CardBody>
         </Card>
-        <div className='flex gap-4 flex-wrap'>
+        <div className='flex gap-4 flex-wrap hidden'>
           <Button
             onClick={() => {
               var serviceWorker = navigator.serviceWorker;
