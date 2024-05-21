@@ -8,7 +8,7 @@ import { setupTitlebar, attachTitlebarToWindow } from 'custom-electron-titlebar/
 
 const isProd = process.env.NODE_ENV === 'production';
 if (isProd) {
-  serve({ directory: 'build/app' });
+  //serve({ directory: 'build/app' });
 } else {
   // app.setPath('userData', `${app.getPath('userData')} (development)`)
   app.setPath('userData', path.join(process.cwd(), '.data'));
@@ -31,8 +31,7 @@ setupTitlebar();
 
 function getProviderPath(params: string) {
   if (isProd) {
-    if (store.get('online')) return `https://dt.misee.dns.army${params}`;
-    return `app://-${params}`;
+    return `https://dt-stable.dns.army${params}`;
   } else {
     const port = process.argv[2];
     return `http://localhost:${port}${params}`;
@@ -66,7 +65,7 @@ function getProviderPath(params: string) {
     x: screen.getPrimaryDisplay().workArea.width - winWidth,
     y: 0,
     skipTaskbar: true,
-    resizable: true,
+    //resizable: true,
   });
   mainWindow.setMenu(null);
   mainWindow.webContents.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36')
@@ -102,12 +101,8 @@ function getProviderPath(params: string) {
     }
   }
 
-  if (isProd) {
     await mainWindow.loadURL(getProviderPath('/float'));
-  } else {
-    await mainWindow.loadURL(getProviderPath('/home'));
-    // mainWindow.webContents.openDevTools()
-  }
+ 
   ipcMain.on('close-window', async (event, arg) => {
     mainWindow.close();
     app.quit();
@@ -162,21 +157,6 @@ ipcMain.on('settings-window', async (event, arg) => {
   });
   settingsWindow_g = settingsWindow;
 
-  arg && arg[0] && settingsWindow.webContents.openDevTools();
-
+ 
   await settingsWindow.loadURL(getProviderPath('/settings'));
-});
-ipcMain.on('ai-window', async (event, arg) => {
-  const window = createWindow('aiWindow', {
-    width: 1000,
-    height: 600,
-    webPreferences: {
-      preload: path.join(__dirname, 'preload.js'),
-    },
-    maximizable: true,
-    resizable: true,
-  });
-  window.setMenu(null);
-
-  await window.loadURL(getProviderPath('/ai'));
 });
