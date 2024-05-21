@@ -14,11 +14,11 @@ import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined';
 export default function Template({ children }) {
   return (
     <>
-      <title>Settings - Desktop Tool</title>
+      <title>设置 - Desktop Tool</title>
       <div className='flex h-full select-auto'>
         <div className='h-full flex select-none'>
           <div className='overflow-auto scrollbar-hide border-r-2 min-w-44'>
-            <span className='block text-center font-bold text-xl p-2 [color:#F6821F]'>Dashboard</span>
+            <span className='block text-center font-bold text-xl p-2 [color:#F6821F]'>设置</span>
             <Divider></Divider>
             <Navigation>
               <NavigationItem link={'/settings/lessonEdit'}>
@@ -44,11 +44,8 @@ export default function Template({ children }) {
               <NavigationItem link={'/settings/display'}>
                 <SettingsOutlinedIcon className='pr-1'></SettingsOutlinedIcon>常规
               </NavigationItem>
-              <NavigationItem link={'/settings/privacy'}>
-                <ShieldOutlinedIcon className='pr-1'></ShieldOutlinedIcon>隐私与数据
-              </NavigationItem>
               <NavigationItem link={'/settings/debug'}>
-                <BugReportOutlinedIcon className='pr-1'></BugReportOutlinedIcon>Debug
+                <BugReportOutlinedIcon className='pr-1'></BugReportOutlinedIcon>关于
               </NavigationItem>
             </Navigation>
           </div>
