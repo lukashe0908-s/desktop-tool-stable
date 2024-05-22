@@ -11,18 +11,20 @@ export default function App() {
           </CardBody>
         </Card>
         <Card>
-          <CardBody className='block whitespace-pre-wrap'>
+          <CardBody className='block'>
             <span className='font-bold text-xl'>使用帮助：</span>
+            <div className='whitespace-pre-wrap'>
             自启动：
             使用 Win+R ,在 运行 中输入
             或在 资源管理器 地址栏 中输入
             shell:startup
             将程序 快捷方式 放入此文件夹
-<br>
+              
             课表编辑 名称：
             第一行 单周课程
             第二行 双周课程
             （如没有双周则只输入第一行，不要换行）
+            </div>
           </CardBody>
         </Card>
         <div className='flex gap-4 flex-wrap hidden'>
