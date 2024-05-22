@@ -10,6 +10,7 @@ import DateRangeOutlinedIcon from '@mui/icons-material/DateRangeOutlined';
 import AccessTimeOutlinedIcon from '@mui/icons-material/AccessTimeOutlined';
 import FormatColorTextOutlinedIcon from '@mui/icons-material/FormatColorTextOutlined';
 import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 
 export default function Template({ children }) {
   return (
@@ -45,7 +46,7 @@ export default function Template({ children }) {
                 <SettingsOutlinedIcon className='pr-1'></SettingsOutlinedIcon>常规
               </NavigationItem>
               <NavigationItem link={'/settings/debug'}>
-                <BugReportOutlinedIcon className='pr-1'></BugReportOutlinedIcon>关于
+                <InfoOutlinedIcon className='pr-1'></InfoOutlinedIcon>关于
               </NavigationItem>
             </Navigation>
           </div>
