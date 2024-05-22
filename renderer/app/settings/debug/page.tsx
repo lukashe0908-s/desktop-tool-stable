@@ -12,7 +12,7 @@ export default function App() {
         </Card>
         <Card>
           <CardBody className='block whitespace-pre-wrap'>
-            <span className='font-bold text-xl'>使用帮助：</span>
+            <span className='font-bold text-xl block pb-4'>使用帮助：</span>
 {`自启动：
 使用 Win+R ,在 运行 中输入
 或在 资源管理器 地址栏 中输入
