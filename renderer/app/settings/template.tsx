@@ -26,9 +26,6 @@ export default function Template({ children }) {
                 <EditOutlinedIcon className='pr-1'></EditOutlinedIcon>课表编辑
               </NavigationItem>
               <NavigationSub>
-                <NavigationItem link={'/settings/lessonEdit/default'}>
-                  <AssessmentOutlinedIcon className='pr-1'></AssessmentOutlinedIcon>初始值
-                </NavigationItem>
                 <NavigationItem link={'/settings/lessonEdit/name'}>
                   <FormatColorTextOutlinedIcon className='pr-1'></FormatColorTextOutlinedIcon>名称
                 </NavigationItem>
