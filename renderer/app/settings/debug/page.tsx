@@ -18,7 +18,7 @@ export default function App() {
             或在 资源管理器 地址栏 中输入
             shell:startup
             将程序 快捷方式 放入此文件夹
-
+<br>
             课表编辑 名称：
             第一行 单周课程
             第二行 双周课程
