@@ -6,7 +6,7 @@ export default function App() {
       <div className='px-[40%]'>
         <Card>
           <CardBody>
-            <p className='text-center text-lg font-bold'>Tab Not Found</p>
+            <p className='text-center text-lg font-bold'>即将推出</p>
           </CardBody>
         </Card>
       </div>
