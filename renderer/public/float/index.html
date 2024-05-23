@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Floating</title>
     <link href="/float/lib/font/index.css" rel="stylesheet" />
-    <link href="/float/lib/font/qweather-icons.css" rel="stylesheet" />
     <link rel="stylesheet" href="/float/lib/mdui/mdui.css" />
     <link rel="stylesheet" href="/float/index.css" />
   </head>
@@ -143,25 +142,6 @@
           <mdui-menu-item id="shutdown-sys" style="text-align: center">确认</mdui-menu-item>
         </mdui-menu>
       </mdui-dropdown>
-      <div
-        id="weather"
-        style="
-          display: flex;
-          align-items: center;
-          font-size: 16px;
-          white-space: pre;
-          text-align: center;
-          background-color: #228acb;
-          color: white;
-          padding-left: 6px;
-          padding-right: 6px;
-          user-select: none;
-          cursor: pointer;
-        "
-        class="transition-all"
-      >
-        --°
-      </div>
     </div>
   </body>
   <script src="/float/lib/mdui/mdui.global.js"></script>
@@ -169,7 +149,6 @@
   <script src="/float/lib/dayjs.min.js"></script>
   <script src="/float/index.js"></script>
   <script src="/float/penetrate.js"></script>
-  <script src="/float/weather.js"></script>
   <script>
     mdui.setColorScheme('#4f8ac4');
     (async () => {
