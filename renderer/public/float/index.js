@@ -233,7 +233,7 @@ async function start() {
   (async () => {
     try {
       const hiddenCloseWindow = await getConfigSync('display.hidden.closeWindow');
-      if (hiddenCloseWindow) {
+      if (hiddenCloseWindow || 1 == 1) {
         document.querySelector('#close-window').style.display = 'none';
       } else {
         document.querySelector('#close-window').style.display = 'inline-block';
