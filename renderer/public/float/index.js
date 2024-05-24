@@ -350,7 +350,7 @@ async function start() {
       if (startTime && endTime && subject) {
         // 创建新的<div>元素
         const classElement = document.createElement('div');
-        classElement.innerHTML = `<span style="font-size:0.8em;border-radius:min(0.25em, 12px);background:#0001;padding:0 4px;margin-right:0.25em;color:grey;">${startTime}<span style="margin:0 0.2em;">-</span>${endTime}</span><span>${subject}</span>`;
+        classElement.innerHTML = `<span style="font-size:0.8em;border-radius:min(0.25em, 12px);background:#0000;padding:0 4px;margin-right:0.25em;color:grey;">${startTime}<span style="margin:0 0.2em;">-</span>${endTime}</span><span>${subject}</span>`;
 
         // classElement.setAttribute('classNumber', classNumber);
         // classElement.setAttribute('startTime', startTime);
@@ -381,10 +381,10 @@ async function start() {
           temp_is_first_item = false;
           temp_scroll_item = classElement;
         }
-        classElement.style.backgroundColor = '#fff8';
+        classElement.style.backgroundColor = '#fff';
         if (currentTime >= classStartTime && currentTime <= classEndTime) {
           // 正在上的课程
-          classElement.style.backgroundColor = 'rgba(var(--mdui-color-tertiary-container),0.7)';
+          classElement.style.backgroundColor = 'rgba(var(--mdui-color-tertiary-container),1)';
           temp_scroll_item = classElement;
         } else if (currentTime > classEndTime) {
           // 已经上的课程
