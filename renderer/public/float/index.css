@@ -3,8 +3,6 @@
   margin: 0;
   box-sizing: border-box;
   --shape-corner: 1em;
-  box-decoration-break: clone;
-  -webkit-box-decoration-break: clone;
 }
 
 html,
