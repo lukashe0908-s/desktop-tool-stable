@@ -7,8 +7,6 @@ export function Display() {
   const [windowWidth, setWindowWidth] = useState(0.13);
   const [windowHeight, setWindowHeight] = useState(1);
   const [fontSize, setFontSize] = useState(1.2);
-  const [online, setOnline] = useState(false);
-  const [slidingPosition, setSlidingPosition] = useState('center');
   const [hiddenCloseWindow, setHiddenCloseWindow] = useState(false);
   const [hiddenRefreshWindow, setHiddenRefreshWindow] = useState(false);
   const [hiddenPutaway, setHiddenPutaway] = useState(false);
@@ -25,14 +23,6 @@ export function Display() {
     (async () => {
       const data = await getConfigSync('display.fontSize');
       data && setFontSize(Number(data));
-    })();
-    (async () => {
-      const data = await getConfigSync('online');
-      data && setOnline(Boolean(data));
-    })();
-    (async () => {
-      const data = await getConfigSync('display.slidingPosition');
-      data && setSlidingPosition(String(data));
     })();
     (async () => {
       const data = await getConfigSync('display.hidden.closeWindow');
@@ -108,25 +98,6 @@ export function Display() {
           window.ipc?.send('set-config', 'display.fontSize', value);
         }}
       />
-      <div className='flex w-full flex-wrap md:flex-nowrap gap-4'>
-        <Autocomplete
-          label='滑动位置'
-          className='max-w-xs'
-          selectedKey={slidingPosition}
-          onSelectionChange={(value: string) => {
-            setSlidingPosition(value);
-            window.ipc?.send('set-config', 'display.slidingPosition', value);
-          }}
-          defaultItems={[
-            { value: 'start', label: 'Start' },
-            { value: 'center', label: 'Center' },
-            { value: 'end', label: 'End' },
-            { value: 'nearest', label: 'Nearest' },
-          ]}
-        >
-          {item => <AutocompleteItem key={item.value}>{item.label}</AutocompleteItem>}
-        </Autocomplete>
-      </div>
       <div className='flex gap-4 flex-wrap'>
         <Switch
           isSelected={hiddenCloseWindow}
