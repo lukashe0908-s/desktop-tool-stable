@@ -407,7 +407,7 @@ async function start() {
     if (temp_scroll_item)
       temp_scroll_item.scrollIntoView({
         behavior: 'smooth', // 可以选择平滑滚动，也可以使用 'auto' 或 'instant'
-        block: slidingPosition, // 'start', 'center', 'end', 或 'nearest'
+        block: 'start', // 'start', 'center', 'end', 或 'nearest'
         inline: 'nearest', // 'start', 'center', 'end', 或 'nearest'
       });
   }
