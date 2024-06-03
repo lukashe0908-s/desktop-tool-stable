@@ -326,12 +326,14 @@ async function start() {
     let inputTime = dayjs();
     let changed = await getChangeDay(true, inputTime);
     if (changed) changed = changed.set('h', inputTime.get('h')).set('m', inputTime.get('m')).set('s', inputTime.get('s'));
+    
+    let weekChanged = getWeekNumber(classSchedule.weekStartDate, changed);
+    let weekNow = getWeekNumber(classSchedule.weekStartDate, inputTime);
+    let weekTotal = inputTime.week();
 
-    let classes = listClassesForDay(
-      classSchedule,
-      getWeekDate(changed).toLowerCase(),
-      getWeekNumber(classSchedule.weekStartDate, changed) % 2 == 1
-    );
+    document.getElementById('weekNumber').textContent = `${weekNow ?? ('T'+weekTotal)}周`;
+
+    let classes = listClassesForDay(classSchedule, getWeekDate(changed).toLowerCase(), Math.abs(weekChanged % 2) == 1);
     if (Object.keys(classes).length === 0 || !classes) {
       classes = [
         { startTime: '11:45', endTime: '14:19', subject: 'Example' },
