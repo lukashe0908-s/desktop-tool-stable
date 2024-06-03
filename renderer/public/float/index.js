@@ -331,7 +331,7 @@ async function start() {
     let weekNow = getWeekNumber(classSchedule.weekStartDate, inputTime);
     let weekTotal = inputTime.week();
 
-    document.getElementById('weekNumber').textContent = `${weekNow ?? ('T'+weekTotal)}周`;
+    document.getElementById('weekNumber').textContent = `${isNaN(weekNow) ? ('T'+weekTotal):weekNow}周`;
 
     let classes = listClassesForDay(classSchedule, getWeekDate(changed).toLowerCase(), Math.abs(weekChanged % 2) == 1);
     if (Object.keys(classes).length === 0 || !classes) {
