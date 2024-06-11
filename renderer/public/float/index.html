@@ -1,10 +1,30 @@
+List') &&
+          (document.querySelector('#PicList').scrollTop = localStorage.getItem('desktop-tool/scrollPicList'));
+        document.querySelector('#PicList').addEventListener(
+          'scroll',
+          _.throttle(event => {
+            // console.log(event.target.scrollTop);
+            if (event.target.scrollTop >= 200) {
+              localStorage.setItem('desktop-tool/scrollPicList', event.target.scrollTop);
+            } else {
+              localStorage.removeItem('desktop-tool/scrollPicList');
+            }
+          }, 500)
+        );
+      } catch (error) {
+        console.error(error);
+      }
+    })();
+  </script>
+</html>
 <!DOCTYPE html>
 <html>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>1145 64</title>
+    <title>Float Window</title>
     <link href="/float/lib/font/index.css" rel="stylesheet" />
+    <link href="/float/lib/font/qweather-icons.css" rel="stylesheet" />
     <link rel="stylesheet" href="/float/lib/mdui/mdui.css" />
     <link rel="stylesheet" href="/float/index.css" />
   </head>
@@ -30,15 +50,20 @@
             展开
           </div>
         </mdui-chip>
+        <mdui-chip onclick="location.href='/home'" elevated style="width: 50%; padding: 0; margin-top: 4px; text-align: center">
+          Dev
+        </mdui-chip>
       </div>
     </div>
     <div id="app-main">
       <div class="content scrollbar-hide">
         <!-- 课程表 -->
         <div class="class-list"></div>
-        <span style="font-size: 16px; display: flex; align-items: center; flex-wrap: wrap">
-          Edition:
-          <b>Stable</b>
+        <span style="font-size: 16px; display: flex; align-items: center; flex-wrap: wrap; line-height: 100%">
+          <span>
+            Edition:
+            <b>Legacy</b>
+          </span>
           <mdui-checkbox style="scale: 0.8" id="PicListController" checked></mdui-checkbox>
           <span id="weekNumber" style="background-color: #fff8; padding: 4px; border-radius: 4px; line-height: 100%"></span>
         </span>
@@ -80,39 +105,12 @@
             referrerpolicy="no-referrer"
             draggable="false"
           />
-          <img
-            id="bing-wallpaper4"
-            style="max-width: 100%; scroll-snap-align: center"
-            loading="lazy"
-            referrerpolicy="no-referrer"
-            draggable="false"
-          />
-          <img
-            id="bing-wallpaper5"
-            style="max-width: 100%; scroll-snap-align: center"
-            loading="lazy"
-            referrerpolicy="no-referrer"
-            draggable="false"
-          />
-          <img
-            id="bing-wallpaper6"
-            style="max-width: 100%; scroll-snap-align: center"
-            loading="lazy"
-            referrerpolicy="no-referrer"
-            draggable="false"
-          />
-          <img
-            id="bing-wallpaper7"
-            style="max-width: 100%; scroll-snap-align: center"
-            loading="lazy"
-            referrerpolicy="no-referrer"
-            draggable="false"
-          />
           <div></div>
         </div>
       </div>
       <img
         id="bing-wallpaper-bg"
+        class="blur"
         style="
           top: 0;
           left: 50%;
@@ -125,7 +123,6 @@
           height: 100%;
           transform: translate(-50%, 0);
           opacity: 0.6;
-          filter: blur(8px);
         "
         loading="lazy"
         referrerpolicy="no-referrer"
@@ -143,14 +140,29 @@
           <mdui-menu-item id="shutdown-sys" style="text-align: center">确认</mdui-menu-item>
         </mdui-menu>
       </mdui-dropdown>
+      <div
+        id="weather"
+        style="
+          display: flex;
+          align-items: center;
+          font-size: 16px;
+          white-space: pre;
+          text-align: center;
+          background-color: #228acb;
+          color: white;
+          padding-left: 6px;
+          padding-right: 6px;
+          user-select: none;
+          cursor: pointer;
+        "
+        class="transition-all"
+      ></div>
     </div>
   </body>
   <script src="/float/lib/mdui/mdui.global.js"></script>
   <script src="/float/lib/loadsh.min.js"></script>
   <script src="/float/lib/dayjs.min.js"></script>
   <script src="/float/lib/dayjs-weekOfYear.js"></script>
-  <script src="/float/index.js"></script>
-  <script src="/float/penetrate.js"></script>
   <script>
     dayjs.extend(window.dayjs_plugin_weekOfYear);
     mdui.setColorScheme('#4f8ac4');
@@ -179,7 +191,7 @@
             return JSON.parse(localStorage.getItem('wallpaper_data'));
           }
           let wallpaper_data = await (
-            await fetch('https://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1', {
+            await fetch('https://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=3', {
               headers: {},
             })
           ).json();
@@ -197,31 +209,12 @@
         document.querySelector('#bing-wallpaper2').src = 'https://www.bing.com' + url;
         url = wallpaper_data?.images[2]?.url;
         document.querySelector('#bing-wallpaper3').src = 'https://www.bing.com' + url;
-        url = wallpaper_data?.images[3]?.url;
-        document.querySelector('#bing-wallpaper4').src = 'https://www.bing.com' + url;
-        url = wallpaper_data?.images[4]?.url;
-        document.querySelector('#bing-wallpaper5').src = 'https://www.bing.com' + url;
-        url = wallpaper_data?.images[5]?.url;
-        document.querySelector('#bing-wallpaper6').src = 'https://www.bing.com' + url;
-        url = wallpaper_data?.images[6]?.url;
-        document.querySelector('#bing-wallpaper7').src = 'https://www.bing.com' + url;
-
-        localStorage.getItem('desktop-tool/scrollPicList') &&
-          (document.querySelector('#PicList').scrollTop = localStorage.getItem('desktop-tool/scrollPicList'));
-        document.querySelector('#PicList').addEventListener(
-          'scroll',
-          _.throttle(event => {
-            // console.log(event.target.scrollTop);
-            if (event.target.scrollTop >= 200) {
-              localStorage.setItem('desktop-tool/scrollPicList', event.target.scrollTop);
-            } else {
-              localStorage.removeItem('desktop-tool/scrollPicList');
-            }
-          }, 500)
-        );
       } catch (error) {
         console.error(error);
       }
     })();
   </script>
+  <script src="/float/index.js"></script>
+  <script src="/float/penetrate.js"></script>
+  <script src="/float/weather.js"></script>
 </html>
