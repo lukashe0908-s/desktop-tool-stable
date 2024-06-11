@@ -1,22 +1,3 @@
-List') &&
-          (document.querySelector('#PicList').scrollTop = localStorage.getItem('desktop-tool/scrollPicList'));
-        document.querySelector('#PicList').addEventListener(
-          'scroll',
-          _.throttle(event => {
-            // console.log(event.target.scrollTop);
-            if (event.target.scrollTop >= 200) {
-              localStorage.setItem('desktop-tool/scrollPicList', event.target.scrollTop);
-            } else {
-              localStorage.removeItem('desktop-tool/scrollPicList');
-            }
-          }, 500)
-        );
-      } catch (error) {
-        console.error(error);
-      }
-    })();
-  </script>
-</html>
 <!DOCTYPE html>
 <html>
   <head>
