@@ -2,7 +2,7 @@
   let weatherComponent = document.querySelector('#weather');
   if (weatherComponent) {
     weatherComponent.addEventListener('click', () => {
-      interval(false, true);
+      //interval(false, true);
     });
     interval();
     async function interval(useTimeout = true, force = false) {
