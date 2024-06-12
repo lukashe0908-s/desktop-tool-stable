@@ -2,15 +2,15 @@
   let weatherComponent = document.querySelector('#weather');
   if (weatherComponent) {
     weatherComponent.addEventListener('click', () => {
+      const json = await getWeather(101300505);
+      window.open(json?.fxLink);
       //interval(false, true);
     });
     interval();
     async function interval(useTimeout = true, force = false) {
-      weatherComponent.style.backgroundColor = '#1a6899';
       useTimeout && (weatherComponent.innerHTML = ` --° `);
       const json = await getWeather(101300505, force);
       //   console.log(json);
-      weatherComponent.style.backgroundColor = '#228acb';
       let icon = json.now.icon;
       if (icon == 154) {
         icon = 104;
