@@ -22,9 +22,9 @@ export default function Template({ children }) {
             <span className='block text-center font-bold text-xl p-2 [color:#F6821F]'>设置</span>
             <Divider></Divider>
             <Navigation>
-              <NavigationItem link={'/settings/lessonEdit'}>
+{/*               <NavigationItem link={'/settings/lessonEdit'}>
                 <EditOutlinedIcon className='pr-1'></EditOutlinedIcon>课表编辑
-              </NavigationItem>
+              </NavigationItem> */}
               <NavigationSub>
                 <NavigationItem link={'/settings/lessonEdit/name'}>
                   <FormatColorTextOutlinedIcon className='pr-1'></FormatColorTextOutlinedIcon>名称
@@ -35,13 +35,13 @@ export default function Template({ children }) {
                 <NavigationItem link={'/settings/lessonEdit/changeDay'}>
                   <DateRangeOutlinedIcon className='pr-1'></DateRangeOutlinedIcon>换课 (天)
                 </NavigationItem>
-                <NavigationItem link={'/settings/lessonEdit/change'}>
+{/*                 <NavigationItem link={'/settings/lessonEdit/change'}>
                   <DateRangeOutlinedIcon className='pr-1'></DateRangeOutlinedIcon>换课
-                </NavigationItem>
+                </NavigationItem> */}
               </NavigationSub>
-              <NavigationItem link={'/settings/display'}>
+{/*               <NavigationItem link={'/settings/display'}>
                 <SettingsOutlinedIcon className='pr-1'></SettingsOutlinedIcon>常规
-              </NavigationItem>
+              </NavigationItem> */}
               <NavigationItem link={'/settings/debug'}>
                 <InfoOutlinedIcon className='pr-1'></InfoOutlinedIcon>关于
               </NavigationItem>
