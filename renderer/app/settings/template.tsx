@@ -32,9 +32,9 @@ export default function Template({ children }) {
                 <NavigationItem link={'/settings/lessonEdit/time'}>
                   <AccessTimeOutlinedIcon className='pr-1'></AccessTimeOutlinedIcon>时间
                 </NavigationItem>
-                <NavigationItem link={'/settings/lessonEdit/changeDay'}>
+{/*                 <NavigationItem link={'/settings/lessonEdit/changeDay'}>
                   <DateRangeOutlinedIcon className='pr-1'></DateRangeOutlinedIcon>换课 (天)
-                </NavigationItem>
+                </NavigationItem> */}
 {/*                 <NavigationItem link={'/settings/lessonEdit/change'}>
                   <DateRangeOutlinedIcon className='pr-1'></DateRangeOutlinedIcon>换课
                 </NavigationItem> */}
