@@ -22,9 +22,9 @@ export default function Template({ children }) {
             <span className='block text-center font-bold text-xl p-2 [color:#F6821F]'>设置</span>
             <Divider></Divider>
             <Navigation>
-{/*               <NavigationItem link={'/settings/lessonEdit'}>
+              <NavigationItem link={'/settings/lessonEdit'}>
                 <EditOutlinedIcon className='pr-1'></EditOutlinedIcon>课表编辑
-              </NavigationItem> */}
+              </NavigationItem>
               <NavigationSub>
                 <NavigationItem link={'/settings/lessonEdit/name'}>
                   <FormatColorTextOutlinedIcon className='pr-1'></FormatColorTextOutlinedIcon>名称
