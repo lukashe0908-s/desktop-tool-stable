@@ -133,9 +133,7 @@
           cursor: pointer;
         "
         class="transition-all"
-      >
-        在线服务暂停
-      </div>
+      ></div>
     </div>
   </body>
   <script src="/float/lib/mdui/mdui.global.js"></script>
@@ -143,15 +141,16 @@
   <script src="/float/lib/dayjs.min.js"></script>
   <script src="/float/lib/dayjs-weekOfYear.js"></script>
   <script>
-    window.pauseOnlineontent = true;
+    window.pauseOnlineContent = true;
     dayjs.extend(window.dayjs_plugin_weekOfYear);
     mdui.setColorScheme('#B453C6');
     (async () => {
-      if (window.pauseOnlineontent) {
+      if (window.pauseOnlineContent) {
         (() => {
           document.querySelector('#PicList').style.display = 'none';
           document.querySelector('#bing-wallpaper-bg').style.display = 'none';
           document.querySelector('#PicListController').style.display = 'none';
+          document.querySelector('#weather').innerHTML = '在线服务暂停';
         })();
         return;
       } else {
