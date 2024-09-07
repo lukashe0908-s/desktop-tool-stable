@@ -20,6 +20,8 @@ import dayjs from 'dayjs';
 import { Popper } from '@mui/material';
 import { AdapterDayjs } from '@mui/x-date-pickers-pro/AdapterDayjs';
 import { LocalizationProvider, TimePicker, renderTimeViewClock, StaticTimePicker } from '@mui/x-date-pickers-pro';
+import { OverlayScrollbars } from 'overlayscrollbars';
+import { getConfigSync } from '../p_function';
 
 const columns = [
   {
@@ -70,26 +72,12 @@ const formattedColumns = columns.map(column => ({
   headerName: column.label,
   editable: true,
 }));
-async function getConfigSync(arg) {
-  return new Promise((resolve, reject) => {
-    try {
-      window.ipc.send('get-config', arg);
-      window.ipc.once('get-config/' + arg, data => {
-        resolve(data);
-      });
-    } catch (error) {
-      resolve('');
-    }
-  });
-}
 
 function List({ rows, setRows, children }) {
   const refTable = useRef();
   useEffect(() => {
     const Table = refTable.current as HTMLElement;
-    Table.parentElement.classList.add('!p-0');
-    Table.parentElement.classList.add('scrollbar-hide');
-    Table.querySelector('thead').classList.add('z-[11]');
+    const osInstance = OverlayScrollbars(Table.parentElement, { scrollbars: { autoHide: 'move' } });
   }, []);
 
   return (
@@ -102,6 +90,8 @@ function List({ rows, setRows, children }) {
           ref={refTable}
           classNames={{
             base: 'max-h-[80vh] overflow-auto',
+            wrapper: 'rounded-none !p-0 scrollbar-hide',
+            thead: 'z-[11]',
           }}
         >
           <TableHeader>
@@ -248,11 +238,27 @@ export function LessonsListTime() {
           </Checkbox>{' '}
           <Button
             onClick={() => {
-              let new_rows = [{"all":"08:00-08:40","monday":"07:50-08:30"},{"all":"08:50-09:30","monday":"08:40-09:20"},{"all":"09:40-10:20","monday":"09:30-10:10"},{"all":"10:50-11:30"},{"all":"11:40-12:20"},{"all":"14:30-15:10"},{"all":"15:20-16:00"},{"all":"16:10-16:50"},{"all":"17:00-17:40"},{"all":"19:00-20:30","monday":"19:00-19:40","wednesday":"19:00-19:40","thursday":"19:00-19:40","saturday":"00:00-"},{"all":"20:50-22:20","monday":"19:50-20:30","wednesday":"19:50-20:30","thursday":"19:50-20:30","saturday":"00:00-"},{"all":"20:50-22:20"},{}];
+              let new_rows = [
+                { all: '08:00-08:40', monday: '07:50-08:30' },
+                { all: '08:50-09:30', monday: '08:40-09:20' },
+                { all: '09:40-10:20', monday: '09:30-10:10' },
+                { all: '10:50-11:30' },
+                { all: '11:40-12:20' },
+                { all: '14:30-15:10' },
+                { all: '15:20-16:00' },
+                { all: '16:10-16:50' },
+                { all: '17:00-17:40' },
+                { all: '19:00-20:30', monday: '19:00-19:40', wednesday: '19:00-19:40', thursday: '19:00-19:40', saturday: '00:00-' },
+                { all: '20:50-22:20', monday: '19:50-20:30', wednesday: '19:50-20:30', thursday: '19:50-20:30', saturday: '00:00-' },
+                { all: '20:50-22:20' },
+                {},
+              ];
               window.ipc?.send('set-config', 'lessonsList.time', new_rows);
               setRows(new_rows);
             }}
-            >填充高一时间</Button>
+          >
+            填充高一时间
+          </Button>
           <List rows={rows} setRows={setRows}>
             {(row, rowIndex, columnKey) => {
               const context = getKeyValue(row, columnKey);
@@ -418,7 +424,7 @@ export function LessonsListTime() {
                 </div>
               );
             }}
-          </List>{' '}
+          </List>
         </div>
       </div>
     </>

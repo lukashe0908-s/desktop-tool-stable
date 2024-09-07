@@ -117,11 +117,19 @@ function listClassesForDay(classSchedule, day, isSingleWeek = true) {
   }
 }
 start();
-async function getConfigSync(arg) {
+async function getConfigSync(name, timeout = 0) {
   return new Promise((resolve, reject) => {
     try {
-      window.ipc.send('get-config', arg);
-      window.ipc.once('get-config/' + arg, data => {
+      let signal = crypto.randomUUID();
+      window.ipc.send('get-config', signal, name);
+      let timer =
+        timeout <= 0
+          ? null
+          : setTimeout(() => {
+              reject(`timeout (${timeout} ms)`);
+            }, timeout);
+      window.ipc.once('get-config/' + signal, data => {
+        clearTimeout(timer);
         resolve(data);
       });
     } catch {

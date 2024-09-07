@@ -77,15 +77,42 @@ export async function getChangeDay(parse_out: boolean = true, currentTime?: stri
   }
 }
 
-export async function getConfigSync(arg?) {
+export async function getConfigSync(name?: string, timeout: number = 0) {
   return new Promise((resolve, reject) => {
     try {
-      window.ipc.send('get-config', arg);
-      window.ipc.once('get-config/' + arg, data => {
+      let signal = crypto.randomUUID();
+      window.ipc.send('get-config', signal, name);
+      let timer =
+        timeout <= 0
+          ? null
+          : setTimeout(() => {
+              reject(`timeout (${timeout} ms)`);
+            }, timeout);
+      window.ipc.once('get-config/' + signal, data => {
+        clearTimeout(timer);
         resolve(data);
       });
     } catch (error) {
-      resolve('');
+      reject(error);
+    }
+  });
+}
+export async function getVersionSync(timeout: number = 0) {
+  return new Promise((resolve, reject) => {
+    try {
+      window.ipc.send('get-version');
+      let timer =
+        timeout <= 0
+          ? null
+          : setTimeout(() => {
+              reject(`timeout (${timeout} ms)`);
+            }, timeout);
+      window.ipc.once('get-version', (data: string) => {
+        clearTimeout(timer);
+        resolve(data);
+      });
+    } catch (error) {
+      reject(error);
     }
   });
 }
@@ -188,4 +215,72 @@ export async function generateConfig() {
       });
     });
   return new_classSchedule;
+}
+
+export function autoUnitSize(size: number) {
+  let dataSize: number, dataUnit: string;
+  if (size / Math.pow(1024, 0) < 1024) {
+    dataSize = size / Math.pow(1024, 0);
+    dataUnit = 'B';
+  } else if (size / Math.pow(1024, 1) < 1024) {
+    dataSize = size / Math.pow(1024, 1);
+    dataUnit = 'KB';
+  } else if (size / Math.pow(1024, 2) < 1024) {
+    dataSize = size / Math.pow(1024, 2);
+    dataUnit = 'MB';
+  } else {
+    dataSize = size / Math.pow(1024, 3);
+    dataUnit = 'GB';
+  }
+  return {
+    dataSize,
+    dataUnit,
+  };
+}
+
+export function formatSize(bytes: number) {
+  let size: any = autoUnitSize(bytes);
+  size = Math.trunc(size.dataSize * 100) / 100 + ' ' + size.dataUnit;
+  return size;
+}
+
+export async function getAutoLaunchSync(timeout: number = 0): Promise<boolean> {
+  return new Promise((resolve, reject) => {
+    try {
+      window.ipc.send('autoLaunch', 'get');
+      let timer =
+        timeout <= 0
+          ? null
+          : setTimeout(() => {
+              reject(`timeout (${timeout} ms)`);
+            }, timeout);
+      window.ipc.once('autoLaunch', (data: boolean) => {
+        clearTimeout(timer);
+        resolve(data);
+      });
+    } catch (error) {
+      reject(error);
+    }
+  });
+}
+
+export async function getSysInfoSync(action: any, timeout: number = 30 * 1000): Promise<boolean> {
+  return new Promise((resolve, reject) => {
+    try {
+      let signal = crypto.randomUUID();
+      window.ipc.send('systeminformation', signal, action);
+      let timer =
+        timeout <= 0
+          ? null
+          : setTimeout(() => {
+              reject(`timeout (${timeout} ms)`);
+            }, timeout);
+      window.ipc.once('systeminformation/' + signal, (data: boolean) => {
+        clearTimeout(timer);
+        resolve(data);
+      });
+    } catch (error) {
+      reject(error);
+    }
+  });
 }
