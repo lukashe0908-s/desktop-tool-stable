@@ -2,10 +2,10 @@ name: Build Electron
 
 on:
   workflow_dispatch:
-  #push:
-  #  branches: ['main']
-  #pull_request:
-  #  branches: ['main']
+  # push:
+  #   branches: ['main']
+  # pull_request:
+  #   branches: ['main']
 
 jobs:
   build:
@@ -27,6 +27,12 @@ jobs:
       - name: Enable Corepack
         run: corepack enable
 
+      - name: Get version and short commit hash
+        id: get_version_and_commit
+        run: |
+          echo "VERSION=$(node -p "require('./package.json').version")" | Out-File -FilePath $env:GITHUB_ENV -Append
+          echo "SHORT_SHA=$(git rev-parse --short=7 HEAD)" | Out-File -FilePath $env:GITHUB_ENV -Append
+
       - name: Build
         run: |
           yarn install
@@ -46,4 +52,5 @@ jobs:
           file: build/dist/*.exe
           tag: 'latest'
           overwrite: true
-          body: '自动编译'
+          body: 'Auto build for the latest commit'
+          release_name: 'v${{ env.VERSION }} - ${{ env.SHORT_SHA }}'
